@@ -1,0 +1,28 @@
+{
+  "name": "light_query",
+  "version": "1.0.0-indev.0",
+  "description": "a lightweight alternative to jQuery",
+  "main": "lightquery.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Voltra/lightquery.git"
+  },
+  "keywords": [
+	"javascript",
+    "library",
+	"alternative",
+	"jquery"
+  ],
+  "author": "Voltra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Voltra/lightquery/issues"
+  },
+  "homepage": "https://github.com/Voltra/lightquery#readme"
+}

@@ -17,6 +17,7 @@ You should consider using lightquery because it tends to be lighter, easier to u
 Well I'm glad you asked, you can grab this library easily, either by downloading it directly from the GitHub&copy; repository or by downloading it from NPM (*lightQuery*).
 
 Once you grabbed the library, you just need to use it either by using a `<script>` tag or `require`'in it :
+
 ***NPM***
 ```bash
 npm install lightQuery

@@ -6,13 +6,11 @@ Lightquery is a ~~big~~ library for javascript that tends to follow the mindset,
 Just like jQuery it is mainly designed around DOM manipulations but also gives a lot of tools for other aspects of javascript.
 
 ## Why lightquery ? ##
-**NAME**
-
+**NAME**<br/>
 The name is, let's be honest, not original and has been used many many times.
 This library tend to be the one that is truly lighter than jQuery : as light as a feather on your workflow.
 
-**USE**
-
+**USE**<br/>
 You should consider using lightquery because it tends to be lighter, easier to use and has several sets of protection which can be really handy when trying to understand what goes wrong in your code.
 
 ## How do I get this library fam ? ##
@@ -77,8 +75,7 @@ Another interesting point in lightquery's plugin system is that you use the same
 ```
 Whereas, with jQuery, *instance* plugins are declared using `$.fn.myPlugin = ` and *global* plugins using `$.myPlugin =`.
 
-***Completely Array-ish***
-
+***Completely Array-ish***<br/>
 When you use jQuery, the result is an Array-like set but it doesn't have the enormous advantages of being an Array-ish object :
 
 lightquery uses a "class" that inherits from Array, which means that you can use all the methods available for Arrays on you lightquery object (**warning**, those methods aren't overloaded which means that you'll not get a lightquery object out of their calls) :
@@ -90,15 +87,13 @@ Therefore, you can use `map`, `reduce`, `filter`, `forEach`, etc... and get arra
 
 If this hasn't been updated yet, then I am still in the process of adding similar methods (`filter` -> `Filter`, just like `forEach` and `each`) which will return lightquery objects instead of arrays.
 
-***CSS variables***
-
+***CSS variables***<br/>
 jQuery doesn't support CSS variables handling, that's a fact.
 Before shouting *"HEY ! That's not true, there's a plugin for it !"* well firstly it's a plugin, therefore not built-in, and secondly you are probably referring to [`jq-cssvar`](https://www.npmjs.com/package/jq-cssvar) and there's a detail you might not be aware of : I'm the developer behind the jQuery plugin called `jq-cssvar` (at least hat's how I named it for NPM, I mostly call it cssVar, much more stylish, dem fookin camelCase :3).
 
 The jQuery plugin `jq-cssvar` is simply a ported version of lightquery's built-in `cssVar` global and instance methods (made using the jQuery's terrific plugin system :3).
 
-***Lightquery Instances***
-
+***Lightquery Instances***<br/>
 Don't get me wrong, I'm not referring to instances like `µ("*")` I'm actually referring to copies of lightquery you can actually make.
 The name might change in the future (I'll remind myself to update it here, or keep a legacy name idk), but for now let's keep our lovely global method `createOtherLightquery`.
 

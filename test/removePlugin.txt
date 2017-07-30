@@ -1,0 +1,13 @@
+console.clear()
+µ.registerPlugin("csgo", x=>0);
+
+console.log(`µ("*").csgo() =  ${µ("*").csgo()}`);
+
+const x = µ.createOtherLightquery();
+
+console.log(`x("*").csgo() =  ${x("*").csgo()}`);
+
+x.removePlugin("csgo");
+
+console.log(`µ("*").csgo() =  ${µ("*").csgo()}`);
+console.log(`x("*").csgo() =  ${x("*").csgo()}`);

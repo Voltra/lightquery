@@ -50,7 +50,7 @@ const lightquery = require("path/to/lightquery");
 ## jQuery vs lightquery ? $ vs µ ? ##
 It is true that jQuery is way more "battle-tested" than lightquery. It has been around for ages and is probably the most used library in javascript.
 
-However, lightquery tend to have some advantages over jQuery.
+However, lightquery tends to have some advantages over jQuery.
 
 ***Plugin System***
 ```javascript
@@ -64,7 +64,7 @@ Here's the feature that I am the most proud of : the plugin system.
 There are two main methods to lightquery that are used for 3rd-party plugins : `registerPlugin` (has many aliases) and `removePlugin`.
 
 Unlike jQuery, lightquery has a built-in plugin system, let me explain :
-`$.fn.myPlugin =` is (sadly) strictly equivalent to `$.prototype.myPlugin =`. This is the **only** way to add *instance* plugin in jQuery. There's no protection whatsoever, and you might accidentally override another library that could use the same name.
+`$.fn.myPlugin =` is (sadly) strictly equivalent to `$.prototype.myPlugin =`. This is the **only** way to add *instance* plugins in jQuery. There's no protection whatsoever, and you might accidentally override another library that could use the same name.
 
 That is where lightquery's plugin system is handy : by using only `registerPlugin` and `removePlugin` there is absolutely **NO WAY** for you to :
 - Override an already existing plugin
@@ -80,7 +80,7 @@ Another interesting point in lightquery's plugin system is that you use the same
 
 µ.removePlugin("cs"); //shorthand for removing an instance plugin
 µ.removePlugin("go", "global"); //remove a global plugin
-µ.removePlugin("go", "instance"); //remove an instane plugin
+µ.removePlugin("cod", "instance"); //remove an instane plugin
 ```
 Whereas, with jQuery, *instance* plugins are declared using `$.fn.myPlugin = ` and *global* plugins using `$.myPlugin =`.
 
@@ -98,7 +98,7 @@ If this hasn't been updated yet, then I am still in the process of adding simila
 
 ***CSS variables***<br/>
 jQuery doesn't support CSS variables handling, that's a fact.
-Before shouting *"HEY ! That's not true, there's a plugin for it !"* well firstly it's a plugin, therefore not built-in, and secondly you are probably referring to [`jq-cssvar`](https://www.npmjs.com/package/jq-cssvar) and there's a detail you might not be aware of : I'm the developer behind the jQuery plugin called `jq-cssvar` (at least hat's how I named it for NPM, I mostly call it cssVar, much more stylish, dem fookin camelCase :3).
+Before shouting *"HEY ! That's not true, there's a plugin for it !"* well firstly it's a plugin, therefore not built-in, and secondly you are probably referring to [`jq-cssvar`](https://www.npmjs.com/package/jq-cssvar) and there's a detail you might not be aware of : I'm the developer behind the jQuery plugin called `jq-cssvar` (at least that's how I named it for NPM, I mostly call it cssVar, much more stylish, dem fookin camelCase :3).
 
 The jQuery plugin `jq-cssvar` is simply a ported version of lightquery's built-in `cssVar` global and instance methods (made using the jQuery's terrific plugin system :3).
 
@@ -110,10 +110,10 @@ This is for creating an independent copy of the lightquery you apply the method 
 
 That means that, you can register a plugin on one version (x), copy this version (to y), register a plugin on the previous version (x) and the latter (y) will not be able to use it.
 
-You might cry and tell me *"Muh what if I wan't make a copy of the original lightquery, the one without any plugin :'( &nbsp;&nbsp;?"*. Fear no more ! There's an already existing instane of lightquery called `immutableLightQuery`which, just like the name suggests, is **completely** immutable.
+You might cry and tell me *"Muh what if I wan't make a copy of the original lightquery, the one without any plugin :'( &nbsp;&nbsp;?"*. Fear no more ! There's an already existing instance of lightquery called `immutableLightQuery` which, just like the name suggests, is **completely** immutable.
 
 Therefore `const x = immutableLightQuery.createOtherLightquery("x")` guarantees you to get a copy of the original lightquery, a copy which you can modify and add plugins to (unlinke `immutableLightQuery`).
 
-Those are strictly airtight copies, there will be no interference.
+Those are strictly airtight copies, there will be no interference whatsoever.
 
-This is, to my knowledge, impossible to do easily (noConflict doesn't achieve it).
+This is, to my knowledge, impossible to do easily using jQuery (noConflict doesn't achieve it).

@@ -1,8 +1,9 @@
 /////////////////////////HELPERS//////////////////////////
 Function.prototype.clone4lightquery = function() {
     var newfun = new Function('return ' + this.toString())();
-    for (var key in this)
-    newfun[key] = this[key];
+    
+    for(var key in this)
+        newfun[key] = this[key];
     
     Object.assign(newfun.prototype, this.prototype);
     return newfun;
@@ -689,7 +690,7 @@ lightqueryObject.prototype.children = function(selector){
 /**@memberof lightqueryObject @method parent
 *Get the parent of each element of the matched set
 *
-*@return {lightqueryObject | null}
+*@return {lightqueryObject}
 */
 lightqueryObject.prototype.parent = function(){
     //get all parents(if none get null) and remove null values
@@ -707,7 +708,7 @@ lightqueryObject.prototype.parent = function(){
     
     //return early if there were absolutely no parents
     if(lqHelpers.array.empty(parentArr))
-        return null;
+        return this.lightqueryID([]);
     
     return this.lightqueryID(parentArr);
 };
@@ -718,7 +719,7 @@ lightqueryObject.prototype.parent = function(){
 *Get all predecessors(parents) of each element of the matched set (filtered by selector if one is given)
 *@param {string} [selector=undefined] - the selector used for filtering
 *
-*@return {lightqueryObject | null}
+*@return {lightqueryObject}
 */
 lightqueryObject.prototype.parents = function(selector){
     let parentsArr = this.map(e=>{
@@ -751,7 +752,7 @@ lightqueryObject.prototype.parents = function(selector){
     
     //null handling
     if(lqHelpers.array.empty(parentsArr))
-        return null;
+        return this.lightqueryID([]);
     
     return this.lightqueryID(parentsArr);
 };
@@ -762,27 +763,21 @@ lightqueryObject.prototype.parents = function(selector){
 *Get all descendants (filtered by selector if one is given) of each elements of the matched set
 *@param {string} [selector=undefined] - the selector used to filter
 *
-*@return {lightqueryObject | null}
+*@return {lightqueryObject}
 */
 lightqueryObject.prototype.find = function(selector){
-    let desc = [];
-    let curr = this;
-    
-    //grab all descendants
-    while(curr.children()){
-        desc.push( ...(curr.children().asNode) );
-        curr = curr.children();
-    }
-    
-    if(lqHelpers.array.empty(desc))
-        return null;
-    
-    if(selector)
-        desc = desc.filter(e=>e.matches(selector));
-    
-    if(lqHelpers.array.empty(desc))
-        return null;
-    
+    selector = selector || "*";
+    desc = [];
+    if(typeof selector === "string")
+        desc = this
+                .map(e=>e.querySelectorAll(selector))//get descendants
+                .reduce((acc, e)=>{//Array(Array(Element)) -> Array(Element)
+                    acc.push(...e);
+                    return acc;
+                }, [])
+                .filter(//keep distinct elements
+                    (e,i,a)=>a.indexOf(e)==i
+                );
     return this.lightqueryID(desc);
 };
 
@@ -1077,8 +1072,8 @@ lightquery.createOtherLightquery = function(newLightqueryName){
     if(lastOne === baseConstructorName)
         newConstructorName = `${baseConstructorName}0`;
     else{
-        let number = parseInt(  lastOne.replace(constructorNameRegex, "$1")  );
-        newConstructorName = `${baseConstructorName}${number+1}`;
+        let last_number = parseInt(  lastOne.replace(constructorNameRegex, "$1")  );
+        newConstructorName = `${baseConstructorName}${last_number+1}`;
     }
     
     //define the constructor

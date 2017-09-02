@@ -14,7 +14,7 @@ This library tend to be the one that is truly lighter than jQuery : as light as 
 You should consider using lightquery because it tends to be lighter, easier to use and has several sets of protection which can be really handy when trying to understand what goes wrong in your code.
 
 ## How do I get this library fam ? ##
-Well I'm glad you asked, you can grab this library easily, either by downloading it directly from the GitHub&copy; repository or by downloading it from NPM (*light_query*).
+Well I'm glad you asked, you can grab this library easily, either by downloading it directly from the [GitHub&copy; repository](https://github.com/Voltra/lightquery) or by downloading it from [NPM](https://npmjs.com/package/light_query) (*light_query*).
 
 ***WARNING*** Don't use require yet, it's not ready for it, it's still in a in-dev state !
 

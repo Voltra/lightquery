@@ -120,3 +120,7 @@ Therefore `const x = immutableLightQuery.createOtherLightquery("x")` guarantees 
 Those are strictly airtight copies, there will be no interference whatsoever.
 
 This is, to my knowledge, impossible to do easily using jQuery (noConflict doesn't achieve it).
+
+
+## Okay thanks fam but I need more details about lightquery ##
+Fear no more! Just read the [official wiki](https://github.com/Voltra/lightquery/wiki).

@@ -23,7 +23,7 @@ const lqHelpers = {
         }
     },
     functions: {
-        valid_name_regex: /^[$µA-Z_][0-9A-Z_$]*$/i,
+        valid_name_regex: /^[$µA-Z_][0-9A-Z_$µ]*$/i,
         valid_firstChar_regex: /^[$A-Z_]$/i,
         invalid_otherChar_regex: /[^0-9A-Z_$]/ig
     },
@@ -63,11 +63,11 @@ lqHelpers.array.empty = (arr)=>(arr.length==0 ||  arr==[] || arr==new Array());
 ///////////////////////////////////////////////////////////
 
 
-/**@@ CONSTRUCTOR @@**/
+//// CONSTRUCTOR 
 /**@class lightqueryObject
 *Instantiate a lightqueryObject
 *@param {string | object | function} selector - the selector
-*@return {lightqueryObject | lightquery | {}}
+*@return {lightqueryObject | lightquery | object}
 */
 const lightqueryObject = function obj(selector){
     if(obj.caller === this.lightqueryID){
@@ -96,11 +96,11 @@ const lightqueryObject = function obj(selector){
     }
 };
 
-/**@@ ARRAYLIKE HANDLING @@**/
+//// ARRAYLIKE HANDLING 
 lightqueryObject.prototype = Object.create( Array.prototype );
 lightqueryObject.prototype.constructor = lightqueryObject;
 
-/**@@ METHODS @@**/
+//// METHODS 
 /**@memberof lightqueryObject @method eq
 *Restrict the selection set to the item at the given index
 *@param {int} index - the given index
@@ -850,8 +850,54 @@ lightqueryObject.prototype.ready = function(func){
 
 
 
-/**@@ THE OG LightQuery @@**/
-/**@class lightquery
+
+/**@memberof lightqueryObject @method Filter
+*Filter the set of matched elements according to a predicate
+*@param {function} func - the predicate used to filter
+*
+*@return {lightqueryObject}
+*/
+lightqueryObject.prototype.Filter = function(func){
+    if(typeof func != typeof (x=>x))
+        throw new TypeError(`${this.lightqueryID.fname}().Filter expected a function as its parameter`);
+    
+    return this.lightqueryID( this.filter(func) );
+};
+
+
+
+/**@memberof lightqueryObject @method Map
+*Map the set of matched elements according to a function
+*@param {function} func - the funciton used to map
+*
+*@return {lightqueryObject}
+*/
+lightqueryObject.prototype.Map = function(func){
+    if(typeof func != typeof(x=>x))
+        throw new TypeError(`${this.lightqueryID.fname}().Map expected a function as its parameter`);
+    
+    return this.lightqueryID( this.map(func) );
+};
+
+
+
+
+/**@memberof lightqueryObject @method Reduce
+*Performs a reduction on the set of matched elements according to the reducer
+*@param {function} reducer - the function used for the reduction
+*@param {?} accumulator - the initial value of the accumulator
+*/
+lightqueryObject.prototype.Reduce = function(reducer, accumulator){
+    if(typeof reducer != typeof(x=>x))
+        throw new TypeError(`${this.lightqueryID.fname}().Reduce expected a function as its first parameter`);
+    
+    return this.lightqueryID( this.reduce(reducer, accumulator) );
+};
+
+
+
+//// THE OG LightQuery 
+/**@function lightquery
 *Get a lightquery object from a selector / add an event listener that will be triggered when the DOM is fully loaded
 *@param {string | function | object} selector - the selector/function
 *
@@ -864,7 +910,7 @@ lightquery.fname = "lightquery";
 
 
 
-/**@@ CLASS METHOD @@**/
+//// CLASS METHOD 
 /**@memberof lightquery @method appendNode
 *Append an HTML node to a set of DOM nodes from a selector
 *@param {string | object} targetSelector - the selector of the parent(s) to append the content to
@@ -1153,7 +1199,7 @@ lightquery.removePlugin = function(pluginName="", pluginType="instance"){
     }
 };
 
-/**@@ ID INJECTION @@**/
+//// ID INJECTION 
 Object.defineProperty(lightqueryObject.prototype, "lightqueryID", {
     value: lightquery,
     enumerable: false,
@@ -1179,7 +1225,7 @@ immutableLightQuery.createLightqueryObject = Object.freeze( immutableLightQuery.
 immutableLightQuery.createLightqueryObject.prototype = Object.freeze( immutableLightQuery.createLightqueryObject.prototype );
 
 
-/**@@ ALIASES @@**/
+//// ALIASES 
 const lq = lightquery,
       lQuery = lightquery,
       lightQuery = lightquery,

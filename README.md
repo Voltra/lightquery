@@ -76,7 +76,7 @@ Another interesting point in lightquery's plugin system is that you use the same
 ```javascript
 µ.registerPlugin("cs", x=>"cs"); //shorthand for instance plugin declaration
 µ.registerPlugin("go", x=>"go", "global"); //global plugin declaration
-µ.register("cod", x=>"cod", "instance"); //instance plugin declaration
+µ.registerPlugin("cod", x=>"cod", "instance"); //instance plugin declaration
 
 µ.removePlugin("cs"); //shorthand for removing an instance plugin
 µ.removePlugin("go", "global"); //remove a global plugin
@@ -94,11 +94,14 @@ lightquery uses a "class" that inherits from Array, which means that you can use
 
 Therefore, you can use `map`, `reduce`, `filter`, `forEach`, etc... and get arrays from your lightquery objects ; in fact, those methods are heavily used in the development of this library :D !
 
-If this hasn't been updated yet, then I am still in the process of adding similar methods (`filter` -> `Filter`, just like `forEach` and `each`) which will return lightquery objects instead of arrays.
+Just like jQuery kinda does, you can now use `Map`, `Reduce`, `Filter` and `each` to get a lightquery object back (where `map`, `reduce`, `filter` and `forEach` would return an Array).
 
 ***CSS variables***<br/>
 jQuery doesn't support CSS variables handling, that's a fact.
-Before shouting *"HEY ! That's not true, there's a plugin for it !"* well firstly it's a plugin, therefore not built-in, and secondly you are probably referring to [`jq-cssvar`](https://www.npmjs.com/package/jq-cssvar) and there's a detail you might not be aware of : I'm the developer behind the jQuery plugin called `jq-cssvar` (at least that's how I named it for NPM, I mostly call it cssVar, much more stylish, dem fookin camelCase :3).
+Before shouting
+>"HEY ! That's not true, there's a plugin for it !"
+
+well firstly it's a plugin, therefore not built-in, and secondly you are probably referring to [`jq-cssvar`](https://www.npmjs.com/package/jq-cssvar) and there's a detail you might not be aware of : I'm the developer behind the jQuery plugin called `jq-cssvar` (at least that's how I named it for NPM, I mostly call it cssVar, much more stylish, dem fookin camelCase :3).
 
 The jQuery plugin `jq-cssvar` is simply a ported version of lightquery's built-in `cssVar` global and instance methods (made using the jQuery's terrific plugin system :3).
 

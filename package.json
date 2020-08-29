@@ -16,6 +16,9 @@
 		"type": "git",
 		"url": "git+https://github.com/Voltra/lightquery.git"
 	},
+	"dependencies": {
+		"sizzle": "^2.3.5"
+	},
 	"devDependencies": {
 		"@babel/cli": "^7.10.4",
 		"@babel/core": "^7.10.4",
@@ -42,8 +45,5 @@
 	"bugs": {
 		"url": "https://github.com/Voltra/lightquery/issues"
 	},
-	"homepage": "https://github.com/Voltra/lightquery#readme",
-	"dependencies": {
-		"sizzle": "^2.3.5"
-	}
+	"homepage": "https://github.com/Voltra/lightquery#readme"
 }

@@ -1,28 +1,49 @@
 {
-  "name": "light_query",
-  "version": "1.0.0-indev.0.5",
-  "description": "a lightweight alternative to jQuery",
-  "main": "lightquery.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Voltra/lightquery.git"
-  },
-  "keywords": [
-	"javascript",
-    "library",
-	"alternative",
-	"jquery"
-  ],
-  "author": "Voltra",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Voltra/lightquery/issues"
-  },
-  "homepage": "https://github.com/Voltra/lightquery#readme"
+	"name": "light_query",
+	"version": "1.0.0-indev.0.5",
+	"description": "a lightweight alternative to jQuery",
+	"main": "lightquery.js",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"setup": "npm i && npm up",
+		"start": "npm run watch",
+		"watch": "webpack --mode development --devtool source-map --colors --watch",
+		"build": "webpack --mode production --colors"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Voltra/lightquery.git"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.10.4",
+		"@babel/core": "^7.10.4",
+		"@babel/plugin-proposal-class-properties": "^7.10.4",
+		"@babel/plugin-proposal-do-expressions": "^7.10.4",
+		"@babel/plugin-proposal-function-bind": "^7.10.4",
+		"@babel/plugin-proposal-object-rest-spread": "^7.10.4",
+		"@babel/preset-env": "^7.10.4",
+		"babel-loader": "^8.1.0",
+		"core-js": "^3.6.5",
+		"friendly-errors-webpack-plugin": "^1.7.0",
+		"webpack": "^4.43.0",
+		"webpack-cli": "^3.3.12",
+		"webpack-progress-bar": "^1.2.1"
+	},
+	"keywords": [
+		"javascript",
+		"library",
+		"alternative",
+		"jquery"
+	],
+	"author": "Voltra",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Voltra/lightquery/issues"
+	},
+	"homepage": "https://github.com/Voltra/lightquery#readme",
+	"dependencies": {
+		"sizzle": "^2.3.5"
+	}
 }

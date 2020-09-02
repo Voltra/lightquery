@@ -5,7 +5,7 @@ const helpers = {
         splitter: " ",
 		/**
 		 * Convert a spaced list string to an array of strings
-		 * @param   {string}   str The spaced list string to convert
+		 * @param   {string}   str - The spaced list string to convert
 		 * @returns {string[]}
 		 */
 		toArray(str){
@@ -26,7 +26,7 @@ const helpers = {
         invalid_otherChar_regex: /[^0-9A-Z_$]/ig,
 		/**
 		 * Construct a new function name from the given seed
-		 * @param   {string} str The seed
+		 * @param   {string} str - The seed
 		 * @returns {string}
 		 */
 		newName(str){
@@ -42,7 +42,7 @@ const helpers = {
     plugin: {
 		/**
 		 * Determine whether or not the given plugin string is a valid plugin type
-		 * @param   {string}  str The plugin type to check
+		 * @param   {string}  str - The plugin type to check
 		 * @returns {boolean}
 		 */
 		isValidPluginType(str){
@@ -58,7 +58,7 @@ const helpers = {
     arrayLike: {
 		/**
 		 * Transform an array like object to an actual array
-		 * @param   {Iterable|any} arrayLike The object to convert to an array
+		 * @param   {Iterable|any} arrayLike - The object to convert to an array
 		 * @returns {Array}
 		 */
 		toArray(arrayLike){
@@ -71,7 +71,7 @@ const helpers = {
     array: {
 		/**
 		 * Determine whether or not an array is empty
-		 * @param   {Array|Iterable|any} arr The array
+		 * @param   {Array|Iterable|any} arr - The array
 		 * @returns {boolean}
 		 */
 		isEmpty(arr){

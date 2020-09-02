@@ -1,0 +1,2319 @@
+[
+  {
+    "__docId__": 1,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Infinity",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 2,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~NaN",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 3,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~undefined",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 4,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~null",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 5,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 6,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 7,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 8,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 9,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 10,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 11,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Symbol",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 12,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Error",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 13,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~EvalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 14,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~InternalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 15,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~RangeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 16,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~ReferenceError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 17,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~SyntaxError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 18,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~TypeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 19,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~URIError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 20,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 21,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 22,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Date",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 23,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~String",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 24,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~string",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 25,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~RegExp",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 26,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 27,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 28,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 29,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint8ClampedArray",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 30,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 31,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 32,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 33,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 34,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Float32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 35,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Float64Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 36,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Map",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 37,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Set",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 38,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~WeakMap",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~WeakSet",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~ArrayBuffer",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 41,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~DataView",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 42,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~JSON",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 43,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Promise",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 44,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Generator",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 45,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~GeneratorFunction",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 46,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Reflect",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 47,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Proxy",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 48,
+    "kind": "file",
+    "name": "src/CssEngine.js",
+    "content": "import Sizzle from \"sizzle\"\r\nimport UnimplementedError from \"./errors/UnimplementedError\"\r\nimport lqHelpers from \"./utils/helpers\"\r\n\r\nexport class AbstractCssEngine{\r\n\t/**\r\n\t * Find all the elements that match the given selector in the given context and append them to the previous results\r\n\t * @param {string}            selector        The selector to match\r\n\t * @param {Element|undefined} context         = undefined  The context in which to lookup elements\r\n\t * @param {Iterable<Element>} previousResults = [] The previous set of results\r\n\t * @returns {Iterable<Element>}\r\n\t */\r\n\tfindAll(selector, context = undefined, previousResults = []){\r\n\t\tthrow new UnimplementedError(\"Call to unimplemented AbstractCssEngine#findAll(selector, [context, [previousResults]])\");\r\n\t}\r\n\t\r\n\t/**\r\n\t * Determine whether or not the given element matches the given selector\r\n\t * @param {string}  selector The selector to match against\r\n\t * @param {Element} element  The element to match against the selector\r\n\t * @returns {boolean}\r\n\t */\r\n\tmatchesSelector(selector, element){\r\n\t\tthrow new UnimplementedError(\"Call to unimplemented AbstractCssEngine#matchesSelector(selector, element)\");\r\n\t}\r\n\t\r\n\t/**\r\n\t * Only keep the elements that match the given selector\r\n\t * @param {string}            selector The selector to match against\r\n\t * @param {Iterable<Element>} elements The elements to filter\r\n\t * @returns {Iterable<Element>}\r\n\t */\r\n\tfilterMatches(selector, elements){\r\n\t\tthrow new UnimplementedError(\"Call to unimplemented AbstractCssEngine#filterMatches(selector, elements)\");\r\n\t}\r\n}\r\n\r\nexport class SizzleCssEngine extends AbstractCssEngine{\r\n\tfindAll(selector, context = undefined, previousResults = []){\r\n\t\treturn Sizzle(selector, context, previousResults);\r\n\t}\r\n\t\r\n\tmatchesSelector(selector, element){\r\n\t\treturn Sizzle.matches(element, selector);\r\n\t}\r\n\t\r\n\tfilterMatches(selector, elements){\r\n\t\treturn Sizzle.matches(selector, lqHelpers.arrayLike.toArray(elements));\r\n\t}\r\n}\r\n\r\n/**\r\n * @var {AbstractCssEngine} The css engine for lightquery\r\n */\r\nexport const cssEngine = new SizzleCssEngine();",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/CssEngine.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 49,
+    "kind": "class",
+    "name": "AbstractCssEngine",
+    "memberof": "src/CssEngine.js",
+    "static": true,
+    "longname": "src/CssEngine.js~AbstractCssEngine",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/CssEngine.js",
+    "importStyle": "{AbstractCssEngine}",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 50,
+    "kind": "method",
+    "name": "findAll",
+    "memberof": "src/CssEngine.js~AbstractCssEngine",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/CssEngine.js~AbstractCssEngine#findAll",
+    "access": "public",
+    "description": "Find all the elements that match the given selector in the given context and append them to the previous results",
+    "lineNumber": 13,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Iterable<Element>}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "selector",
+        "description": "The selector to match"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Element",
+          "undefined"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "context",
+        "description": "= undefined  The context in which to lookup elements"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Iterable<Element>"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "previousResults",
+        "description": "= [] The previous set of results"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Iterable<Element>"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 51,
+    "kind": "method",
+    "name": "matchesSelector",
+    "memberof": "src/CssEngine.js~AbstractCssEngine",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/CssEngine.js~AbstractCssEngine#matchesSelector",
+    "access": "public",
+    "description": "Determine whether or not the given element matches the given selector",
+    "lineNumber": 23,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{boolean}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "selector",
+        "description": "The selector to match against"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Element"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "element",
+        "description": "The element to match against the selector"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 52,
+    "kind": "method",
+    "name": "filterMatches",
+    "memberof": "src/CssEngine.js~AbstractCssEngine",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/CssEngine.js~AbstractCssEngine#filterMatches",
+    "access": "public",
+    "description": "Only keep the elements that match the given selector",
+    "lineNumber": 33,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Iterable<Element>}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "selector",
+        "description": "The selector to match against"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Iterable<Element>"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "elements",
+        "description": "The elements to filter"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Iterable<Element>"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 53,
+    "kind": "class",
+    "name": "SizzleCssEngine",
+    "memberof": "src/CssEngine.js",
+    "static": true,
+    "longname": "src/CssEngine.js~SizzleCssEngine",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/CssEngine.js",
+    "importStyle": "{SizzleCssEngine}",
+    "description": null,
+    "lineNumber": 38,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "AbstractCssEngine"
+    ]
+  },
+  {
+    "__docId__": 54,
+    "kind": "method",
+    "name": "findAll",
+    "memberof": "src/CssEngine.js~SizzleCssEngine",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/CssEngine.js~SizzleCssEngine#findAll",
+    "access": "public",
+    "description": null,
+    "lineNumber": 39,
+    "undocument": true,
+    "params": [
+      {
+        "name": "selector",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "context",
+        "optional": true,
+        "types": [
+          "*"
+        ],
+        "defaultRaw": "undefined",
+        "defaultValue": "undefined"
+      },
+      {
+        "name": "previousResults",
+        "optional": true,
+        "types": [
+          "*[]"
+        ],
+        "defaultRaw": [],
+        "defaultValue": "[]"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 55,
+    "kind": "method",
+    "name": "matchesSelector",
+    "memberof": "src/CssEngine.js~SizzleCssEngine",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/CssEngine.js~SizzleCssEngine#matchesSelector",
+    "access": "public",
+    "description": null,
+    "lineNumber": 43,
+    "undocument": true,
+    "params": [
+      {
+        "name": "selector",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "element",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 56,
+    "kind": "method",
+    "name": "filterMatches",
+    "memberof": "src/CssEngine.js~SizzleCssEngine",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/CssEngine.js~SizzleCssEngine#filterMatches",
+    "access": "public",
+    "description": null,
+    "lineNumber": 47,
+    "undocument": true,
+    "params": [
+      {
+        "name": "selector",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "elements",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 57,
+    "kind": "variable",
+    "name": "cssEngine",
+    "memberof": "src/CssEngine.js",
+    "static": true,
+    "longname": "src/CssEngine.js~cssEngine",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/CssEngine.js",
+    "importStyle": "{cssEngine}",
+    "description": "",
+    "lineNumber": 55,
+    "unknown": [
+      {
+        "tagName": "@var",
+        "tagValue": "{AbstractCssEngine} The css engine for lightquery"
+      }
+    ],
+    "type": {
+      "types": [
+        "src/CssEngine.js~SizzleCssEngine"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "file",
+    "name": "src/errors/InvalidArgumentError.js",
+    "content": "export default class InvalidArgumentError extends Error{\r\n\tconstructor(message = \"Invalid argument\"){\r\n\t\tsuper(message);\r\n\t}\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/errors/InvalidArgumentError.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 59,
+    "kind": "class",
+    "name": "InvalidArgumentError",
+    "memberof": "src/errors/InvalidArgumentError.js",
+    "static": true,
+    "longname": "src/errors/InvalidArgumentError.js~InvalidArgumentError",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/errors/InvalidArgumentError.js",
+    "importStyle": "InvalidArgumentError",
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "Error"
+    ]
+  },
+  {
+    "__docId__": 60,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/errors/InvalidArgumentError.js~InvalidArgumentError",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/errors/InvalidArgumentError.js~InvalidArgumentError#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true
+  },
+  {
+    "__docId__": 61,
+    "kind": "file",
+    "name": "src/errors/NotEnoughElementsError.js",
+    "content": "export default class NotEnoughElementsError extends Error{\r\n\tconstructor(message = \"Not enough elements\"){\r\n\t\tsuper(message);\r\n\t}\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/errors/NotEnoughElementsError.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 62,
+    "kind": "class",
+    "name": "NotEnoughElementsError",
+    "memberof": "src/errors/NotEnoughElementsError.js",
+    "static": true,
+    "longname": "src/errors/NotEnoughElementsError.js~NotEnoughElementsError",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/errors/NotEnoughElementsError.js",
+    "importStyle": "NotEnoughElementsError",
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "Error"
+    ]
+  },
+  {
+    "__docId__": 63,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/errors/NotEnoughElementsError.js~NotEnoughElementsError",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/errors/NotEnoughElementsError.js~NotEnoughElementsError#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true
+  },
+  {
+    "__docId__": 64,
+    "kind": "file",
+    "name": "src/errors/UnimplementedError.js",
+    "content": "export default class UnimplementedError extends Error{\r\n\t/**\r\n\t * @param {string} [message = \"Unimplemented method\"] The error message\r\n\t */\r\n\tconstructor(message = \"Unimplemented method\"){\r\n\t\tsuper(message);\r\n\t}\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/errors/UnimplementedError.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 65,
+    "kind": "class",
+    "name": "UnimplementedError",
+    "memberof": "src/errors/UnimplementedError.js",
+    "static": true,
+    "longname": "src/errors/UnimplementedError.js~UnimplementedError",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/errors/UnimplementedError.js",
+    "importStyle": "UnimplementedError",
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "Error"
+    ]
+  },
+  {
+    "__docId__": 66,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/errors/UnimplementedError.js~UnimplementedError",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/errors/UnimplementedError.js~UnimplementedError#constructor",
+    "access": "public",
+    "description": "",
+    "lineNumber": 5,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": " \"Unimplemented method\"",
+        "defaultRaw": "Unimplemented method",
+        "name": "message",
+        "description": "The error message"
+      }
+    ]
+  },
+  {
+    "__docId__": 67,
+    "kind": "file",
+    "name": "src/errors/UnsupportedError.js",
+    "content": "export default class UnsupportedError extends Error{\r\n\tconstructor(message = \"\"){\r\n\t\tsuper(message);\r\n\t}\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/errors/UnsupportedError.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 68,
+    "kind": "class",
+    "name": "UnsupportedError",
+    "memberof": "src/errors/UnsupportedError.js",
+    "static": true,
+    "longname": "src/errors/UnsupportedError.js~UnsupportedError",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/errors/UnsupportedError.js",
+    "importStyle": "UnsupportedError",
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "Error"
+    ]
+  },
+  {
+    "__docId__": 69,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/errors/UnsupportedError.js~UnsupportedError",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/errors/UnsupportedError.js~UnsupportedError#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true
+  },
+  {
+    "__docId__": 70,
+    "kind": "file",
+    "name": "src/index.js",
+    "content": "import LightqueryFactory from \"./LightqueryFactory\"\r\nimport LightqueryCollection from \"./LightqueryCollection\"\r\n\r\nconst µ = new LightqueryFactory(LightqueryCollection, true);\r\nconst $ = µ;\r\nconst lq = µ;\r\nconst lightquery = µ;\r\n\r\nif(typeof window !== \"undefined\"){\r\n\tObject.assign(window, {\r\n\t\tµ,\r\n\t\tlq,\r\n\t\tlightquery,\r\n\t\t$,\r\n\t});\r\n}\r\n\r\nexport {\r\n\tµ,\r\n\t$,\r\n\tlq,\r\n\tlightquery,\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 71,
+    "kind": "variable",
+    "name": "µ",
+    "memberof": "src/index.js",
+    "static": true,
+    "longname": "src/index.js~µ",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/index.js",
+    "importStyle": "{µ}",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "src/LightqueryFactory.js~LightqueryFactory"
+      ]
+    }
+  },
+  {
+    "__docId__": 72,
+    "kind": "variable",
+    "name": "$",
+    "memberof": "src/index.js",
+    "static": true,
+    "longname": "src/index.js~$",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/index.js",
+    "importStyle": "{$}",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 73,
+    "kind": "variable",
+    "name": "lq",
+    "memberof": "src/index.js",
+    "static": true,
+    "longname": "src/index.js~lq",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/index.js",
+    "importStyle": "{lq}",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 74,
+    "kind": "variable",
+    "name": "lightquery",
+    "memberof": "src/index.js",
+    "static": true,
+    "longname": "src/index.js~lightquery",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/index.js",
+    "importStyle": "{lightquery}",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 75,
+    "kind": "file",
+    "name": "src/LightqueryFactory.js",
+    "content": "import Callable from \"./utils/Callable\"\r\nimport LightqueryCollection from \"./LightqueryCollection\"\r\nimport InvalidArgumentError from \"./errors/InvalidArgumentError\"\r\nimport { asSequence, registerLightqueryExtensions } from \"./utils/lazy\"\r\n\r\n\r\n/**\r\n * Class that represents the factory function to query the DOM with lightquery\r\n */\r\nexport default class LightqueryFactory extends Callable{\r\n\t/**\r\n\t * Create a lightquery factory (that's what's behind µ)\r\n\t * @param   {typeof LightqueryCollection} [collectionClass = LightqueryCollection] The class used to construct the result collections\r\n\t * @param   {boolean} [strictMode = true] Whether or not to throw exceptions instead of silently failing\r\n\t */\r\n\tconstructor(collectionClass = LightqueryCollection, strictMode = true){\r\n\t\tsuper();\r\n\t\tregisterLightqueryExtensions(this);\r\n\t\tcollectionClass.lightquery = this;\r\n\t\t\r\n\t\t/**\r\n\t\t * Private methods and properties\r\n\t\t * @protected\r\n\t\t * @readonly\r\n\t\t * @memberof LightqueryFactory\r\n\t\t */\r\n\t\tthis.__ = {\r\n\t\t\t/**\r\n\t\t\t * Create a lightquery collection from arguments\r\n\t\t\t * @param {any[]} args The arguments for the constructor\r\n\t\t\t * @returns {LightqueryCollection}\r\n\t\t\t */\r\n\t\t\tfactory: (...args) => new collectionClass(...args),\r\n\t\t\t\r\n\t\t\t/**\r\n\t\t\t * @property {typeof LightqueryCollection} The class used to generate a results collection\r\n\t\t\t */\r\n\t\t\tcollectionClass,\r\n\t\t\t\r\n\t\t\t/**\r\n\t\t\t * A factory for an empty selection\r\n\t\t\t * @returns {LightqueryCollection}\r\n\t\t\t */\r\n\t\t\temptySelection(){\r\n\t\t\t\treturn this.factory(\"\");\r\n\t\t\t},\r\n\t\t};\r\n\t\t\r\n\t\t/**\r\n\t\t * @member {boolean} Whether or not to use strict mode with this factory\r\n\t\t */\r\n\t\tthis.strictMode = strictMode;\r\n\t}\r\n\t\r\n\t/**\r\n\t * @override\r\n\t * @inheritdoc\r\n\t */\r\n\t__call(selector, context = undefined, previousResults = []){\r\n\t\tif(typeof selector === \"function\")\r\n\t\t\treturn this.ready(selector);\r\n\t\telse\t\r\n\t\t\treturn this.__.factory(selector);\r\n\t}\r\n\t\r\n\t/**\r\n\t * Execute a callback once the DOM is fully loaded\r\n\t * @param   {Function}             callback The function to execute after the DOM is loaded\r\n\t * @returns {LightqueryCollection}\r\n\t */\r\n\tready(callback){\r\n\t\treturn this(document).ready(callback);\r\n\t}\r\n\t\r\n\t/**\r\n\t * Wrap an iterable in a lazy evaluated pipeline\r\n\t * @template T\r\n\t * @param   {Iterable<T>} iterable The iterable to wrap\r\n\t * @returns {Sequence<T>}\r\n\t */\r\n\tlazy(iterable){\r\n\t\treturn asSequence(iterable);\r\n\t}\r\n\t\r\n\t/**\r\n\t * Help query using the given context as the selection root \r\n\t * @param   {Element} context The context to restrict to\r\n\t * @returns {{select: (selector: string) => LightqueryCollection}}\r\n\t */\r\n\tfrom(context){\r\n\t\treturn {\r\n\t\t\tselect: selector => this(selector, context),\r\n\t\t};\r\n\t}\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/LightqueryFactory.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 76,
+    "kind": "class",
+    "name": "LightqueryFactory",
+    "memberof": "src/LightqueryFactory.js",
+    "static": true,
+    "longname": "src/LightqueryFactory.js~LightqueryFactory",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/LightqueryFactory.js",
+    "importStyle": "LightqueryFactory",
+    "description": "Class that represents the factory function to query the DOM with lightquery",
+    "lineNumber": 10,
+    "interface": false,
+    "extends": [
+      "src/utils/Callable.js~Callable"
+    ]
+  },
+  {
+    "__docId__": 77,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/LightqueryFactory.js~LightqueryFactory",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/LightqueryFactory.js~LightqueryFactory#constructor",
+    "access": "public",
+    "description": "Create a lightquery factory (that's what's behind µ)",
+    "lineNumber": 16,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "typeof LightqueryCollection"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": " LightqueryCollection",
+        "defaultRaw": " LightqueryCollection",
+        "name": "collectionClass",
+        "description": "The class used to construct the result collections"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": " true",
+        "defaultRaw": true,
+        "name": "strictMode",
+        "description": "Whether or not to throw exceptions instead of silently failing"
+      }
+    ]
+  },
+  {
+    "__docId__": 78,
+    "kind": "member",
+    "name": "__",
+    "memberof": "src/LightqueryFactory.js~LightqueryFactory",
+    "static": false,
+    "longname": "src/LightqueryFactory.js~LightqueryFactory#__",
+    "access": "protected",
+    "description": "Private methods and properties",
+    "lineNumber": 27,
+    "unknown": [
+      {
+        "tagName": "@readonly",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "{\"factory\": *, \"collectionClass\": *, \"emptySelection\": function}"
+      ]
+    }
+  },
+  {
+    "__docId__": 79,
+    "kind": "member",
+    "name": "strictMode",
+    "memberof": "src/LightqueryFactory.js~LightqueryFactory",
+    "static": false,
+    "longname": "src/LightqueryFactory.js~LightqueryFactory#strictMode",
+    "access": "public",
+    "description": "",
+    "lineNumber": 52,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 80,
+    "kind": "method",
+    "name": "__call",
+    "memberof": "src/LightqueryFactory.js~LightqueryFactory",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/LightqueryFactory.js~LightqueryFactory#__call",
+    "access": "private",
+    "description": "",
+    "lineNumber": 59,
+    "unknown": [
+      {
+        "tagName": "@inheritdoc",
+        "tagValue": ""
+      }
+    ],
+    "override": true,
+    "params": [
+      {
+        "name": "selector",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "context",
+        "optional": true,
+        "types": [
+          "*"
+        ],
+        "defaultRaw": "undefined",
+        "defaultValue": "undefined"
+      },
+      {
+        "name": "previousResults",
+        "optional": true,
+        "types": [
+          "*[]"
+        ],
+        "defaultRaw": [],
+        "defaultValue": "[]"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 81,
+    "kind": "method",
+    "name": "ready",
+    "memberof": "src/LightqueryFactory.js~LightqueryFactory",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/LightqueryFactory.js~LightqueryFactory#ready",
+    "access": "public",
+    "description": "Execute a callback once the DOM is fully loaded",
+    "lineNumber": 71,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{LightqueryCollection}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "callback",
+        "description": "The function to execute after the DOM is loaded"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "LightqueryCollection"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 82,
+    "kind": "method",
+    "name": "lazy",
+    "memberof": "src/LightqueryFactory.js~LightqueryFactory",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/LightqueryFactory.js~LightqueryFactory#lazy",
+    "access": "public",
+    "description": "Wrap an iterable in a lazy evaluated pipeline",
+    "lineNumber": 81,
+    "unknown": [
+      {
+        "tagName": "@template",
+        "tagValue": "T"
+      },
+      {
+        "tagName": "@returns",
+        "tagValue": "{Sequence<T>}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Iterable<T>"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "iterable",
+        "description": "The iterable to wrap"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Sequence<T>"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 83,
+    "kind": "method",
+    "name": "from",
+    "memberof": "src/LightqueryFactory.js~LightqueryFactory",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/LightqueryFactory.js~LightqueryFactory#from",
+    "access": "public",
+    "description": "Help query using the given context as the selection root ",
+    "lineNumber": 90,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{{select: (selector: string) => LightqueryCollection}}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Element"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "context",
+        "description": "The context to restrict to"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "{select: (selector: string) => LightqueryCollection}"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 84,
+    "kind": "file",
+    "name": "src/strategies/init/AbstractStrategy.js",
+    "content": "import UnimplementedError from \"../../errors/UnimplementedError\"\r\n\r\nexport default class AbstractStrategy{\r\n\t/**\r\n\t * Determine whether or not it should process the given selector\r\n\t * @param {any}               selector        The selector to process\r\n \t * @param {Element|undefined} context         The context to get elements from\r\n \t * @param {Iterable<Element>} previousResults The previous set of results\r\n\t * @returns {boolean}\r\n\t */\r\n\tshouldProcess(selector, context = undefined, previousResults = []){\r\n\t\tthrow new UnimplementedError(\"Call to unimplemented AbstractStrategy#shouldProcess(selector)\");\r\n\t}\r\n\t\r\n\t/**\r\n\t * Processes the given selector\r\n\t * @param {any}               selector        The selector to process\r\n \t * @param {Element|undefined} context         The context to get elements from\r\n \t * @param {Iterable<Element>} previousResults The previous set of results\r\n\t * @returns {Iterable<Element>}\r\n\t */\r\n\tprocess(selector, context = undefined, previousResults = []){\r\n\t\tthrow new UnimplementedError(\"Call to unimplemented AbstractStrategy#process(selector)\");\r\n\t}\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/strategies/init/AbstractStrategy.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 85,
+    "kind": "class",
+    "name": "AbstractStrategy",
+    "memberof": "src/strategies/init/AbstractStrategy.js",
+    "static": true,
+    "longname": "src/strategies/init/AbstractStrategy.js~AbstractStrategy",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/strategies/init/AbstractStrategy.js",
+    "importStyle": "AbstractStrategy",
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 86,
+    "kind": "method",
+    "name": "shouldProcess",
+    "memberof": "src/strategies/init/AbstractStrategy.js~AbstractStrategy",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/strategies/init/AbstractStrategy.js~AbstractStrategy#shouldProcess",
+    "access": "public",
+    "description": "Determine whether or not it should process the given selector",
+    "lineNumber": 11,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{boolean}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "selector",
+        "description": "The selector to process"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Element",
+          "undefined"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "context",
+        "description": "The context to get elements from"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Iterable<Element>"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "previousResults",
+        "description": "The previous set of results"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 87,
+    "kind": "method",
+    "name": "process",
+    "memberof": "src/strategies/init/AbstractStrategy.js~AbstractStrategy",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/strategies/init/AbstractStrategy.js~AbstractStrategy#process",
+    "access": "public",
+    "description": "Processes the given selector",
+    "lineNumber": 22,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Iterable<Element>}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "any"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "selector",
+        "description": "The selector to process"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Element",
+          "undefined"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "context",
+        "description": "The context to get elements from"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Iterable<Element>"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "previousResults",
+        "description": "The previous set of results"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Iterable<Element>"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 88,
+    "kind": "file",
+    "name": "src/strategies/init/CssSelectorStrategy.js",
+    "content": "import AbstractStrategy from \"./AbstractStrategy\"\r\nimport { cssEngine } from \"../../CssEngine\"\r\n\r\nexport default class CssSelectorStrategy extends AbstractStrategy{\r\n\tshouldProcess(selector, context = undefined, previousResults = []){\r\n\t\treturn typeof selector === \"string\";\r\n\t}\r\n\t\r\n\tprocess(selector, context = undefined, previousResults = []){\r\n\t\treturn cssEngine.findAll(selector, context, previousResults);\r\n\t}\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/strategies/init/CssSelectorStrategy.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 89,
+    "kind": "class",
+    "name": "CssSelectorStrategy",
+    "memberof": "src/strategies/init/CssSelectorStrategy.js",
+    "static": true,
+    "longname": "src/strategies/init/CssSelectorStrategy.js~CssSelectorStrategy",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/strategies/init/CssSelectorStrategy.js",
+    "importStyle": "CssSelectorStrategy",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "src/strategies/init/AbstractStrategy.js~AbstractStrategy"
+    ]
+  },
+  {
+    "__docId__": 90,
+    "kind": "method",
+    "name": "shouldProcess",
+    "memberof": "src/strategies/init/CssSelectorStrategy.js~CssSelectorStrategy",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/strategies/init/CssSelectorStrategy.js~CssSelectorStrategy#shouldProcess",
+    "access": "public",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "params": [
+      {
+        "name": "selector",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "context",
+        "optional": true,
+        "types": [
+          "*"
+        ],
+        "defaultRaw": "undefined",
+        "defaultValue": "undefined"
+      },
+      {
+        "name": "previousResults",
+        "optional": true,
+        "types": [
+          "*[]"
+        ],
+        "defaultRaw": [],
+        "defaultValue": "[]"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 91,
+    "kind": "method",
+    "name": "process",
+    "memberof": "src/strategies/init/CssSelectorStrategy.js~CssSelectorStrategy",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/strategies/init/CssSelectorStrategy.js~CssSelectorStrategy#process",
+    "access": "public",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "params": [
+      {
+        "name": "selector",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "context",
+        "optional": true,
+        "types": [
+          "*"
+        ],
+        "defaultRaw": "undefined",
+        "defaultValue": "undefined"
+      },
+      {
+        "name": "previousResults",
+        "optional": true,
+        "types": [
+          "*[]"
+        ],
+        "defaultRaw": [],
+        "defaultValue": "[]"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 92,
+    "kind": "file",
+    "name": "src/strategies/init/index.js",
+    "content": "import CssSelectorStrategy from \"./CssSelectorStrategy\"\r\nimport SingleElementStrategy from \"./SingleElementStrategy\"\r\nimport IterableStrategy from \"./IterableStrategy\"\r\n\r\nexport const strategies = [\r\n\tnew CssSelectorStrategy(),\r\n\tnew SingleElementStrategy(),\r\n\tnew IterableStrategy(),\r\n];",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/strategies/init/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 93,
+    "kind": "variable",
+    "name": "strategies",
+    "memberof": "src/strategies/init/index.js",
+    "static": true,
+    "longname": "src/strategies/init/index.js~strategies",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/strategies/init/index.js",
+    "importStyle": "{strategies}",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 94,
+    "kind": "file",
+    "name": "src/strategies/init/IterableStrategy.js",
+    "content": "import AbstractStrategy from \"./AbstractStrategy\"\r\nimport SingleElementStrategy from \"./SingleElementStrategy\"\r\nimport LightqueryCollection from \"../../LightqueryCollection\"\r\n\r\nexport default class IterableStrategy extends AbstractStrategy{\r\n\tstatic get allowedClasses(){\r\n\t\t//TODO: Add sequency sequences to the list\r\n\t\treturn [\r\n//\t\t\tIterator,\r\n\t\t\tArray,\r\n\t\t\tNodeList,\r\n\t\t];\r\n\t}\r\n\t\r\n\tconstructor(){\r\n\t\tsuper();\r\n\t\tthis.allowedClasses = IterableStrategy.allowedClasses;\r\n\t\tthis.allowedItemClasses = SingleElementStrategy.allowedClasses;\r\n\t}\r\n\t\r\n\tshouldProcess(selector, context = undefined, previousResults = []){\r\n\t\tif(!selector)\r\n\t\t\treturn false;\r\n\t\t\r\n\t\t\r\n\t\tconst anyClass = this.allowedClasses.some(clazz => selector instanceof clazz);\r\n\t\tif(!anyClass)\r\n\t\t\treturn false;\r\n\t\t\r\n\t\t//TODO: Check if we really want item consistency\r\n\t\t/*for(const item of selector){\r\n\t\t\tif(!this.allowedItemClasses.some(clazz => item instanceof clazz))\r\n\t\t\t\treturn false;\r\n\t\t}*/\r\n\t\t\r\n\t\treturn true;\r\n\t}\r\n\t\r\n\tprocess(selector, context = undefined, previousResults = []){\r\n\t\treturn [...previousResults, ...selector];\r\n\t}\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/strategies/init/IterableStrategy.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 95,
+    "kind": "class",
+    "name": "IterableStrategy",
+    "memberof": "src/strategies/init/IterableStrategy.js",
+    "static": true,
+    "longname": "src/strategies/init/IterableStrategy.js~IterableStrategy",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/strategies/init/IterableStrategy.js",
+    "importStyle": "IterableStrategy",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "src/strategies/init/AbstractStrategy.js~AbstractStrategy"
+    ]
+  },
+  {
+    "__docId__": 96,
+    "kind": "get",
+    "name": "allowedClasses",
+    "memberof": "src/strategies/init/IterableStrategy.js~IterableStrategy",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/strategies/init/IterableStrategy.js~IterableStrategy.allowedClasses",
+    "access": "public",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 97,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/strategies/init/IterableStrategy.js~IterableStrategy",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/strategies/init/IterableStrategy.js~IterableStrategy#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true
+  },
+  {
+    "__docId__": 98,
+    "kind": "member",
+    "name": "allowedClasses",
+    "memberof": "src/strategies/init/IterableStrategy.js~IterableStrategy",
+    "static": false,
+    "longname": "src/strategies/init/IterableStrategy.js~IterableStrategy#allowedClasses",
+    "access": "public",
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 99,
+    "kind": "member",
+    "name": "allowedItemClasses",
+    "memberof": "src/strategies/init/IterableStrategy.js~IterableStrategy",
+    "static": false,
+    "longname": "src/strategies/init/IterableStrategy.js~IterableStrategy#allowedItemClasses",
+    "access": "public",
+    "description": null,
+    "lineNumber": 18,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 100,
+    "kind": "method",
+    "name": "shouldProcess",
+    "memberof": "src/strategies/init/IterableStrategy.js~IterableStrategy",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/strategies/init/IterableStrategy.js~IterableStrategy#shouldProcess",
+    "access": "public",
+    "description": null,
+    "lineNumber": 21,
+    "undocument": true,
+    "params": [
+      {
+        "name": "selector",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "context",
+        "optional": true,
+        "types": [
+          "*"
+        ],
+        "defaultRaw": "undefined",
+        "defaultValue": "undefined"
+      },
+      {
+        "name": "previousResults",
+        "optional": true,
+        "types": [
+          "*[]"
+        ],
+        "defaultRaw": [],
+        "defaultValue": "[]"
+      }
+    ],
+    "return": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 101,
+    "kind": "method",
+    "name": "process",
+    "memberof": "src/strategies/init/IterableStrategy.js~IterableStrategy",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/strategies/init/IterableStrategy.js~IterableStrategy#process",
+    "access": "public",
+    "description": null,
+    "lineNumber": 39,
+    "undocument": true,
+    "params": [
+      {
+        "name": "selector",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "context",
+        "optional": true,
+        "types": [
+          "*"
+        ],
+        "defaultRaw": "undefined",
+        "defaultValue": "undefined"
+      },
+      {
+        "name": "previousResults",
+        "optional": true,
+        "types": [
+          "*[]"
+        ],
+        "defaultRaw": [],
+        "defaultValue": "[]"
+      }
+    ],
+    "return": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 102,
+    "kind": "file",
+    "name": "src/strategies/init/SingleElementStrategy.js",
+    "content": "import AbstractStrategy from \"./AbstractStrategy\"\r\n\r\nexport default class SingleElementStrategy extends AbstractStrategy{\r\n\tstatic get allowedClasses(){\r\n\t\treturn [\r\n\t\t\tElement,\r\n\t\t\tDocument,\r\n\t\t\tDocumentFragment,\r\n\t\t\tShadowRoot,\r\n\t\t\tWindow,\r\n\t\t];\r\n\t}\r\n\t\r\n\tconstructor(){\r\n\t\tsuper();\r\n\t\tthis.allowedClasses = SingleElementStrategy.allowedClasses;\r\n\t}\r\n\t\r\n\tshouldProcess(selector, context = undefined, previousResults = []){\r\n\t\treturn selector && this.allowedClasses.some(clazz => selector instanceof clazz);\r\n\t}\r\n\t\r\n\tprocess(selector, context = undefined, previousResults = []){\r\n\t\treturn [...previousResults, selector];\r\n\t}\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/strategies/init/SingleElementStrategy.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 103,
+    "kind": "class",
+    "name": "SingleElementStrategy",
+    "memberof": "src/strategies/init/SingleElementStrategy.js",
+    "static": true,
+    "longname": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/strategies/init/SingleElementStrategy.js",
+    "importStyle": "SingleElementStrategy",
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "src/strategies/init/AbstractStrategy.js~AbstractStrategy"
+    ]
+  },
+  {
+    "__docId__": 104,
+    "kind": "get",
+    "name": "allowedClasses",
+    "memberof": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy.allowedClasses",
+    "access": "public",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 105,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true
+  },
+  {
+    "__docId__": 106,
+    "kind": "member",
+    "name": "allowedClasses",
+    "memberof": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy",
+    "static": false,
+    "longname": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy#allowedClasses",
+    "access": "public",
+    "description": null,
+    "lineNumber": 16,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 107,
+    "kind": "method",
+    "name": "shouldProcess",
+    "memberof": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy#shouldProcess",
+    "access": "public",
+    "description": null,
+    "lineNumber": 19,
+    "undocument": true,
+    "params": [
+      {
+        "name": "selector",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "context",
+        "optional": true,
+        "types": [
+          "*"
+        ],
+        "defaultRaw": "undefined",
+        "defaultValue": "undefined"
+      },
+      {
+        "name": "previousResults",
+        "optional": true,
+        "types": [
+          "*[]"
+        ],
+        "defaultRaw": [],
+        "defaultValue": "[]"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 108,
+    "kind": "method",
+    "name": "process",
+    "memberof": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/strategies/init/SingleElementStrategy.js~SingleElementStrategy#process",
+    "access": "public",
+    "description": null,
+    "lineNumber": 23,
+    "undocument": true,
+    "params": [
+      {
+        "name": "selector",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "context",
+        "optional": true,
+        "types": [
+          "*"
+        ],
+        "defaultRaw": "undefined",
+        "defaultValue": "undefined"
+      },
+      {
+        "name": "previousResults",
+        "optional": true,
+        "types": [
+          "*[]"
+        ],
+        "defaultRaw": [],
+        "defaultValue": "[]"
+      }
+    ],
+    "return": {
+      "types": [
+        "undefined[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 109,
+    "kind": "file",
+    "name": "src/utils/Callable.js",
+    "content": "//cf. https://hackernoon.com/creating-callable-objects-in-javascript-d21l3te1\r\n\r\nexport default class Callable extends Function{\r\n\tconstructor(){\r\n\t\tsuper(\"return this.__bound.__call.apply(this.__bound, arguments)\");\r\n\t\tthis.__bound = this.bind(this);\r\n\t\treturn this.__bound;\r\n\t}\r\n\t\r\n\t__call(...args){\r\n\t\tthrow new Error(\"Unimplemented Callable#__call(...args)\");\r\n\t}\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/utils/Callable.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 110,
+    "kind": "class",
+    "name": "Callable",
+    "memberof": "src/utils/Callable.js",
+    "static": true,
+    "longname": "src/utils/Callable.js~Callable",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/utils/Callable.js",
+    "importStyle": "Callable",
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "Function"
+    ]
+  },
+  {
+    "__docId__": 111,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/utils/Callable.js~Callable",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/utils/Callable.js~Callable#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true
+  },
+  {
+    "__docId__": 112,
+    "kind": "member",
+    "name": "__bound",
+    "memberof": "src/utils/Callable.js~Callable",
+    "static": false,
+    "longname": "src/utils/Callable.js~Callable#__bound",
+    "access": "private",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 113,
+    "kind": "method",
+    "name": "__call",
+    "memberof": "src/utils/Callable.js~Callable",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/utils/Callable.js~Callable#__call",
+    "access": "private",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "params": [
+      {
+        "name": "args",
+        "types": [
+          "...*"
+        ],
+        "spread": true
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 114,
+    "kind": "file",
+    "name": "src/utils/helpers.js",
+    "content": "const helpers = {\r\n    spacedListString: {\r\n        regex: /(\\S)\\s+(\\S)/g,\r\n        replacement: \"$1 $2\",\r\n        splitter: \" \",\r\n\t\t/**\r\n\t\t * Convert a spaced list string to an array of strings\r\n\t\t * @param   {string}   str The spaced list string to convert\r\n\t\t * @returns {string[]}\r\n\t\t */\r\n\t\ttoArray(str){\r\n\t\t\treturn str\r\n\t\t\t.replace(this.regex, this.replacement)\r\n\t\t\t.split(this.splitter);\r\n\t\t},\r\n    },\r\n    css_variables: {\r\n        regex: {\r\n            trailing: /^--\\w+(?:\\w|-)*$/,\r\n            no_trailing: /^\\w+(?:\\w|-)*$/,\r\n        },\r\n    },\r\n    functions: {\r\n        valid_name_regex: /^[$µA-Z_][0-9A-Z_$µ]*$/i,\r\n        valid_firstChar_regex: /^[$A-Z_]$/i,\r\n        invalid_otherChar_regex: /[^0-9A-Z_$]/ig,\r\n\t\t/**\r\n\t\t * Construct a new function name from the given seed\r\n\t\t * @param   {string} str The seed\r\n\t\t * @returns {string}\r\n\t\t */\r\n\t\tnewName(str){\r\n\t\t\tif(this.valid_name_regex.test(str))\r\n\t\t\t\treturn str;\r\n\r\n\t\t\tif(!this.valid_firstChar_regex.test(str.charAt(0)))\r\n\t\t\t\treturn this.newName(`$${str}`);\r\n\r\n\t\t\treturn str.replace(this.invalid_otherChar_regex, \"_\");\r\n\t\t},\r\n    },\r\n    plugin: {\r\n\t\t/**\r\n\t\t * Determine whether or not the given plugin string is a valid plugin type\r\n\t\t * @param   {string}  str The plugin type to check\r\n\t\t * @returns {boolean}\r\n\t\t */\r\n\t\tisValidPluginType(str){\r\n\t\t\t//TODO: Maybe refactor to use enum\r\n\t\t\treturn typeof str == \"string\"\r\n\t\t\t&& [\"instance\", \"global\"].includes(str);\r\n\t\t},\r\n\t},\r\n    constructorLQ: {\r\n        baseName: \"lightqueryObject\",\r\n        nameRegex: /^lightqueryObject(\\d*)$/,\r\n    },\r\n    arrayLike: {\r\n\t\t/**\r\n\t\t * Transform an array like object to an actual array\r\n\t\t * @param   {Iterable|any} arrayLike The object to convert to an array\r\n\t\t * @returns {Array}\r\n\t\t */\r\n\t\ttoArray(arrayLike){\r\n\t\t\tif(arrayLike instanceof Array)\r\n\t\t\t\treturn arrayLike;\r\n\t\t\t\r\n\t\t\treturn [].slice.call(arrayLike);\r\n\t\t},\r\n\t},\r\n    array: {\r\n\t\t/**\r\n\t\t * Determine whether or not an array is empty\r\n\t\t * @param   {Array|Iterable|any} arr The array\r\n\t\t * @returns {boolean}\r\n\t\t */\r\n\t\tisEmpty(arr){\r\n\t\t\treturn arr.length === 0\r\n\t\t\t||  arr == []\r\n\t\t\t|| arr == new Array();\r\n\t\t},\r\n\t},\r\n};\r\n\r\nexport default helpers;",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/utils/helpers.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 115,
+    "kind": "variable",
+    "name": "helpers",
+    "memberof": "src/utils/helpers.js",
+    "static": true,
+    "longname": "src/utils/helpers.js~helpers",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/utils/helpers.js",
+    "importStyle": "helpers",
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"spacedListString\": *, \"css_variables\": *, \"functions\": *, \"plugin\": *, \"constructorLQ\": *, \"arrayLike\": *, \"array\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 116,
+    "kind": "file",
+    "name": "src/utils/lazy.js",
+    "content": "import { asSequence, generateSequence, extendSequence } from \"sequency\"\r\n\r\nconst extensionFactory = lq => class LightqueryExtension{\r\n\ttoLightquery(){\r\n\t\treturn lq(this.iterator);\r\n\t}\r\n};\r\n\r\nconst registerLightqueryExtensions = lq => {\r\n\tconst Extension = extensionFactory(lq);\r\n\textendSequence(Extension);\r\n};\r\n\r\nexport {\r\n\tasSequence,\r\n\tgenerateSequence,\r\n\tregisterLightqueryExtensions,\r\n}",
+    "static": true,
+    "longname": "C:/Users/Ludwig/Desktop/dev_tmp/lightquery/src/utils/lazy.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 117,
+    "kind": "function",
+    "name": "extensionFactory",
+    "memberof": "src/utils/lazy.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/lazy.js~extensionFactory",
+    "access": "public",
+    "export": false,
+    "importPath": "light_query/src/utils/lazy.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "params": [
+      {
+        "name": "lq",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 118,
+    "kind": "function",
+    "name": "registerLightqueryExtensions",
+    "memberof": "src/utils/lazy.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils/lazy.js~registerLightqueryExtensions",
+    "access": "public",
+    "export": true,
+    "importPath": "light_query/src/utils/lazy.js",
+    "importStyle": "{registerLightqueryExtensions}",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "params": [
+      {
+        "name": "lq",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "kind": "index",
+    "content": "# **LIGHTQUERY** #\r\n![](logo/logo.png)\r\n## What is lightquery ? ##\r\nLightquery is a ~~big~~ library for javascript that tends to follow the mindset, patterns and philosophy behind jQuery and propose a lighter alternative to it.\r\n\r\nJust like jQuery it is mainly designed around DOM manipulations but also gives a lot of tools for other aspects of javascript.\r\n\r\n## Why lightquery ? ##\r\n**NAME**<br/>\r\nThe name is, let's be honest, not original and has been used many many times.\r\nThis library tend to be the one that is truly lighter than jQuery : as light as a feather on your workflow.\r\n\r\n**USE**<br/>\r\nYou should consider using lightquery because it tends to be lighter, easier to use and has several sets of protection which can be really handy when trying to understand what goes wrong in your code.\r\n\r\n## How do I get this library fam ? ##\r\nWell I'm glad you asked, you can grab this library easily, either by downloading it directly from the [GitHub&copy; repository](https://github.com/Voltra/lightquery) or by downloading it from [NPM](https://npmjs.com/package/light_query) (*light_query*).\r\n\r\n***WARNING*** Don't use require yet, it's not ready for it, it's still in a in-dev state !\r\n\r\n\r\nOnce you grabbed the library, you just need to use it either by using a `<script>` tag or `require`'in it :\r\n\r\n***NPM***\r\n```bash\r\nnpm install light_query\r\n```\r\n\r\n***In HTML***\r\n```html\r\n<!DOCTYPE html>\r\n<html>\r\n\t<head>\r\n\t\t<!-- [...] -->\r\n\t\t<script src=\"/the/path/to/the/lightquery/js/file\"></script>\r\n\t\t<!-- [...] -->\r\n\t</head>\r\n\r\n\t<body>\r\n\t\t<!-- [...] -->\r\n\t</body>\r\n</html>\r\n```\r\n\r\n***In JS (require)***\r\n```javascript\r\nconst lightquery = require(\"path/to/lightquery\");\r\n```\r\n\r\n## jQuery vs lightquery ? $ vs µ ? ##\r\nIt is true that jQuery is way more \"battle-tested\" than lightquery. It has been around for ages and is probably the most used library in javascript.\r\n\r\nHowever, lightquery tends to have some advantages over jQuery.\r\n\r\n***Plugin System***\r\n```javascript\r\n//Just to explain some words I use:\r\n\r\nlightquery(\"*\").cs() //cs is an INSTANCE plugin\r\nlightquery.go() //go is a GLOBAL plugin\r\n```\r\n\r\nHere's the feature that I am the most proud of : the plugin system.\r\nThere are two main methods to lightquery that are used for 3rd-party plugins : `registerPlugin` (has many aliases) and `removePlugin`.\r\n\r\nUnlike jQuery, lightquery has a built-in plugin system, let me explain :\r\n`$.fn.myPlugin =` is (sadly) strictly equivalent to `$.prototype.myPlugin =`. This is the **only** way to add *instance* plugins in jQuery. There's no protection whatsoever, and you might accidentally override another library that could use the same name.\r\n\r\nThat is where lightquery's plugin system is handy : by using only `registerPlugin` and `removePlugin` there is absolutely **NO WAY** for you to :\r\n- Override an already existing plugin\r\n- Override a core functionality of lightquery\r\n\r\nOf course you could still use `lightquery.prototype.myPlugin =` but let's not do unsafe things, there are methods for that let's use them ;) !\r\n\r\nAnother interesting point in lightquery's plugin system is that you use the same method to register/remove a *global* plugin or an *instance* plugin :\r\n```javascript\r\nµ.registerPlugin(\"cs\", x=>\"cs\"); //shorthand for instance plugin declaration\r\nµ.registerPlugin(\"go\", x=>\"go\", \"global\"); //global plugin declaration\r\nµ.registerPlugin(\"cod\", x=>\"cod\", \"instance\"); //instance plugin declaration\r\n\r\nµ.removePlugin(\"cs\"); //shorthand for removing an instance plugin\r\nµ.removePlugin(\"go\", \"global\"); //remove a global plugin\r\nµ.removePlugin(\"cod\", \"instance\"); //remove an instane plugin\r\n```\r\nWhereas, with jQuery, *instance* plugins are declared using `$.fn.myPlugin = ` and *global* plugins using `$.myPlugin =`.\r\n\r\n***Completely Array-ish***<br/>\r\nWhen you use jQuery, the result is an Array-like set but it doesn't have the enormous advantages of being an Array-ish object :\r\n\r\nlightquery uses a \"class\" that inherits from Array, which means that you can use all the methods available for Arrays on you lightquery object (**warning**, those methods aren't overloaded which means that you'll not get a lightquery object out of their calls) :\r\n```javascript\r\nµ([1,2,3]).filter(x=>x%2!=0); // returns [1, 3] (a regular Array, not a lightquery object)\r\n```\r\n\r\nTherefore, you can use `map`, `reduce`, `filter`, `forEach`, etc... and get arrays from your lightquery objects ; in fact, those methods are heavily used in the development of this library :D !\r\n\r\nJust like jQuery kinda does, you can now use `Map`, `Reduce`, `Filter` and `each` to get a lightquery object back (where `map`, `reduce`, `filter` and `forEach` would return an Array).\r\n\r\n***CSS variables***<br/>\r\njQuery doesn't support CSS variables handling, that's a fact.\r\nBefore shouting\r\n>\"HEY ! That's not true, there's a plugin for it !\"\r\n\r\nwell firstly it's a plugin, therefore not built-in, and secondly you are probably referring to [`jq-cssvar`](https://www.npmjs.com/package/jq-cssvar) and there's a detail you might not be aware of : I'm the developer behind the jQuery plugin called `jq-cssvar` (at least that's how I named it for NPM, I mostly call it cssVar, much more stylish, dem fookin camelCase :3).\r\n\r\nThe jQuery plugin `jq-cssvar` is simply a ported version of lightquery's built-in `cssVar` global and instance methods (made using the jQuery's terrific plugin system :3).\r\n\r\n***Lightquery Instances***<br/>\r\nDon't get me wrong, I'm not referring to instances like `µ(\"*\")` I'm actually referring to copies of lightquery you can actually make.\r\nThe name might change in the future (I'll remind myself to update it here, or keep a legacy name idk), but for now let's keep our lovely global method `createOtherLightquery`.\r\n\r\nThis is for creating an independent copy of the lightquery you apply the method on.\r\n\r\nThat means that, you can register a plugin on one version (x), copy this version (to y), register a plugin on the previous version (x) and the latter (y) will not be able to use it.\r\n\r\nYou might cry and tell me *\"Muh what if I wan't make a copy of the original lightquery, the one without any plugin :'( &nbsp;&nbsp;?\"*. Fear no more ! There's an already existing instance of lightquery called `immutableLightQuery` which, just like the name suggests, is **completely** immutable.\r\n\r\nTherefore `const x = immutableLightQuery.createOtherLightquery(\"x\")` guarantees you to get a copy of the original lightquery, a copy which you can modify and add plugins to (unlinke `immutableLightQuery`).\r\n\r\nThose are strictly airtight copies, there will be no interference whatsoever.\r\n\r\nThis is, to my knowledge, impossible to do easily using jQuery (noConflict doesn't achieve it).\r\n\r\n\r\n## Okay thanks fam but I need more details about lightquery ##\r\nFear no more! Just read the [official wiki](https://github.com/Voltra/lightquery/wiki).",
+    "longname": "C:\\Users\\Ludwig\\Desktop\\dev_tmp\\lightquery\\README.md",
+    "name": "./README.md",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "packageJSON",
+    "content": "{\r\n\t\"name\": \"light_query\",\r\n\t\"version\": \"1.0.0-indev.0.5\",\r\n\t\"description\": \"a lightweight alternative to jQuery\",\r\n\t\"main\": \"dist/index.js\",\r\n\t\"module\": \"src/index.js\",\r\n\t\"browser\": \"dist/index.js\",\r\n\t\"scripts\": {\r\n\t\t\"setup\": \"npm i && npm up\",\r\n\t\t\"start\": \"npm run watch\",\r\n\t\t\"watch\": \"webpack --mode development --devtool source-map --colors --watch\",\r\n\t\t\"build\": \"webpack --mode production --colors\",\r\n\t\t\"docs\": \"esdoc\",\r\n\t\t\"olddocs\": \"jsdoc -c ./jsdoc.json -d docs/\"\r\n\t},\r\n\t\"repository\": {\r\n\t\t\"type\": \"git\",\r\n\t\t\"url\": \"git+https://github.com/Voltra/lightquery.git\"\r\n\t},\r\n\t\"dependencies\": {\r\n\t\t\"sequency\": \"^0.19.2\",\r\n\t\t\"sizzle\": \"^2.3.5\"\r\n\t},\r\n\t\"devDependencies\": {\r\n\t\t\"@babel/cli\": \"^7.10.4\",\r\n\t\t\"@babel/core\": \"^7.10.4\",\r\n\t\t\"@babel/plugin-proposal-class-properties\": \"^7.10.4\",\r\n\t\t\"@babel/plugin-proposal-do-expressions\": \"^7.10.4\",\r\n\t\t\"@babel/plugin-proposal-function-bind\": \"^7.10.4\",\r\n\t\t\"@babel/plugin-proposal-object-rest-spread\": \"^7.10.4\",\r\n\t\t\"@babel/plugin-proposal-throw-expressions\": \"^7.10.4\",\r\n\t\t\"@babel/preset-env\": \"^7.10.4\",\r\n\t\t\"babel-loader\": \"^8.1.0\",\r\n\t\t\"core-js\": \"^3.6.5\",\r\n\t\t\"esdoc\": \"^1.1.0\",\r\n\t\t\"esdoc-standard-plugin\": \"^1.0.0\",\r\n\t\t\"friendly-errors-webpack-plugin\": \"^1.7.0\",\r\n\t\t\"jsdoc\": \"^3.6.5\",\r\n\t\t\"jsdoc-plugin-intersection\": \"^1.0.3\",\r\n\t\t\"jsdoc-ts-utils\": \"^1.1.1\",\r\n\t\t\"webpack\": \"^4.43.0\",\r\n\t\t\"webpack-cli\": \"^3.3.12\",\r\n\t\t\"webpack-progress-bar\": \"^1.2.1\"\r\n\t},\r\n\t\"keywords\": [\r\n\t\t\"javascript\",\r\n\t\t\"library\",\r\n\t\t\"alternative\",\r\n\t\t\"jquery\"\r\n\t],\r\n\t\"author\": \"Voltra\",\r\n\t\"license\": \"MIT\",\r\n\t\"bugs\": {\r\n\t\t\"url\": \"https://github.com/Voltra/lightquery/issues\"\r\n\t},\r\n\t\"homepage\": \"https://github.com/Voltra/lightquery#readme\"\r\n}\r\n",
+    "longname": "C:\\Users\\Ludwig\\Desktop\\dev_tmp\\lightquery\\package.json",
+    "name": "package.json",
+    "static": true,
+    "access": "public"
+  }
+]

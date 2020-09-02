@@ -1,0 +1,137 @@
+{
+  "coverage": "26.78%",
+  "expectCount": 56,
+  "actualCount": 15,
+  "files": {
+    "src/CssEngine.js": {
+      "expectCount": 9,
+      "actualCount": 4,
+      "undocumentLines": [
+        5,
+        38,
+        39,
+        43,
+        47
+      ]
+    },
+    "src/errors/InvalidArgumentError.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2
+      ]
+    },
+    "src/errors/NotEnoughElementsError.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2
+      ]
+    },
+    "src/errors/UnimplementedError.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/errors/UnsupportedError.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        2
+      ]
+    },
+    "src/index.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "src/LightqueryFactory.js": {
+      "expectCount": 8,
+      "actualCount": 8,
+      "undocumentLines": []
+    },
+    "src/strategies/init/AbstractStrategy.js": {
+      "expectCount": 3,
+      "actualCount": 2,
+      "undocumentLines": [
+        3
+      ]
+    },
+    "src/strategies/init/CssSelectorStrategy.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        5,
+        9
+      ]
+    },
+    "src/strategies/init/index.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        5
+      ]
+    },
+    "src/strategies/init/IterableStrategy.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        6,
+        15,
+        17,
+        18,
+        21,
+        39
+      ]
+    },
+    "src/strategies/init/SingleElementStrategy.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        4,
+        14,
+        16,
+        19,
+        23
+      ]
+    },
+    "src/utils/Callable.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        4,
+        6,
+        10
+      ]
+    },
+    "src/utils/helpers.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/utils/lazy.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        9
+      ]
+    }
+  }
+}

@@ -30,12 +30,12 @@
 import UnimplementedError from "./errors/UnimplementedError"
 import lqHelpers from "./utils/helpers"
 
-export class AbstractCssEngine{
+class AbstractCssEngine{
 	/**
 	 * Find all the elements that match the given selector in the given context and append them to the previous results
-	 * @param {string}            selector        The selector to match
-	 * @param {Element|undefined} context         = undefined  The context in which to lookup elements
-	 * @param {Iterable&lt;Element>} previousResults = [] The previous set of results
+	 * @param {string}            selector - The selector to match
+	 * @param {Element|undefined} [context = undefined]  - The context in which to lookup elements
+	 * @param {Iterable&lt;Element>} [previousResults = []] - The previous set of results
 	 * @returns {Iterable&lt;Element>}
 	 */
 	findAll(selector, context = undefined, previousResults = []){
@@ -44,8 +44,8 @@ export class AbstractCssEngine{
 	
 	/**
 	 * Determine whether or not the given element matches the given selector
-	 * @param {string}  selector The selector to match against
-	 * @param {Element} element  The element to match against the selector
+	 * @param {string}  selector - The selector to match against
+	 * @param {Element} element - The element to match against the selector
 	 * @returns {boolean}
 	 */
 	matchesSelector(selector, element){
@@ -54,8 +54,8 @@ export class AbstractCssEngine{
 	
 	/**
 	 * Only keep the elements that match the given selector
-	 * @param {string}            selector The selector to match against
-	 * @param {Iterable&lt;Element>} elements The elements to filter
+	 * @param {string}            selector - The selector to match against
+	 * @param {Iterable&lt;Element>} elements - The elements to filter
 	 * @returns {Iterable&lt;Element>}
 	 */
 	filterMatches(selector, elements){
@@ -63,24 +63,43 @@ export class AbstractCssEngine{
 	}
 }
 
-export class SizzleCssEngine extends AbstractCssEngine{
+class SizzleCssEngine extends AbstractCssEngine{
+	/**
+	 * @override
+	 * @inheritdoc
+	 */
 	findAll(selector, context = undefined, previousResults = []){
 		return Sizzle(selector, context, previousResults);
 	}
 	
+	/**
+	 * @override
+	 * @inheritdoc
+	 */
 	matchesSelector(selector, element){
 		return Sizzle.matches(element, selector);
 	}
 	
+	/**
+	 * @override
+	 * @inheritdoc
+	 */
 	filterMatches(selector, elements){
 		return Sizzle.matches(selector, lqHelpers.arrayLike.toArray(elements));
 	}
 }
 
 /**
- * @var {AbstractCssEngine} The css engine for lightquery
+ * @var {AbstractCssEngine} cssEngine - The css engine for lightquery
  */
-export const cssEngine = new SizzleCssEngine();</code></pre>
+const cssEngine = new SizzleCssEngine();
+
+
+export {
+	AbstractCssEngine,
+	SizzleCssEngine,
+	cssEngine,
+}</code></pre>
         </article>
     </section>
 
@@ -90,13 +109,13 @@ export const cssEngine = new SizzleCssEngine();</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-ConstructorParameters.html">ConstructorParameters</a></li><li><a href="external-Exclude.html">Exclude</a></li><li><a href="external-Extract.html">Extract</a></li><li><a href="external-InstanceType.html">InstanceType</a></li><li><a href="external-NonNullable.html">NonNullable</a></li><li><a href="external-Omit.html">Omit</a></li><li><a href="external-OmitThisParameter.html">OmitThisParameter</a></li><li><a href="external-Parameters.html">Parameters</a></li><li><a href="external-Partial.html">Partial</a></li><li><a href="external-Pick.html">Pick</a></li><li><a href="external-Readonly.html">Readonly</a></li><li><a href="external-Record.html">Record</a></li><li><a href="external-Required.html">Required</a></li><li><a href="external-ReturnType.html">ReturnType</a></li><li><a href="external-ThisParameterType.html">ThisParameterType</a></li><li><a href="external-ThisType.html">ThisType</a></li></ul><h3>Classes</h3><ul><li><a href="module.exports.html">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#__call">__call</a></li><li><a href="global.html#attr">attr</a></li><li><a href="global.html#data">data</a></li><li><a href="global.html#eq">eq</a></li><li><a href="global.html#forEach">forEach</a></li><li><a href="global.html#from">from</a></li><li><a href="global.html#hasAttribute">hasAttribute</a></li><li><a href="global.html#hasClass">hasClass</a></li><li><a href="global.html#hasData">hasData</a></li><li><a href="global.html#hasProp">hasProp</a></li><li><a href="global.html#html">html</a></li><li><a href="global.html#lazy">lazy</a></li><li><a href="global.html#notEnoughFor">notEnoughFor</a></li><li><a href="global.html#prop">prop</a></li><li><a href="global.html#ready">ready</a></li><li><a href="global.html#The">The</a></li><li><a href="global.html#val">val</a></li><li><a href="global.html#Whether">Whether</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-ConstructorParameters.html">ConstructorParameters</a></li><li><a href="external-Exclude.html">Exclude</a></li><li><a href="external-Extract.html">Extract</a></li><li><a href="external-InstanceType.html">InstanceType</a></li><li><a href="external-NonNullable.html">NonNullable</a></li><li><a href="external-Omit.html">Omit</a></li><li><a href="external-OmitThisParameter.html">OmitThisParameter</a></li><li><a href="external-Parameters.html">Parameters</a></li><li><a href="external-Partial.html">Partial</a></li><li><a href="external-Pick.html">Pick</a></li><li><a href="external-Readonly.html">Readonly</a></li><li><a href="external-Record.html">Record</a></li><li><a href="external-Required.html">Required</a></li><li><a href="external-ReturnType.html">ReturnType</a></li><li><a href="external-ThisParameterType.html">ThisParameterType</a></li><li><a href="external-ThisType.html">ThisType</a></li></ul><h3>Classes</h3><ul><li><a href="LightqueryCollection.html">LightqueryCollection</a></li><li><a href="LightqueryFactory.html">LightqueryFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cssEngine">cssEngine</a></li><li><a href="global.html#notEnoughFor">notEnoughFor</a></li><li><a href="global.html#%25C2%25B5">µ</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Wed Sep 02 2020 16:20:42 GMT+0200 (Paris, Madrid (heure d’été))
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Wed Sep 02 2020 18:38:08 GMT+0200 (Paris, Madrid (heure d’été))
 </footer>
 
 <script> prettyPrint(); </script>

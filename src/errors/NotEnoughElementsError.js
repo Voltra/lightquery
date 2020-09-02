@@ -1,5 +1,7 @@
-export default class NotEnoughElementsError extends Error{
+class NotEnoughElementsError extends Error{
 	constructor(message = "Not enough elements"){
 		super(message);
 	}
 }
+
+export default NotEnoughElementsError

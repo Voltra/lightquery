@@ -1,4 +1,4 @@
-export default class UnimplementedError extends Error{
+class UnimplementedError extends Error{
 	/**
 	 * @param {string} [message = "Unimplemented method"] The error message
 	 */
@@ -6,3 +6,5 @@ export default class UnimplementedError extends Error{
 		super(message);
 	}
 }
+
+export default UnimplementedError

@@ -1,28 +1,95 @@
 import { cssEngine } from "./CssEngine"
 import UnsupportedError from "./errors/UnsupportedError"
+import InvalidArgumentError from "./errors/InvalidArgumentError"
 import { strategies } from "./strategies/init"
 import { asSequence } from "./utils/lazy"
 import lqHelpers from "./utils/helpers"
 
+/**
+ * @callback Callback
+ * @returns {any}
+ */
+
+/**
+ * @callback EventListener
+ * @param {Event|undefined} e
+ * @returns {any}
+ */
+
+/**
+ * @callback ElementCallback
+ * @param {Element} e
+ * @returns {any}
+ */
+
+/**
+ * @callback MapperFunction
+ * @template T,U
+ * @param {T} item
+ * @returns {U}
+ */
+
+/**
+ * @callback Predicate
+ * @template T
+ * @param {T} item
+ * @returns {boolean}
+ */
+
+/**
+ * @callback ElementMapper
+ * @template T
+ * @param {Element} e
+ * @returns {T}
+ */
+
+
+
+/**
+ * @callback LightqueryCollection~onFirst
+ * @template R
+ * @param {Element} first
+ * @returns {R}
+ */
+
+/**
+ * @callback LightqueryCollection~setterRoot
+ * @template X
+ * @param {Element} e
+ * @returns {X}
+ */
+
+/**
+ * @callback LightqueryCollection~setValueFactory
+ * @template T,U,V
+ * @param {T} oldValue
+ * @param {U} destObject
+ * @param {string} key
+ * @returns {V}
+ */
+
+
+
 
 /**
  * Callback to throw a prefilled NotEnoughElementsError
- * @returns {() => any}
+ * @returns {Callback}
  */
 const notEnoughFor = str => () => throw new NotEnoughElementsError(`Not enough elements to apply LightqueryCollection${str})`);
 
 
 /**
- * Class representing the results of a lightquery operation
+ * @class
+ * @classdesc Class representing the results of a lightquery operation
  */
-export default class LightqueryCollection{
+class LightqueryCollection{
 	/**
 	 * Call a function once the document is loaded
-	 * @param   {() => any} callback The function to call once the document is loaded
-	 * @returns {LightqueryCollection} [[Description]]
+	 * @param   {Callback} callback - The function to call once the document is loaded
+	 * @returns {LightqueryCollection}
 	 */
 	static ready(callback){
-		return (new this(document)).ready(callback);
+		return this.lightquery(document).ready(callback);
 	}
 	
 	constructor(selector, context = undefined, previousResults = []){		
@@ -30,7 +97,6 @@ export default class LightqueryCollection{
 		 * Private methods and properties
 		 * @protected
 		 * @readonly
-		 * @memberof LightqueryCollection
 		 */
 		this.__ = {
 			/**
@@ -91,13 +157,13 @@ export default class LightqueryCollection{
 			
 			/**
 			 * Generic implementation of a get/set method
-			 * @template T,U,V
+			 * @template T,U,V,X
 			 * @param {object} options
-			 * @param {T|undefined} options.value - The new value
+			 * @param {T|LightqueryCollection~setValueFactory<any, X, T>|undefined} options.value - The new value
 			 * @param {string} options.key - The key to which the value will be set (from the setter root)
 			 * @param {U} [options.strictDefault = null] - The default value if strict mode is on
 			 * @param {V} [options.looseDefault = ""] - The default value if strict mode is off
-			 * @param {(e: Element) => any} [options.setterRoot = e => e] - The function to retrieve the setter root
+			 * @param {LightqueryCollection~setterRoot<X>} [options.setterRoot = (e => e)] - The function to retrieve the setter root
 			 * @returns {T|U|V}
 			 * @private
 			 * @readonly
@@ -145,7 +211,7 @@ export default class LightqueryCollection{
 			
 			/**
 			 * Execute a callback if strict mode is on
-			 * @param {() => any} callback - The callback to execute
+			 * @param {Callback} callback - The callback to execute
 			 */
 			ifStrict(callback){
 				if(this.lightquery.strictMode)
@@ -156,7 +222,7 @@ export default class LightqueryCollection{
 			 * Apply a function on the first element of a LightqueryCollection if it exists
 			 * @template R,U
 			 * @param {object} options
-			 * @param {(first: Element) => R} options.onFirst - The function to apply on the first element
+			 * @param {LightqueryCollection~onFirst<R>} options.onFirst - The function to apply on the first element
 			 * @param {string} options.nameForStrict - The name to use on error in strict mode
 			 * @param {LightqueryCollection} options.self - The LightqueryCollection to inspect
 			 * @param {U} [options.defaultValue = false] - The default value to return if there's no elements and strict mode is off
@@ -172,6 +238,25 @@ export default class LightqueryCollection{
 				}
 
 				return onFirst(first);
+			},
+			
+			/**
+			 * Handle delegating to the array or by string-method reference
+			 * @template T
+			 * @param {object} options
+			 * @param {string} options.method - The array method's name
+			 * @param {string|ElementMapper<T>} options.func - The higher order function to execute on each element
+			 * @param {LightqueryCollection} options.self - The LightqueryCollection to delegate over
+			 * @param {any[]} [options.args = []] - The arguments for the string-method-reference
+			 * @returns {T[]|any[]}
+			 */
+			arrayMethodDelegate({ method, func, self, args = [], }){
+				if(typeof func === "string"){
+					return self[method](e => {
+						return this.$(e)[func](...args);
+					});
+				}else
+					return this.elements[method](e => func.call(e, e));
 			},
 		};
 		
@@ -193,7 +278,7 @@ export default class LightqueryCollection{
 	\****************************************************************************************/
 	/**
 	 * Execute a callback when the document is ready (only if the selector is the document)
-	 * @param   {Function}             callback The event listener to bind
+	 * @param   {EventListener}             callback - The event listener to bind
 	 * @returns {LightqueryCollection}
 	 * @throws {UnsupportedError} If it cannot attach event listeners
 	 */
@@ -219,7 +304,7 @@ export default class LightqueryCollection{
 	
 	/**
 	 * Transform the LigtqueryCollection into a sequency Sequence
-	 * @returns {Sequence<Element>}
+	 * @returns {import("sequency").Sequence<Element>}
 	 */
 	lazy(){
 		return asSequence(this.__.elements);
@@ -232,7 +317,7 @@ export default class LightqueryCollection{
 	\****************************************************************************************/
 	/**
 	 * Execute a function on each element
-	 * @param {(e: Element) => any} callback The function to execute
+	 * @param {ElementCallback} callback - The function to execute
 	 * @returns {LightqueryCollection}
 	 */
 	forEach(callback){
@@ -242,14 +327,45 @@ export default class LightqueryCollection{
 		return this;
 	}
 	
+	/**
+	 * Map each element
+	 * @param   {MapperFunction<Element, U>|string} mapper  - The mapping function
+	 * @param   {...any}                            ...args - Arguments for string callable
+	 * @returns {U[]|any[]}
+	 *
+	 * @example <caption>Same as µ("form input").map(e => µ(e).val());</caption>
+	 * µ("form input").map("val");
+	 * 
+	 * @example <caption>Same as µ("form input[type="checkbox"]").map(e => µ(e).hasAttr("checked"));</caption>
+	 * µ("form input[type="checkbox"]").map("hasAttr", "checked");
+	 */
 	map(mapper, ...args){
-		if(typeof mapper === "string"){
-			//TODO: String version
-			return this.map(e => {
-				return this.__.$(e)[mapper](...args);
-			});
-		}else
-			return this.__.elements.map(e => mapper.call(e, e));
+		return this.__.arrayMethodDelegate({
+			method: "map",
+			func: mapper,
+			args,
+			self: this,
+		});
+	}
+	
+	/**
+	 * Filter elements
+	 * @param   {Predicate<Element>|string} predicate  - The predicate function
+	 * @param   {...any}                    ...args    - Arguments for string callable
+	 * @returns {LightqueryCollection}
+	 *
+	 * @example <caption>Same as µ("form input").filter(e => µ(e).hasAttr("checked"));</caption>
+	 * µ("form input").filter("hasAttr", "checked");
+	 */
+	filter(predicate, ...args){
+		const arr = this.__.arrayMethodDelegate({
+			method: "filter",
+			func: predicate,
+			args,
+			self: this,
+		});
+		
+		return this.__.$(arr);
 	}
 	
 	
@@ -259,8 +375,8 @@ export default class LightqueryCollection{
 	\****************************************************************************************/
 	/**
 	 * Get the item at the given index
-	 * @param   {number}   index The index of the item to retrieve
-	 * @returns {LightqueryCollection|null} [[Description]]
+	 * @param   {number}   index - The index of the item to retrieve
+	 * @returns {LightqueryCollection|null}
 	 */
 	eq(index){
 		const defaultValue = this.__.defaultValue({
@@ -276,7 +392,7 @@ export default class LightqueryCollection{
 	
 	/**
 	 * Get/set the value of an input field
-	 * @param   {Function|string|number|null|undefined} [value = undefined] The new value (or its factory)
+	 * @param   {LightqueryCollection~setValueFactory<string, Element, string>|string|number|null|undefined} [value = undefined] The new value (or its factory)
 	 * @returns {LightqueryCollection|string|number|null}
 	 */
 	val(value = undefined){
@@ -289,7 +405,7 @@ export default class LightqueryCollection{
 	
 	/**
 	 * Get/set the html content
-	 * @param   {Function|string|undefined} [value = undefined] The new HTML content
+	 * @param   {LightqueryCollection~setValueFactory<string, Element, string>|string|undefined} [value = undefined] - The new HTML content
 	 * @returns {LightqueryCollection|string|null}
 	 */
 	html(value = undefined){
@@ -303,7 +419,7 @@ export default class LightqueryCollection{
 	/**
 	 * Get/set an attribute's value
 	 * @param {string} name The name of the attribute
-	 * @param   {Function|string|undefined} [value = undefined] The new value
+	 * @param   {LightqueryCollection~setValueFactory<string, Element, string>|string|undefined} [value = undefined] - The new value
 	 * @returns {LightqueryCollection|string|null}
 	 */
 	attr(name, value = undefined){
@@ -318,7 +434,7 @@ export default class LightqueryCollection{
 	/**
 	 * Get/set a property's value
 	 * @param {string} name The name of the property
-	 * @param   {Function|string|undefined} [value = undefined] The new value
+	 * @param   {LightqueryCollection~setValueFactory<string, Element, string>|string|undefined} [value = undefined] - The new value
 	 * @returns {LightqueryCollection|string|null}
 	 */
 	prop(name, value = undefined){
@@ -332,7 +448,7 @@ export default class LightqueryCollection{
 	/**
 	 * Get/set a data attribute's value
 	 * @param {string} name The name of the data attribute
-	 * @param   {Function|string|undefined} [value = undefined] The new value
+	 * @param   {LightqueryCollection~setValueFactory<string, Element, string>|string|undefined} [value = undefined] - The new value
 	 * @returns {LightqueryCollection|string|null}
 	 */
 	data(name, value = undefined){
@@ -346,11 +462,11 @@ export default class LightqueryCollection{
 	
 	/**
 	 * Determine whether or not the first element has the given attribute
-	 * @param   {string}  attr The attribute's name
+	 * @param   {string}  attr - The attribute's name
 	 * @returns {boolean}
 	 * @throws {NotEnoughElementsError} If strict mode is on and there are no elements
 	 */
-	hasAttribute(attr){
+	hasAttr(attr){
 		return this.__.doOnFirst({
 			onFirst: first => first.hasAttribute(attr),
 			defaultValue: false,
@@ -361,7 +477,7 @@ export default class LightqueryCollection{
 	
 	/**
 	 * Determine whether or not the first element has the given property
-	 * @param   {string}  prop The property's name
+	 * @param   {string}  prop - The property's name
 	 * @returns {boolean}
 	 * @throws {NotEnoughElementsError} If strict mode is on and there are no elements
 	 */
@@ -376,7 +492,7 @@ export default class LightqueryCollection{
 	
 	/**
 	 * Determine whether or not the first element has the given data attribute
-	 * @param   {string}  attr The data attribute's name
+	 * @param   {string}  attr - The data attribute's name
 	 * @returns {boolean}
 	 * @throws {NotEnoughElementsError} If strict mode is on and there are no elements
 	 */
@@ -391,7 +507,7 @@ export default class LightqueryCollection{
 	
 	/**
 	 * Determine whether or not the first element has the given class applied
-	 * @param   {string}  className The name of the class to have
+	 * @param   {string}  className - The name of the class to have
 	 * @returns {boolean}
 	 * @throws {NotEnoughElementsError} If strict mode is on and there are no elements
 	 */
@@ -403,4 +519,30 @@ export default class LightqueryCollection{
 			nameForStrict: "#hasClass(className)",
 		});
 	}
+	
+	
+	
+	/****************************************************************************************\
+	 * Multiple items methods
+	\****************************************************************************************/
+	on(eventNames, listener){
+		if(typeof listener === "function"){
+			const events = lqHelpers.spacedListString.toArray(eventNames);
+			this.forEach(el => {
+				events.forEach(event => {
+					if(e.addEventListener)
+						e.addEventListener(event, listener);
+					else if(e.attachEvent)
+						e.attachEvent(`on${event}`, listener);
+					else
+						this.__.ifStrict(() => throw new UnsupportedError("Cannot attach event listeners"));
+				});
+			});
+		}else
+			this.__.ifStrict(() => throw new InvalidArgumentError("Invalid listener in LightqueryCollection#on(eventNames, listener)"));
+		
+		return this;
+	}
 }
+
+export default LightqueryCollection

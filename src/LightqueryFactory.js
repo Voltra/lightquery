@@ -3,15 +3,21 @@ import LightqueryCollection from "./LightqueryCollection"
 import InvalidArgumentError from "./errors/InvalidArgumentError"
 import { asSequence, registerLightqueryExtensions } from "./utils/lazy"
 
+/**
+ * @callback LightqueryFactory~selectCallback
+ * @param {string} selector
+ * @returns {LightqueryCollection}
+ */
 
 /**
- * Class that represents the factory function to query the DOM with lightquery
+ * @class
+ * @classdesc Class that represents the factory function to query the DOM with lightquery
  */
-export default class LightqueryFactory extends Callable{
+class LightqueryFactory extends Callable{
 	/**
 	 * Create a lightquery factory (that's what's behind µ)
-	 * @param   {typeof LightqueryCollection} [collectionClass = LightqueryCollection] The class used to construct the result collections
-	 * @param   {boolean} [strictMode = true] Whether or not to throw exceptions instead of silently failing
+	 * @param   {typeof LightqueryCollection} [collectionClass = LightqueryCollection] - The class used to construct the result collections
+	 * @param   {boolean} [strictMode = true] - Whether or not to throw exceptions instead of silently failing
 	 */
 	constructor(collectionClass = LightqueryCollection, strictMode = true){
 		super();
@@ -22,18 +28,17 @@ export default class LightqueryFactory extends Callable{
 		 * Private methods and properties
 		 * @protected
 		 * @readonly
-		 * @memberof LightqueryFactory
 		 */
 		this.__ = {
 			/**
 			 * Create a lightquery collection from arguments
-			 * @param {any[]} args The arguments for the constructor
+			 * @param {...any} args - The arguments for the constructor
 			 * @returns {LightqueryCollection}
 			 */
 			factory: (...args) => new collectionClass(...args),
 			
 			/**
-			 * @property {typeof LightqueryCollection} The class used to generate a results collection
+			 * @property {typeof LightqueryCollection} - The class used to generate a results collection
 			 */
 			collectionClass,
 			
@@ -47,7 +52,7 @@ export default class LightqueryFactory extends Callable{
 		};
 		
 		/**
-		 * @member {boolean} Whether or not to use strict mode with this factory
+		 * @member {boolean} - Whether or not to use strict mode with this factory
 		 */
 		this.strictMode = strictMode;
 	}
@@ -65,7 +70,7 @@ export default class LightqueryFactory extends Callable{
 	
 	/**
 	 * Execute a callback once the DOM is fully loaded
-	 * @param   {Function}             callback The function to execute after the DOM is loaded
+	 * @param   {Callback}             callback - The function to execute after the DOM is loaded
 	 * @returns {LightqueryCollection}
 	 */
 	ready(callback){
@@ -75,8 +80,8 @@ export default class LightqueryFactory extends Callable{
 	/**
 	 * Wrap an iterable in a lazy evaluated pipeline
 	 * @template T
-	 * @param   {Iterable<T>} iterable The iterable to wrap
-	 * @returns {Sequence<T>}
+	 * @param   {Iterable<T>} iterable - The iterable to wrap
+	 * @returns {import("sequency").Sequence<T>}
 	 */
 	lazy(iterable){
 		return asSequence(iterable);
@@ -84,8 +89,8 @@ export default class LightqueryFactory extends Callable{
 	
 	/**
 	 * Help query using the given context as the selection root 
-	 * @param   {Element} context The context to restrict to
-	 * @returns {{select: (selector: string) => LightqueryCollection}}
+	 * @param   {Element} context - The context to restrict to
+	 * @returns {{select: LightqueryFactory~selectCallback}}
 	 */
 	from(context){
 		return {
@@ -93,3 +98,6 @@ export default class LightqueryFactory extends Callable{
 		};
 	}
 }
+
+
+export default LightqueryFactory

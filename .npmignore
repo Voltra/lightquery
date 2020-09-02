@@ -1,1 +1,4 @@
 test/
+jsdoc.json
+babel.config.js
+webpack.config.js

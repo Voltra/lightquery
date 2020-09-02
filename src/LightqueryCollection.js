@@ -11,6 +11,10 @@ import lqHelpers from "./utils/helpers"
  */
 const notEnoughFor = str => () => throw new NotEnoughElementsError(`Not enough elements to apply LightqueryCollection${str})`);
 
+
+/**
+ * Class representing the results of a lightquery operation
+ */
 export default class LightqueryCollection{
 	/**
 	 * Call a function once the document is loaded
@@ -24,6 +28,7 @@ export default class LightqueryCollection{
 	constructor(selector, context = undefined, previousResults = []){		
 		/**
 		 * Private methods and properties
+		 * @protected
 		 * @readonly
 		 * @memberof LightqueryCollection
 		 */

@@ -1,6 +1,6 @@
 import Sizzle from "sizzle"
-import UnimplementedError from "../errors/UnimplementedError"
-import lqHelpers from "../utils/helpers"
+import UnimplementedError from "./errors/UnimplementedError"
+import lqHelpers from "./utils/helpers"
 
 export class AbstractCssEngine{
 	/**

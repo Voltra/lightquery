@@ -12,6 +12,7 @@ export default class SingleElementStrategy extends AbstractStrategy{
 	}
 	
 	constructor(){
+		super();
 		this.allowedClasses = SingleElementStrategy.allowedClasses;
 	}
 	

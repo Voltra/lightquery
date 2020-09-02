@@ -2,10 +2,9 @@
 	"name": "light_query",
 	"version": "1.0.0-indev.0.5",
 	"description": "a lightweight alternative to jQuery",
-	"main": "lightquery.js",
-	"directories": {
-		"test": "test"
-	},
+	"main": "dist/index.js",
+	"module": "src/index.js",
+	"browser": "dist/index.js",
 	"scripts": {
 		"setup": "npm i && npm up",
 		"start": "npm run watch",
@@ -27,6 +26,7 @@
 		"@babel/plugin-proposal-do-expressions": "^7.10.4",
 		"@babel/plugin-proposal-function-bind": "^7.10.4",
 		"@babel/plugin-proposal-object-rest-spread": "^7.10.4",
+		"@babel/plugin-proposal-throw-expressions": "^7.10.4",
 		"@babel/preset-env": "^7.10.4",
 		"babel-loader": "^8.1.0",
 		"core-js": "^3.6.5",

@@ -6,13 +6,14 @@ export default class IterableStrategy extends AbstractStrategy{
 	static get allowedClasses(){
 		//TODO: Add sequency sequences to the list
 		return [
-			Iterator,
+//			Iterator,
 			Array,
 			NodeList,
 		];
 	}
 	
 	constructor(){
+		super();
 		this.allowedClasses = IterableStrategy.allowedClasses;
 		this.allowedItemClasses = SingleElementStrategy.allowedClasses;
 	}

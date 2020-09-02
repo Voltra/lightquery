@@ -6,6 +6,15 @@ const $ = µ;
 const lq = µ;
 const lightquery = µ;
 
+if(typeof window !== "undefined"){
+	Object.assign(window, {
+		µ,
+		lq,
+		lightquery,
+		$,
+	});
+}
+
 export {
 	µ,
 	$,

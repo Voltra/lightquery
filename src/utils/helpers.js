@@ -11,7 +11,7 @@ const helpers = {
 		toArray(str){
 			return str
 			.replace(this.regex, this.replacement)
-			.split(this..splitter);
+			.split(this.splitter);
 		},
     },
     css_variables: {

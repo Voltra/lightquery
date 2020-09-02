@@ -1,6 +1,7 @@
 import { cssEngine } from "./CssEngine"
 import UnsupportedError from "./errors/UnsupportedError"
 import { strategies } from "./strategies/init"
+import { asSequence } from "./utils/lazy"
 
 //TODO: Use sequency to allow lazy sequence evaluation
 
@@ -14,11 +15,12 @@ export default class LightqueryCollection{
 			lightquery: this.constructor.lightquery,
 			selector,
 			previousResults,
+			elements: [],
 		};
 		
 		const previousResultSet = [...previousResults];
-		
 		const initStrategy = strategies.find(strategy => strategy.shouldProcess(selector, context, previousResultSet));
+		
 		if(initStrategy)
 			this.__.elements = initStrategy.process(selector, context, previousResultSet);
 		else{
@@ -49,5 +51,9 @@ export default class LightqueryCollection{
 		}
 		
 		return this;
+	}
+	
+	lazy(){
+		return asSequence(this.__.elements);
 	}
 }

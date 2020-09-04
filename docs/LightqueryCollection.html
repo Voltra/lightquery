@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>LightqueryCollection<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>LightqueryCollection<span class="signature">(selector, context<span class="signature-attributes">opt</span>, previousResults<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Class representing the results of a lightquery operation</div>
         
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="LightqueryCollection"><span class="type-signature"></span>new LightqueryCollection<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="LightqueryCollection"><span class="type-signature"></span>new LightqueryCollection<span class="signature">(selector, context<span class="signature-attributes">opt</span>, previousResults<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -58,6 +58,150 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>selector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Selector</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The selector</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>context</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">DomElementType</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The selection context</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>previousResults</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Iterable.&lt;DomElementType></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    []
+                
+                </td>
+            
+
+            <td class="description last">The previous results set</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -93,7 +237,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line94">line 94</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line240">line 240</a>
     </li></ul></dd>
     
 
@@ -116,6 +260,35 @@
 
 
 
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        If the selector is invalid
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">InvalidArgumentError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
 
 
 
@@ -158,6 +331,54 @@
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="LightqueryCollectionImplDetails.html">LightqueryCollectionImplDetails</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The protected implementation details</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
 <dl class="details">
 
     
@@ -187,7 +408,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line100">line 100</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line247">line 247</a>
     </li></ul></dd>
     
 
@@ -265,7 +486,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#Callback">Callback</a></span>
+<span class="param-type">Callback</span>
 
 
             
@@ -316,7 +537,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line90">line 90</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -453,7 +674,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="LightqueryCollection.html#~setValueFactory">LightqueryCollection~setValueFactory</a>.&lt;string, Element, string></span>
+<span class="param-type"><a href="LightqueryCollection.html#~setValueFactory">LightqueryCollection~setValueFactory</a>.&lt;string, DomElementType, string></span>
 |
 
 <span class="param-type">string</span>
@@ -520,7 +741,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line424">line 424</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line407">line 407</a>
     </li></ul></dd>
     
 
@@ -663,7 +884,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="LightqueryCollection.html#~setValueFactory">LightqueryCollection~setValueFactory</a>.&lt;string, Element, string></span>
+<span class="param-type"><a href="LightqueryCollection.html#~setValueFactory">LightqueryCollection~setValueFactory</a>.&lt;string, DomElementType, string></span>
 |
 
 <span class="param-type">string</span>
@@ -730,7 +951,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line453">line 453</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line434">line 434</a>
     </li></ul></dd>
     
 
@@ -891,7 +1112,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line380">line 380</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line365">line 365</a>
     </li></ul></dd>
     
 
@@ -948,7 +1169,7 @@
     
 
     
-    <h4 class="name" id="filter"><span class="type-signature"></span>filter<span class="signature">(predicate)</span><span class="type-signature"> &rarr; {Array.&lt;Element>}</span></h4>
+    <h4 class="name" id="filter"><span class="type-signature"></span>filter<span class="signature">(predicate)</span><span class="type-signature"> &rarr; {<a href="LightqueryCollection.html">LightqueryCollection</a>}</span></h4>
     
 
     
@@ -1000,7 +1221,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#Predicate">Predicate</a>.&lt;Element></span>
+<span class="param-type">Predicate.&lt;DomElementType></span>
 |
 
 <span class="param-type">string</span>
@@ -1095,7 +1316,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line359">line 359</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line345">line 345</a>
     </li></ul></dd>
     
 
@@ -1131,7 +1352,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array.&lt;Element></span>
+<span class="param-type"><a href="LightqueryCollection.html">LightqueryCollection</a></span>
 
 
     </dd>
@@ -1144,7 +1365,7 @@
 
     <h5>Example</h5>
     
-        <p class="code-caption">Same as µ("form input").filter(e => µ(e).hasAttr("checked"));</p>
+        <p class="code-caption">Same as <code>µ("form input").filter(e => µ(e).hasAttr("checked"));</code></p>
     
     <pre class="prettyprint"><code>µ("form input").filter("hasAttr", "checked");</code></pre>
 
@@ -1206,7 +1427,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#ElementCallback">ElementCallback</a></span>
+<span class="param-type">ElementCallback</span>
 
 
             
@@ -1257,7 +1478,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line322">line 322</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line309">line 309</a>
     </li></ul></dd>
     
 
@@ -1412,7 +1633,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line468">line 468</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line448">line 448</a>
     </li></ul></dd>
     
 
@@ -1596,7 +1817,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line513">line 513</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line490">line 490</a>
     </li></ul></dd>
     
 
@@ -1780,7 +2001,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line498">line 498</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line476">line 476</a>
     </li></ul></dd>
     
 
@@ -1964,7 +2185,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line483">line 483</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line462">line 462</a>
     </li></ul></dd>
     
 
@@ -2099,7 +2320,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="LightqueryCollection.html#~setValueFactory">LightqueryCollection~setValueFactory</a>.&lt;string, Element, string></span>
+<span class="param-type"><a href="LightqueryCollection.html#~setValueFactory">LightqueryCollection~setValueFactory</a>.&lt;string, DomElementType, string></span>
 |
 
 <span class="param-type">string</span>
@@ -2166,7 +2387,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line410">line 410</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line394">line 394</a>
     </li></ul></dd>
     
 
@@ -2278,7 +2499,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#MapperFunction">MapperFunction</a>.&lt;Element, U></span>
+<span class="param-type">ElementMapper.&lt;U></span>
 |
 
 <span class="param-type">string</span>
@@ -2373,7 +2594,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line341">line 341</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line328">line 328</a>
     </li></ul></dd>
     
 
@@ -2425,13 +2646,247 @@
 
     <h5>Examples</h5>
     
-        <p class="code-caption">Same as µ("form input").map(e => µ(e).val());</p>
+        <p class="code-caption">Same as <code>µ("form input").map(e => µ(e).val());</code></p>
     
     <pre class="prettyprint"><code>µ("form input").map("val");</code></pre>
 
-        <p class="code-caption">Same as µ("form input[type="checkbox"]").map(e => µ(e).hasAttr("checked"));</p>
+        <p class="code-caption">Same as <code>µ("form input[type="checkbox"]").map(e => µ(e).hasAttr("checked"));</code></p>
     
     <pre class="prettyprint"><code>µ("form input[type="checkbox"]").map("hasAttr", "checked");</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="on"><span class="type-signature"></span>on<span class="signature">(eventNames, listener)</span><span class="type-signature"> &rarr; {<a href="LightqueryCollection.html">LightqueryCollection</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Trigger a callback on event
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>eventNames</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The spaced separated list of events to listen to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>listener</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">EventListener</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The event listener</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line518">line 518</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+<ul>
+        <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        If it cannot attach the event listener
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">UnsupportedError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+    
+        <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        If the listener is not a callable
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">InvalidArgumentError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+    </ul>
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LightqueryCollection.html">LightqueryCollection</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
 
 
 
@@ -2524,7 +2979,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="LightqueryCollection.html#~setValueFactory">LightqueryCollection~setValueFactory</a>.&lt;string, Element, string></span>
+<span class="param-type"><a href="LightqueryCollection.html#~setValueFactory">LightqueryCollection~setValueFactory</a>.&lt;string, DomElementType, string></span>
 |
 
 <span class="param-type">string</span>
@@ -2591,7 +3046,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line439">line 439</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line421">line 421</a>
     </li></ul></dd>
     
 
@@ -2701,7 +3156,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#EventListener">EventListener</a></span>
+<span class="param-type">EventListener</span>
 
 
             
@@ -2752,7 +3207,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line284">line 284</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line271">line 271</a>
     </li></ul></dd>
     
 
@@ -2887,7 +3342,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="LightqueryCollection.html#~setValueFactory">LightqueryCollection~setValueFactory</a>.&lt;string, Element, string></span>
+<span class="param-type"><a href="LightqueryCollection.html#~setValueFactory">LightqueryCollection~setValueFactory</a>.&lt;string, DomElementType, string></span>
 |
 
 <span class="param-type">string</span>
@@ -2960,7 +3415,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line397">line 397</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line382">line 382</a>
     </li></ul></dd>
     
 
@@ -3075,7 +3530,7 @@
             <td class="type">
             
                 
-<span class="param-type">Element</span>
+<span class="param-type">DomElementType</span>
 
 
             
@@ -3126,7 +3581,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line47">line 47</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -3226,7 +3681,7 @@
             <td class="type">
             
                 
-<span class="param-type">Element</span>
+<span class="param-type">DomElementType</span>
 
 
             
@@ -3277,7 +3732,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line54">line 54</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -3474,7 +3929,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line61">line 61</a>
+        <a href="LightqueryCollection.js.html">LightqueryCollection.js</a>, <a href="LightqueryCollection.js.html#line25">line 25</a>
     </li></ul></dd>
     
 
@@ -3536,13 +3991,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-ConstructorParameters.html">ConstructorParameters</a></li><li><a href="external-Exclude.html">Exclude</a></li><li><a href="external-Extract.html">Extract</a></li><li><a href="external-InstanceType.html">InstanceType</a></li><li><a href="external-NonNullable.html">NonNullable</a></li><li><a href="external-Omit.html">Omit</a></li><li><a href="external-OmitThisParameter.html">OmitThisParameter</a></li><li><a href="external-Parameters.html">Parameters</a></li><li><a href="external-Partial.html">Partial</a></li><li><a href="external-Pick.html">Pick</a></li><li><a href="external-Readonly.html">Readonly</a></li><li><a href="external-Record.html">Record</a></li><li><a href="external-Required.html">Required</a></li><li><a href="external-ReturnType.html">ReturnType</a></li><li><a href="external-ThisParameterType.html">ThisParameterType</a></li><li><a href="external-ThisType.html">ThisType</a></li></ul><h3>Classes</h3><ul><li><a href="LightqueryCollection.html">LightqueryCollection</a></li><li><a href="LightqueryFactory.html">LightqueryFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cssEngine">cssEngine</a></li><li><a href="global.html#notEnoughFor">notEnoughFor</a></li><li><a href="global.html#%25C2%25B5">µ</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-ConstructorParameters.html">ConstructorParameters</a></li><li><a href="external-Exclude.html">Exclude</a></li><li><a href="external-Extract.html">Extract</a></li><li><a href="external-InstanceType.html">InstanceType</a></li><li><a href="external-NonNullable.html">NonNullable</a></li><li><a href="external-Omit.html">Omit</a></li><li><a href="external-OmitThisParameter.html">OmitThisParameter</a></li><li><a href="external-Parameters.html">Parameters</a></li><li><a href="external-Partial.html">Partial</a></li><li><a href="external-Pick.html">Pick</a></li><li><a href="external-Readonly.html">Readonly</a></li><li><a href="external-Record.html">Record</a></li><li><a href="external-Required.html">Required</a></li><li><a href="external-ReturnType.html">ReturnType</a></li><li><a href="external-ThisParameterType.html">ThisParameterType</a></li><li><a href="external-ThisType.html">ThisType</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractCssEngine.html">AbstractCssEngine</a></li><li><a href="LightqueryCollection.html">LightqueryCollection</a></li><li><a href="LightqueryCollectionImplDetails.html">LightqueryCollectionImplDetails</a></li><li><a href="LightqueryFactory.html">LightqueryFactory</a></li><li><a href="LightqueryFactoryImplDetails.html">LightqueryFactoryImplDetails</a></li><li><a href="SizzleCssEngine.html">SizzleCssEngine</a></li></ul><h3>Global</h3><ul><li><a href="global.html#$">$</a></li><li><a href="global.html#cssEngine">cssEngine</a></li><li><a href="global.html#lightquery">lightquery</a></li><li><a href="global.html#lq">lq</a></li><li><a href="global.html#notEnoughFor">notEnoughFor</a></li><li><a href="global.html#%25C2%25B5">µ</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Wed Sep 02 2020 18:38:08 GMT+0200 (Paris, Madrid (heure d’été))
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Fri Sep 04 2020 14:51:33 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>

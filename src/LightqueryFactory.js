@@ -2,6 +2,7 @@ import Callable from "./utils/Callable"
 import LightqueryCollection from "./LightqueryCollection"
 import InvalidArgumentError from "./errors/InvalidArgumentError"
 import { asSequence, registerLightqueryExtensions } from "./utils/lazy"
+import "./utils/typedefs"
 
 /**
  * @callback LightqueryFactory~selectCallback
@@ -10,46 +11,69 @@ import { asSequence, registerLightqueryExtensions } from "./utils/lazy"
  */
 
 /**
+ * @typedef {object} LightqueryFactorySelectObject
+ * @property {LightqueryFactory~selectCallback} select
+ */
+
+
+/**
+ * @class
+ * @classdesc Class that represents the implementation details of a lightquery factory
+ */
+class LightqueryFactoryImplDetails{
+	/**
+	 * @param {LightqueryFactory} self - The LightqueryFactory instance
+	 * @param {typeof LightqueryCollection} [collectionClass = LightqueryCollection] - The class used to construct the result collections
+	 * @param {boolean} [strictMode = true] - Whether or not to throw exceptions instead of silently failing
+	 */
+	constructor(self, collectionClass = LightqueryCollection, strictMode = true){
+		registerLightqueryExtensions(self);
+		collectionClass.lightquery = self;
+		
+		/**
+		 * @property {typeof LightqueryCollection} - The class used to generate a results collection
+		 */
+		this.collectionClass = collectionClass;
+		this.strictMode = strictMode;
+	}
+	
+	/**
+	 * Create a lightquery collection from arguments
+	 * @param {...any}               args - The arguments for the constructor
+	 * @returns {LightqueryCollection}
+	 */
+	factory(...args){
+		return new this.collectionClass(...args);
+	}
+	
+	/**
+	 * A factory for an empty selection
+	 * @returns {LightqueryCollection}
+	 */
+	emptySelection(){
+		return this.factory("");
+	}
+}
+
+/**
  * @class
  * @classdesc Class that represents the factory function to query the DOM with lightquery
  */
 class LightqueryFactory extends Callable{
 	/**
 	 * Create a lightquery factory (that's what's behind µ)
-	 * @param   {typeof LightqueryCollection} [collectionClass = LightqueryCollection] - The class used to construct the result collections
-	 * @param   {boolean} [strictMode = true] - Whether or not to throw exceptions instead of silently failing
+	 * @param {typeof LightqueryCollection} [collectionClass = LightqueryCollection] - The class used to construct the result collections
+	 * @param {boolean} [strictMode = true] - Whether or not to throw exceptions instead of silently failing
 	 */
 	constructor(collectionClass = LightqueryCollection, strictMode = true){
 		super();
-		registerLightqueryExtensions(this);
-		collectionClass.lightquery = this;
 		
 		/**
 		 * Private methods and properties
 		 * @protected
 		 * @readonly
 		 */
-		this.__ = {
-			/**
-			 * Create a lightquery collection from arguments
-			 * @param {...any} args - The arguments for the constructor
-			 * @returns {LightqueryCollection}
-			 */
-			factory: (...args) => new collectionClass(...args),
-			
-			/**
-			 * @property {typeof LightqueryCollection} - The class used to generate a results collection
-			 */
-			collectionClass,
-			
-			/**
-			 * A factory for an empty selection
-			 * @returns {LightqueryCollection}
-			 */
-			emptySelection(){
-				return this.factory("");
-			},
-		};
+		this.__ = new LightqueryFactoryImplDetails(this, collectionClass, strictMode);
 		
 		/**
 		 * @member {boolean} - Whether or not to use strict mode with this factory
@@ -59,7 +83,9 @@ class LightqueryFactory extends Callable{
 	
 	/**
 	 * @override
-	 * @inheritdoc
+	 * @param {DomElementType|NodeList|Iterable<DomElementType>|Callback} selector
+	 * @param {DomElementType|undefined} context
+	 * @param {Iterable<DomElementType>} previousResults
 	 */
 	__call(selector, context = undefined, previousResults = []){
 		if(typeof selector === "function")
@@ -89,8 +115,8 @@ class LightqueryFactory extends Callable{
 	
 	/**
 	 * Help query using the given context as the selection root 
-	 * @param   {Element} context - The context to restrict to
-	 * @returns {{select: LightqueryFactory~selectCallback}}
+	 * @param   {DomElementType} context - The context to restrict to
+	 * @returns {LightqueryFactorySelectObject}
 	 */
 	from(context){
 		return {

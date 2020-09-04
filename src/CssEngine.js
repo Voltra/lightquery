@@ -1,14 +1,20 @@
 import Sizzle from "sizzle"
 import UnimplementedError from "./errors/UnimplementedError"
 import lqHelpers from "./utils/helpers"
+import "./utils/typedefs"
 
+/**
+ * @class
+ * @classdesc Base class for all Css selection engines
+ */
 class AbstractCssEngine{
 	/**
 	 * Find all the elements that match the given selector in the given context and append them to the previous results
 	 * @param {string}            selector - The selector to match
-	 * @param {Element|undefined} [context = undefined]  - The context in which to lookup elements
-	 * @param {Iterable<Element>} [previousResults = []] - The previous set of results
-	 * @returns {Iterable<Element>}
+	 * @param {DomElementType|undefined} [context = undefined]  - The context in which to lookup elements
+	 * @param {Iterable<DomElementType>} [previousResults = []] - The previous set of results
+	 * @returns {Iterable<DomElementType>}
+	 * @abstract
 	 */
 	findAll(selector, context = undefined, previousResults = []){
 		throw new UnimplementedError("Call to unimplemented AbstractCssEngine#findAll(selector, [context, [previousResults]])");
@@ -17,8 +23,9 @@ class AbstractCssEngine{
 	/**
 	 * Determine whether or not the given element matches the given selector
 	 * @param {string}  selector - The selector to match against
-	 * @param {Element} element - The element to match against the selector
+	 * @param {DomElementType} element - The element to match against the selector
 	 * @returns {boolean}
+	 * @abstract
 	 */
 	matchesSelector(selector, element){
 		throw new UnimplementedError("Call to unimplemented AbstractCssEngine#matchesSelector(selector, element)");
@@ -27,14 +34,19 @@ class AbstractCssEngine{
 	/**
 	 * Only keep the elements that match the given selector
 	 * @param {string}            selector - The selector to match against
-	 * @param {Iterable<Element>} elements - The elements to filter
-	 * @returns {Iterable<Element>}
+	 * @param {Iterable<DomElementType>} elements - The elements to filter
+	 * @returns {Iterable<DomElementType>}
+	 * @abstract
 	 */
 	filterMatches(selector, elements){
 		throw new UnimplementedError("Call to unimplemented AbstractCssEngine#filterMatches(selector, elements)");
 	}
 }
 
+/**
+ * @class
+ * @classdesc Css engine based on the Sizzle library
+ */
 class SizzleCssEngine extends AbstractCssEngine{
 	/**
 	 * @override
@@ -49,7 +61,7 @@ class SizzleCssEngine extends AbstractCssEngine{
 	 * @inheritdoc
 	 */
 	matchesSelector(selector, element){
-		return Sizzle.matches(element, selector);
+		return Sizzle.matchesSelector(element, selector);
 	}
 	
 	/**
@@ -62,7 +74,7 @@ class SizzleCssEngine extends AbstractCssEngine{
 }
 
 /**
- * @var {AbstractCssEngine} cssEngine - The css engine for lightquery
+ * @constant {AbstractCssEngine} cssEngine - The css engine for lightquery
  */
 const cssEngine = new SizzleCssEngine();
 

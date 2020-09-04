@@ -2,22 +2,22 @@ import LightqueryFactory from "./LightqueryFactory"
 import LightqueryCollection from "./LightqueryCollection"
 
 /**
- * @var {LightqueryFactory} µ - Global lightquery factory function
+ * @constant {LightqueryFactory} µ - Global lightquery factory function
  */
 const µ = new LightqueryFactory(LightqueryCollection, true);
 
 /**
- * @alias µ
+ * @constant {LightqueryFactory} $ - Alias for {@link µ}
  */
 const $ = µ;
 
 /**
- * @alias µ
+ * @constant {LightqueryFactory} lq - Alias for {@link µ}
  */
 const lq = µ;
 
 /**
- * @alias µ
+ * @constant {LightqueryFactory} lightquery - Alias for {@link µ}
  */
 const lightquery = µ;
 

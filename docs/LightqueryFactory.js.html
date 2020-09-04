@@ -30,6 +30,7 @@
 import LightqueryCollection from "./LightqueryCollection"
 import InvalidArgumentError from "./errors/InvalidArgumentError"
 import { asSequence, registerLightqueryExtensions } from "./utils/lazy"
+import "./utils/typedefs"
 
 /**
  * @callback LightqueryFactory~selectCallback
@@ -38,46 +39,69 @@ import { asSequence, registerLightqueryExtensions } from "./utils/lazy"
  */
 
 /**
+ * @typedef {object} LightqueryFactorySelectObject
+ * @property {LightqueryFactory~selectCallback} select
+ */
+
+
+/**
+ * @class
+ * @classdesc Class that represents the implementation details of a lightquery factory
+ */
+class LightqueryFactoryImplDetails{
+	/**
+	 * @param {LightqueryFactory} self - The LightqueryFactory instance
+	 * @param {typeof LightqueryCollection} [collectionClass = LightqueryCollection] - The class used to construct the result collections
+	 * @param {boolean} [strictMode = true] - Whether or not to throw exceptions instead of silently failing
+	 */
+	constructor(self, collectionClass = LightqueryCollection, strictMode = true){
+		registerLightqueryExtensions(self);
+		collectionClass.lightquery = self;
+		
+		/**
+		 * @property {typeof LightqueryCollection} - The class used to generate a results collection
+		 */
+		this.collectionClass = collectionClass;
+		this.strictMode = strictMode;
+	}
+	
+	/**
+	 * Create a lightquery collection from arguments
+	 * @param {...any}               args - The arguments for the constructor
+	 * @returns {LightqueryCollection}
+	 */
+	factory(...args){
+		return new this.collectionClass(...args);
+	}
+	
+	/**
+	 * A factory for an empty selection
+	 * @returns {LightqueryCollection}
+	 */
+	emptySelection(){
+		return this.factory("");
+	}
+}
+
+/**
  * @class
  * @classdesc Class that represents the factory function to query the DOM with lightquery
  */
 class LightqueryFactory extends Callable{
 	/**
 	 * Create a lightquery factory (that's what's behind µ)
-	 * @param   {typeof LightqueryCollection} [collectionClass = LightqueryCollection] - The class used to construct the result collections
-	 * @param   {boolean} [strictMode = true] - Whether or not to throw exceptions instead of silently failing
+	 * @param {typeof LightqueryCollection} [collectionClass = LightqueryCollection] - The class used to construct the result collections
+	 * @param {boolean} [strictMode = true] - Whether or not to throw exceptions instead of silently failing
 	 */
 	constructor(collectionClass = LightqueryCollection, strictMode = true){
 		super();
-		registerLightqueryExtensions(this);
-		collectionClass.lightquery = this;
 		
 		/**
 		 * Private methods and properties
 		 * @protected
 		 * @readonly
 		 */
-		this.__ = {
-			/**
-			 * Create a lightquery collection from arguments
-			 * @param {...any} args - The arguments for the constructor
-			 * @returns {LightqueryCollection}
-			 */
-			factory: (...args) => new collectionClass(...args),
-			
-			/**
-			 * @property {typeof LightqueryCollection} - The class used to generate a results collection
-			 */
-			collectionClass,
-			
-			/**
-			 * A factory for an empty selection
-			 * @returns {LightqueryCollection}
-			 */
-			emptySelection(){
-				return this.factory("");
-			},
-		};
+		this.__ = new LightqueryFactoryImplDetails(this, collectionClass, strictMode);
 		
 		/**
 		 * @member {boolean} - Whether or not to use strict mode with this factory
@@ -87,7 +111,9 @@ class LightqueryFactory extends Callable{
 	
 	/**
 	 * @override
-	 * @inheritdoc
+	 * @param {DomElementType|NodeList|Iterable&lt;DomElementType>|Callback} selector
+	 * @param {DomElementType|undefined} context
+	 * @param {Iterable&lt;DomElementType>} previousResults
 	 */
 	__call(selector, context = undefined, previousResults = []){
 		if(typeof selector === "function")
@@ -117,8 +143,8 @@ class LightqueryFactory extends Callable{
 	
 	/**
 	 * Help query using the given context as the selection root 
-	 * @param   {Element} context - The context to restrict to
-	 * @returns {{select: LightqueryFactory~selectCallback}}
+	 * @param   {DomElementType} context - The context to restrict to
+	 * @returns {LightqueryFactorySelectObject}
 	 */
 	from(context){
 		return {
@@ -138,13 +164,13 @@ export default LightqueryFactory</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-ConstructorParameters.html">ConstructorParameters</a></li><li><a href="external-Exclude.html">Exclude</a></li><li><a href="external-Extract.html">Extract</a></li><li><a href="external-InstanceType.html">InstanceType</a></li><li><a href="external-NonNullable.html">NonNullable</a></li><li><a href="external-Omit.html">Omit</a></li><li><a href="external-OmitThisParameter.html">OmitThisParameter</a></li><li><a href="external-Parameters.html">Parameters</a></li><li><a href="external-Partial.html">Partial</a></li><li><a href="external-Pick.html">Pick</a></li><li><a href="external-Readonly.html">Readonly</a></li><li><a href="external-Record.html">Record</a></li><li><a href="external-Required.html">Required</a></li><li><a href="external-ReturnType.html">ReturnType</a></li><li><a href="external-ThisParameterType.html">ThisParameterType</a></li><li><a href="external-ThisType.html">ThisType</a></li></ul><h3>Classes</h3><ul><li><a href="LightqueryCollection.html">LightqueryCollection</a></li><li><a href="LightqueryFactory.html">LightqueryFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cssEngine">cssEngine</a></li><li><a href="global.html#notEnoughFor">notEnoughFor</a></li><li><a href="global.html#%25C2%25B5">µ</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-ConstructorParameters.html">ConstructorParameters</a></li><li><a href="external-Exclude.html">Exclude</a></li><li><a href="external-Extract.html">Extract</a></li><li><a href="external-InstanceType.html">InstanceType</a></li><li><a href="external-NonNullable.html">NonNullable</a></li><li><a href="external-Omit.html">Omit</a></li><li><a href="external-OmitThisParameter.html">OmitThisParameter</a></li><li><a href="external-Parameters.html">Parameters</a></li><li><a href="external-Partial.html">Partial</a></li><li><a href="external-Pick.html">Pick</a></li><li><a href="external-Readonly.html">Readonly</a></li><li><a href="external-Record.html">Record</a></li><li><a href="external-Required.html">Required</a></li><li><a href="external-ReturnType.html">ReturnType</a></li><li><a href="external-ThisParameterType.html">ThisParameterType</a></li><li><a href="external-ThisType.html">ThisType</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractCssEngine.html">AbstractCssEngine</a></li><li><a href="LightqueryCollection.html">LightqueryCollection</a></li><li><a href="LightqueryCollectionImplDetails.html">LightqueryCollectionImplDetails</a></li><li><a href="LightqueryFactory.html">LightqueryFactory</a></li><li><a href="LightqueryFactoryImplDetails.html">LightqueryFactoryImplDetails</a></li><li><a href="SizzleCssEngine.html">SizzleCssEngine</a></li></ul><h3>Global</h3><ul><li><a href="global.html#$">$</a></li><li><a href="global.html#cssEngine">cssEngine</a></li><li><a href="global.html#lightquery">lightquery</a></li><li><a href="global.html#lq">lq</a></li><li><a href="global.html#notEnoughFor">notEnoughFor</a></li><li><a href="global.html#%25C2%25B5">µ</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Wed Sep 02 2020 18:38:08 GMT+0200 (Paris, Madrid (heure d’été))
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Fri Sep 04 2020 14:51:33 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>

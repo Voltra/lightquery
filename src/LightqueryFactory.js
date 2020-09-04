@@ -86,6 +86,7 @@ class LightqueryFactory extends Callable{
 	 * @param {DomElementType|NodeList|Iterable<DomElementType>|Callback} selector
 	 * @param {DomElementType|undefined} context
 	 * @param {Iterable<DomElementType>} previousResults
+	 * @returns {LightqueryCollection}
 	 */
 	__call(selector, context = undefined, previousResults = []){
 		if(typeof selector === "function")
@@ -122,6 +123,16 @@ class LightqueryFactory extends Callable{
 		return {
 			select: selector => this(selector, context),
 		};
+	}
+	
+	/**
+	 * Extend an object using many objects
+	 * @param   {object}    target     - The object to extend
+	 * @param   {...object} ...objects - The objects to derive properties from
+	 * @returns {object}
+	 */
+	extend(target, ...objects){
+		return Object.assign(target, ...objects);
 	}
 }
 

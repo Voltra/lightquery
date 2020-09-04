@@ -59,6 +59,15 @@ import "./utils/typedefs"
  * @returns {V}
  */
 
+/**
+ * @callback LightqueryCollection~classManipHandler
+ * @param {DOMTokenList} classList - The class list to alter
+ * @param {string} clazz - The class which is being altered
+ * @param {DomElementType} element - The element being modified
+ * @param {LightqueryCollection} $element - The LightqueryCollection instance to the element being modified
+ * @returns {any}
+ */
+
 
 
 
@@ -189,7 +198,7 @@ class LightqueryCollectionImplDetails{
 	 * @returns {T|U}
 	 */
 	defaultValue({ strict, loose }){
-		return this.lightquery.strictMode ? strict : loose;
+		return this.$.strictMode ? strict : loose;
 	}
 
 	/**
@@ -197,7 +206,7 @@ class LightqueryCollectionImplDetails{
 	 * @param {Callback} callback - The callback to execute
 	 */
 	ifStrict(callback){
-		if(this.lightquery.strictMode)
+		if(this.$.strictMode)
 			callback();
 	}
 
@@ -241,6 +250,58 @@ class LightqueryCollectionImplDetails{
 			});
 		}else
 			return this.elements[method](e => func.call(e, e));
+	}
+	
+	/**
+	 * Handle delegating to the class list of each elements
+	 * @param {object} options
+	 * @param {string} options.classNames - The space separated class names
+	 * @param {string} options.nameForStrict - The name to use in the error message if strict mode is on
+	 * @param {LightqueryCollection~classManipHandler|undefined} options.ifHasClass - The callback to execute if the element has the class
+	 * @param {LightqueryCollection~classManipHandler|undefined} options.ifDoesNotHaveClass - The callback to execute if the element does not have the class
+	 * @param {LightqueryCollection~classManipHandler|undefined} options.anyCase - The callback to execute whatever the case is
+	 */
+	classManip({ classNames, nameForStrict, ifHasClass = () => {}, ifDoesNotHaveClass = () => {}, anyCase = () => {} }){
+		const { self, $ } = this;
+		
+		if(typeof classNames === "string"){
+			lqHelpers.spacedListString
+			.toArray(classNames)
+			.forEach(clazz => {
+				self.forEach(elem => {
+					const $elem = $(elem);
+
+					if($elem.hasClass(clazz))
+						ifHasClass(elem.classList, clazz, elem, $elem);
+					else
+						ifDoesNotHaveClass(elem.classList, clazz, elem, $elem);
+
+
+					anyCase(elem.classList, clazz, elem, $elem);
+				});
+			});
+		}else
+			this.ifStrict(() => throw new InvalidArgumentError(`Expected argument classNames to be a string in LightqueryCollection${nameForStrict}`));
+
+		return self;
+	}
+	
+	/**
+	 * Handle event shorthand methods
+	 * @param {object} options
+	 * @param {string} options.eventName - The name of the event (to listen to/trigger)
+	 * @param {EventListener|undefined} options.listener - The event listener to attach
+	 * @param {string} options.nameForStrict - The name to use in the error message if strict mode is on
+	 */
+	eventShorthand({ eventName, listener, nameForStrict }){
+		const { self, $ } = this;
+		
+		if(typeof listener === "undefined")
+			return self.trigger(eventName);
+		else if(typeof listener === "function")
+			return self.on(eventName, listener);
+		else
+			this.ifStrict(() => throw new InvalidArgumentError(`Expected argument listener to be undefined or a function in LightqueryCollection${nameForStrict}`));
 	}
 }
 
@@ -532,34 +593,171 @@ class LightqueryCollection{
 	}
 	
 	
+	
 	/****************************************************************************************\
 	 * Multiple items methods
 	\****************************************************************************************/
+	/**
+	 * Add the given classes to each element
+	 * @param   {string}               classNames - The space separated list of classes to add
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If classNames is not a string
+	 */
+	addClass(classNames){
+		return this.__.classManip({
+			nameForStrict: "#addClass(classNames)",
+			classNames,
+			ifDoesNotHaveClass(classList, clazz, elem, $elem){
+				classList.add(clazz);
+			},
+		});
+	}
+	
+	/**
+	 * Remove the given classes from each element
+	 * @param   {string}               classNames - The space separated list of classes to remove
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If classNames is not a string
+	 */
+	removeClass(classNames){
+		return this.__.classManip({
+			nameForStrict: "#removeClass(classNames)",
+			classNames,
+			ifHasClass(classList, clazz, elem, $elem){
+				classList.remove(clazz);
+			},
+		});
+	}
+	
+	/**
+	 * Toggle the given classes for each element
+	 * @param   {string}               classNames - The space separated list of classes to toggle
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If classNames is not a string
+	 */
+	toggleClass(classNames){
+		return this.__.classManip({
+			nameForStrict: "#toggleClass(classNames)",
+			classNames,
+			anyCase(classList, clazz, elem, $elem){
+				classList.toggle(clazz);
+			},
+		});
+	}
+	
+	
 	/**
 	 * Trigger a callback on event
 	 * @param   {string}               eventNames - The spaced separated list of events to listen to
 	 * @param   {EventListener}        listener   - The event listener
 	 * @returns {LightqueryCollection}
 	 * @throws {UnsupportedError} If it cannot attach the event listener
-	 * @throws {InvalidArgumentError} If the listener is not a callable
+	 * @throws {InvalidArgumentError} If the listener is not a callable or if eventNames is not a string
 	 */
 	on(eventNames, listener){
 		if(typeof listener === "function"){
-			const events = lqHelpers.spacedListString.toArray(eventNames);
-			this.forEach(el => {
-				events.forEach(event => {
-					if(e.addEventListener)
-						e.addEventListener(event, listener);
-					else if(e.attachEvent)
-						e.attachEvent(`on${event}`, listener);
-					else
-						this.__.ifStrict(() => throw new UnsupportedError("Cannot attach event listeners"));
+			if(typeof eventNames === "string"){
+				const events = lqHelpers.spacedListString.toArray(eventNames);
+				this.forEach(el => {
+					events.forEach(event => {
+						if(e.addEventListener)
+							e.addEventListener(event, listener);
+						else if(e.attachEvent)
+							e.attachEvent(`on${event}`, listener);
+						else
+							this.__.ifStrict(() => throw new UnsupportedError("Cannot attach event listeners"));
+					});
 				});
-			});
+			}else
+				this.__.ifStrict(() => throw new InvalidArgumentError("Expected eventNames to be a string in LightqueryCollection#on(eventNames, listener)"));
 		}else
 			this.__.ifStrict(() => throw new InvalidArgumentError("Invalid listener in LightqueryCollection#on(eventNames, listener)"));
 		
 		return this;
+	}
+	
+	/**
+	 * Unregister an event listener
+	 * @param   {string}               eventNames - The spaced separated list of events to stop listening to
+	 * @param   {EventListener}        listener   - The event listener that was used
+	 * @returns {LightqueryCollection}
+	 * @throws {UnsupportedError} If it cannot detach the event listener
+	 * @throws {InvalidArgumentError} If the listener is not a callable or if eventNames is not a string
+	 */
+	off(eventNames, listener){
+		if(typeof listener === "function"){
+			if(typeof eventNames === "string"){
+				const events = lqHelpers.spacedListString.toArray(eventNames);
+				this.forEach(el => {
+					events.forEach(event => {
+						if(e.removeEventListener)
+							e.removeEventListener(event, listener);
+						else if(e.detachEvent)
+							e.detachEvent(`on${event}`, listener);
+						else
+							this.__.ifStrict(() => throw new UnsupportedError("Cannot detach event listeners"));
+					});
+				});
+			}else
+				this.__.ifStrict(() => throw new InvalidArgumentError("Expected eventNames to be a string in LightqueryCollection#off(eventNames, listener)"));
+		}else
+			this.__.ifStrict(() => throw new InvalidArgumentError("Invalid listener in LightqueryCollection#off(eventNames, listener)"));
+		
+		return this;
+	}
+	
+	/**
+	 * Trigger events on each element
+	 * @param {string} eventNames - The spaced separated list of events to stop listening to
+	 * @param {object} [options = {}] - The event options
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If eventNames is not a string or if options is not an object
+	 */
+	trigger(eventNames, options = {}){
+		if(typeof eventNames !== "string")
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected eventNames to be a string in LightqueryCollection#trigger(eventNames, options)"));
+		if(typeof options !== "object" || options === null)
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected options to be an object in LightqueryCollection#trigger(eventNames, options)"));
+		
+		const events = lqHelpers.spacedListString.toArray(eventNames);
+		
+		const eventObjectFactory = window.CustomEvent
+			? (event, opts) => new window.CustomEvent(event, opts)
+			: (event, opts) => {
+				const obj = document.createEvent("CustomEvent");
+				obj.initCustomEvent(event, true, true, opts);
+				return obj;
+			};
+		
+		this.forEach(el => {
+			const eventOptions = this.__.$.extend({target: el}, options);			
+			
+			events.forEach(event => {
+				const eventObj = eventObjectFactory(event, eventOptions);
+				el.dispatchEvent(eventObj);
+			});
+		});
+		
+		return this;
+	}
+	
+	
+	
+	/****************************************************************************************\
+	 * Events shorthand
+	\****************************************************************************************/
+	/**
+	 * Trigger (or listen to) click events
+	 * @param {EventListener|undefind} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	click(listener = undefined){
+		return this.__.eventShorthand({
+			eventName: "click",
+			nameForStrict: "#click(listener)",
+			listener,
+		})
 	}
 }
 
@@ -579,7 +777,7 @@ export default LightqueryCollection</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Fri Sep 04 2020 14:51:33 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Fri Sep 04 2020 16:42:50 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>

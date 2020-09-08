@@ -2,7 +2,6 @@ import { cssEngine } from "./CssEngine"
 import UnsupportedError from "./errors/UnsupportedError"
 import InvalidArgumentError from "./errors/InvalidArgumentError"
 import { strategies } from "./strategies/init"
-import { asSequence } from "./utils/lazy"
 import lqHelpers from "./utils/helpers"
 import "./utils/typedefs"
 
@@ -48,6 +47,15 @@ import "./utils/typedefs"
  * @returns {Callback}
  */
 const notEnoughFor = str => () => throw new NotEnoughElementsError(`Not enough elements to apply LightqueryCollection${str})`);
+
+
+/**
+ * Predicates to satisfy to be an element of a lightquery collection
+ */
+const checks = [
+	e => typeof e !== "undefined",
+	e => e !== null,
+];
 
 /**
  * @class
@@ -97,6 +105,33 @@ class LightqueryCollectionImplDetails{
 			}
 		});
 	}
+	
+	__cleanElements(elements){
+		const uniques = new WeakSet();
+		const ret = [];
+		
+		for(const element of elements){
+			const passAllChecks = [
+				...checks,
+				e => !uniques.has(e),
+			].every(check => check(element));
+			
+			if(passAllChecks){
+				ret.push(element);
+				uniques.add(element);
+			}
+		}
+		
+		return ret;
+		
+		/*
+			asSequence(this.elements)
+			.filterNotNull()
+			.filterNot(x => typeof x === "undefined")
+			.distinct()
+			.toArray();
+		*/
+	}
 		
 	/**
 	 * Make the LightqueryCollection instance iterable
@@ -104,11 +139,7 @@ class LightqueryCollectionImplDetails{
 	 * @readonly              
 	 */
 	makeIterable(){
-		this.elements = asSequence(this.elements)
-						.filterNotNull()
-						.filterNot(x => typeof x === "undefined")
-						.distinct()
-						.toArray();
+		this.elements = this.__cleanElements(this.elements);
 
 		const { elements, self } = this;
 		
@@ -190,8 +221,7 @@ class LightqueryCollectionImplDetails{
 	 * @param {Callback} callback - The callback to execute
 	 */
 	ifStrict(callback){
-		if(this.$.strictMode)
-			callback();
+		this.$.__.ifStrict(callback);
 	}
 
 	/**

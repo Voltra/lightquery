@@ -1,5 +1,7 @@
 import { asSequence, generateSequence, extendSequence } from "sequency"
 
+//TODO: Use this for a future plugin
+
 const extensionFactory = lq => class LightqueryExtension{
 	toLightquery(){
 		return lq(this.iterator);

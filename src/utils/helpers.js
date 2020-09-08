@@ -50,6 +50,18 @@ const helpers = {
 			return typeof str == "string"
 			&& ["instance", "global"].includes(str);
 		},
+		doForPluginType({ pluginType, onGlobal, onInstance, onUnknown }){
+			switch(pluginType){
+				case "global":
+					return onGlobal();
+				
+				case "instance":
+					return onInstance();
+					
+				default:
+					return onUnknown();
+			}
+		},
 	},
     constructorLQ: {
         baseName: "lightqueryObject",

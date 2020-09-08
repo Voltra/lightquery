@@ -1,7 +1,7 @@
 import Callable from "./utils/Callable"
 import LightqueryCollection from "./LightqueryCollection"
 import InvalidArgumentError from "./errors/InvalidArgumentError"
-import { asSequence, registerLightqueryExtensions } from "./utils/lazy"
+import lqHelpers from "./utils/helpers"
 import "./utils/typedefs"
 
 /**
@@ -27,7 +27,6 @@ class LightqueryFactoryImplDetails{
 	 * @param {boolean} [strictMode = true] - Whether or not to throw exceptions instead of silently failing
 	 */
 	constructor(self, collectionClass = LightqueryCollection, strictMode = true){
-		registerLightqueryExtensions(self);
 		collectionClass.lightquery = self;
 		
 		/**
@@ -35,6 +34,25 @@ class LightqueryFactoryImplDetails{
 		 */
 		this.collectionClass = collectionClass;
 		this.strictMode = strictMode;
+		
+		
+		
+		/**
+		 * @property {{instance: Set<string>, global: Set<string>}} plugins - Sets of registered plugins
+		 */
+		this.plugins = {
+			instance: new Set(),
+			global: new Set(),
+		};
+	}
+	
+	/**
+	 * Execute a callback if strict mode is on
+	 * @param {Callback} callback - The callback to execute
+	 */
+	ifStrict(callback){
+		if(this.strictMode)
+			callback();
 	}
 	
 	/**
@@ -54,6 +72,8 @@ class LightqueryFactoryImplDetails{
 		return this.factory("");
 	}
 }
+
+const defaultPluginType = "instance";
 
 /**
  * @class
@@ -99,6 +119,47 @@ class LightqueryFactory extends Callable{
 			return this.ready(selector);
 		else	
 			return this.__.factory(selector);
+	}
+	
+	registerPlugin(pluginName, method, pluginType = defaultPluginType){
+		if(typeof pluginName !== "string"){
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected pluginName to be a string in LightqueryFactory#registerPlugin(pluginName, method, pluginType)"));
+			return this;
+		}
+		
+		if(typeof method !== "function"){
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected method to be a function in LightqueryFactory#registerPlugin(pluginName, method, pluginType)"));
+			return this;
+		}
+		
+		if(typeof pluginType !== "string"){
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected pluginType to be a string in LightqueryFactory#registerPlugin(pluginName, method, pluginType)"));
+			return this;
+		}
+		
+		if(!lqHelpers.plugin.isValidPluginType(pluginType)){
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected pluginType to be either \"global\" or \"instance\" in LightqueryFactory#registerPlugin(pluginName, method, pluginType)"));
+			return this;
+		}
+		
+		const pluginRepo = this.__.plugins[pluginType];
+		
+		if(pluginRepo.has(pluginName)){ // if plugin is already registered
+			this.__.ifStrict(() => throw new InvalidArgumentError(`${pluginType} plugin "${pluginName}" already registered`));
+			return this;
+		}else{
+			lqHelpers.plugin.doForPluginType({
+				pluginType,
+				onGlobal(){},
+				onInstance(){},
+				onUnknown: () => {
+					this.__.ifStrict(() => throw new InvalidArgumentError("Invalid pluginType in LightqueryFactory#registerPlugin(pluginName, method, pluginType)"));
+				}
+			});
+		}
+		
+		pluginRepo.add(pluginName);
+		//TODO: Finalize plugin system
 	}
 	
 	/**

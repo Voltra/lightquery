@@ -111,8 +111,20 @@ class LightqueryCollectionImplDetails{
 						.toArray();
 
 		const { elements, self } = this;
-		self[Symbol.iterator] = elements[Symbol.iterator];
-		self.length = elements.length;
+		
+		Object.defineProperties(self, {
+			[Symbol.iterator]: {
+				get(){
+					return elements[Symbol.iterator];
+				},
+			},
+			length: {
+				enumerable: true,
+				get(){
+					return elements.length;
+				},
+			},
+		});
 
 		for(const i in elements)
 			self[i] = elements[i];
@@ -274,6 +286,8 @@ class LightqueryCollectionImplDetails{
 			return self.on(eventName, listener);
 		else
 			this.ifStrict(() => throw new InvalidArgumentError(`Expected argument listener to be undefined or a function in LightqueryCollection${nameForStrict}`));
+		
+		return self;
 	}
 }
 
@@ -303,9 +317,14 @@ class LightqueryCollection{
 		 * Private methods and properties
 		 * @protected
 		 * @readonly
-		 * @property {LightqueryCollectionImplDetails} - The protected implementation details
+		 * @property {LightqueryCollectionImplDetails} __ - The protected implementation details
 		 */
-		this.__ = new LightqueryCollectionImplDetails(this, selector, context, previousResults);
+		Object.defineProperty(this, "__", {
+			enumerable: false,
+			configurable: false,
+			writable: false,
+			value: new LightqueryCollectionImplDetails(this, selector, context, previousResults)
+		});
 		
 		const previousResultSet = [...previousResults];
 		const initStrategy = strategies.find(strategy => strategy.shouldProcess(selector, context, previousResultSet));
@@ -336,25 +355,11 @@ class LightqueryCollection{
 			
 			if(typeof document.addEventListener == "function"){
 				document.addEventListener("DOMContentLoaded", callback, false);
-			}else if(typeof window.addEventListener == "function"){
-				window.addEventListener("load", callback, false);
-			}else if(typeof document.attachEvent == "function"){
-				document.attachEvent("onreadystatechange", callback);
-			}else if(typeof window.attachEvent == "function"){
-				window.attachEvent("onload", callback);
 			}else
 				throw new UnsupportedError("Cannot attach document ready event handler");
 		}
 		
 		return this;
-	}
-	
-	/**
-	 * Transform the LigtqueryCollection into a sequency Sequence
-	 * @returns {import("sequency").Sequence<Element>}
-	 */
-	lazy(){
-		return asSequence(this.__.elements);
 	}
 	
 	
@@ -508,9 +513,9 @@ class LightqueryCollection{
 	 */
 	hasAttr(attr){
 		return this.__.doOnFirst({
+			nameForStrict: "#hasAttribute(attr)",
 			onFirst: first => first.hasAttribute(attr),
 			defaultValue: false,
-			nameForStrict: "#hasAttribute(attr)",
 		});
 	}
 	
@@ -522,9 +527,9 @@ class LightqueryCollection{
 	 */
 	hasProp(prop){
 		return this.__.doOnFirst({
+			nameForStrict: "#hasProp(prop)",
 			onFirst: first => first.hasOwnProperty(prop),
 			defaultValue: false,
-			nameForStrict: "#hasProp(prop)",
 		});
 	}
 	
@@ -536,9 +541,9 @@ class LightqueryCollection{
 	 */
 	hasData(data){
 		return this.__.doOnFirst({
+			nameForStrict: "#hasData(data)",
 			onFirst: first => data in first.dataset,
 			defaultValue: false,
-			nameForStrict: "#hasData(data)",
 		});
 	}
 	
@@ -550,17 +555,17 @@ class LightqueryCollection{
 	 */
 	hasClass(className){
 		return this.__.doOnFirst({
+			nameForStrict: "#hasClass(className)",
 			onFirst: first => first.classList.contains(className),
 			defaultValue: false,
-			nameForStrict: "#hasClass(className)",
 		});
 	}
 	
 	matches(selector){
 		return this.__.doOnFirst({
+			nameForStrict: "#matches(selector)",
 			onFirst: first => cssEngine.matchesSelector(selector, first),
 			defaultValue: false,
-			nameForStrict: "#matches(selector)",
 		});
 	}
 	
@@ -634,8 +639,6 @@ class LightqueryCollection{
 					events.forEach(event => {
 						if(e.addEventListener)
 							e.addEventListener(event, listener);
-						else if(e.attachEvent)
-							e.attachEvent(`on${event}`, listener);
 						else
 							this.__.ifStrict(() => throw new UnsupportedError("Cannot attach event listeners"));
 					});
@@ -664,8 +667,6 @@ class LightqueryCollection{
 					events.forEach(event => {
 						if(e.removeEventListener)
 							e.removeEventListener(event, listener);
-						else if(e.detachEvent)
-							e.detachEvent(`on${event}`, listener);
 						else
 							this.__.ifStrict(() => throw new UnsupportedError("Cannot detach event listeners"));
 					});
@@ -693,13 +694,7 @@ class LightqueryCollection{
 		
 		const events = lqHelpers.spacedListString.toArray(eventNames);
 		
-		const eventObjectFactory = window.CustomEvent
-			? (event, opts) => new window.CustomEvent(event, opts)
-			: (event, opts) => {
-				const obj = document.createEvent("CustomEvent");
-				obj.initCustomEvent(event, true, true, opts);
-				return obj;
-			};
+		const eventObjectFactory = (event, opts) => new window.CustomEvent(event, opts);
 		
 		this.forEach(el => {
 			const eventOptions = this.__.$.extend({target: el}, options);			
@@ -730,6 +725,11 @@ class LightqueryCollection{
 			nameForStrict: "#click(listener)",
 			listener,
 		})
+	}
+	
+	hover(onEnter, onLeave){
+		return this.on("mouseenter", onEnter)
+					.on("mouseleave", onLeave);
 	}
 }
 

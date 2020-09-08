@@ -72,8 +72,14 @@ class LightqueryFactory extends Callable{
 		 * Private methods and properties
 		 * @protected
 		 * @readonly
+		 * @property {LightqueryFactoryImplDetails} __ - The protected implementation details
 		 */
-		this.__ = new LightqueryFactoryImplDetails(this, collectionClass, strictMode);
+		Object.defineProperty(this, "__", {
+			enumerable: false,
+			writable: false,
+			configurable: false,
+			value: new LightqueryFactoryImplDetails(this, collectionClass, strictMode),
+		});
 		
 		/**
 		 * @member {boolean} - Whether or not to use strict mode with this factory
@@ -102,16 +108,6 @@ class LightqueryFactory extends Callable{
 	 */
 	ready(callback){
 		return this(document).ready(callback);
-	}
-	
-	/**
-	 * Wrap an iterable in a lazy evaluated pipeline
-	 * @template T
-	 * @param   {Iterable<T>} iterable - The iterable to wrap
-	 * @returns {import("sequency").Sequence<T>}
-	 */
-	lazy(iterable){
-		return asSequence(iterable);
 	}
 	
 	/**

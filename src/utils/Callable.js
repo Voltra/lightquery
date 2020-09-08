@@ -6,7 +6,7 @@ class Callable extends Function{
 	constructor(){
 		super("return this.__bound.__call.apply(this.__bound, arguments)");
 		this.__bound = this.bind(this);
-		return this.__bound;
+		return this.__bound; // important to make it work
 	}
 	
 	/**

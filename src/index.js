@@ -1,6 +1,8 @@
 import LightqueryFactory from "./LightqueryFactory"
 import LightqueryCollection from "./LightqueryCollection"
 
+//TODO: Make a lightquery plugin for sequency
+
 /**
  * @constant {LightqueryFactory} µ - Global lightquery factory function
  */

@@ -226,6 +226,24 @@ class LightqueryFactory extends Callable{
 	    return new LightqueryFactory(this.__.collectionClass, this.__.strictMode);
     }
 
+    /**
+     * Enable strict mode
+     * @returns {LightqueryFactory}
+     */
+    turnStrictModeOn(){
+        this.__.strictMode = true;
+        return this;
+    }
+
+    /**
+     * Disable strict mode
+     * @returns {LightqueryFactory}
+     */
+    turnStrictModeOff(){
+        this.__.strictMode = false;
+        return this;
+    }
+
 	/**
 	 * Execute a callback once the DOM is fully loaded
 	 * @param   {Callback}             callback - The function to execute after the DOM is loaded

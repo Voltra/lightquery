@@ -9459,6 +9459,28 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
       return new LightqueryFactory(this.__.collectionClass, this.__.strictMode);
     }
     /**
+     * Enable strict mode
+     * @returns {LightqueryFactory}
+     */
+
+  }, {
+    key: "turnStrictModeOn",
+    value: function turnStrictModeOn() {
+      this.__.strictMode = true;
+      return this;
+    }
+    /**
+     * Disable strict mode
+     * @returns {LightqueryFactory}
+     */
+
+  }, {
+    key: "turnStrictModeOff",
+    value: function turnStrictModeOff() {
+      this.__.strictMode = false;
+      return this;
+    }
+    /**
      * Execute a callback once the DOM is fully loaded
      * @param   {Callback}             callback - The function to execute after the DOM is loaded
      * @returns {LightqueryCollection}

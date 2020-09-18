@@ -227,12 +227,33 @@ class LightqueryFactory extends Callable{
     }
 
     /**
+     * Determine whether or not strict mode is on
+     * @returns {boolean}
+     */
+    isStrictModeOn(){
+        return !!this.__.strictMode;
+    }
+
+    /**
+     * Set strict mode to the given value
+     * @param {boolean} newValue - Whether it should be ON or OFF
+     * @returns {LightqueryFactory}
+     */
+    setStrictMode(newValue){
+        if(typeof newValue !== "boolean"){
+            this.__.ifStrict(() => throw new InvalidArgumentError(`Expected newValue to be a boolean in LightqueryFactory#setStrictMode(newValue)`));
+        }
+
+        this.__.strictMode = !!newValue;
+        return this;
+    }
+
+    /**
      * Enable strict mode
      * @returns {LightqueryFactory}
      */
     turnStrictModeOn(){
-        this.__.strictMode = true;
-        return this;
+        return this.setStrictMode(true);
     }
 
     /**
@@ -240,8 +261,7 @@ class LightqueryFactory extends Callable{
      * @returns {LightqueryFactory}
      */
     turnStrictModeOff(){
-        this.__.strictMode = false;
-        return this;
+        return this.setStrictMode(false);
     }
 
 	/**

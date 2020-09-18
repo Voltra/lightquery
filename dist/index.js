@@ -9459,6 +9459,36 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
       return new LightqueryFactory(this.__.collectionClass, this.__.strictMode);
     }
     /**
+     * Determine whether or not strict mode is on
+     * @returns {boolean}
+     */
+
+  }, {
+    key: "isStrictModeOn",
+    value: function isStrictModeOn() {
+      return !!this.__.strictMode;
+    }
+    /**
+     * Set strict mode to the given value
+     * @param {boolean} newValue - Whether it should be ON or OFF
+     * @returns {LightqueryFactory}
+     */
+
+  }, {
+    key: "setStrictMode",
+    value: function setStrictMode(newValue) {
+      if (typeof newValue !== "boolean") {
+        this.__.ifStrict(function () {
+          return function (e) {
+            throw e;
+          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_20__["default"]("Expected newValue to be a boolean in LightqueryFactory#setStrictMode(newValue)"));
+        });
+      }
+
+      this.__.strictMode = !!newValue;
+      return this;
+    }
+    /**
      * Enable strict mode
      * @returns {LightqueryFactory}
      */
@@ -9466,8 +9496,7 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
   }, {
     key: "turnStrictModeOn",
     value: function turnStrictModeOn() {
-      this.__.strictMode = true;
-      return this;
+      return this.setStrictMode(true);
     }
     /**
      * Disable strict mode
@@ -9477,8 +9506,7 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
   }, {
     key: "turnStrictModeOff",
     value: function turnStrictModeOff() {
-      this.__.strictMode = false;
-      return this;
+      return this.setStrictMode(false);
     }
     /**
      * Execute a callback once the DOM is fully loaded

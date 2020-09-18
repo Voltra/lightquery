@@ -1,4 +1,19 @@
+import "./typedefs"
+
 const helpers = {
+    string: {
+        /**
+         * Capitalize the first letter of a string
+         * @param {string} str - The string to capitalize
+         * @returns {string}
+         */
+        capitalizeFirst(str){
+            const first = str.charAt(0).toUpperCase();
+            const rest = str.substring(1);
+
+            return `${first}${rest}`;
+        },
+    },
     spacedListString: {
         regex: /(\S)\s+(\S)/g,
         replacement: "$1 $2",
@@ -42,7 +57,7 @@ const helpers = {
     plugin: {
 		/**
 		 * Determine whether or not the given plugin string is a valid plugin type
-		 * @param   {string}  str - The plugin type to check
+		 * @param   {string|PluginType}  str - The plugin type to check
 		 * @returns {boolean}
 		 */
 		isValidPluginType(str){
@@ -54,10 +69,10 @@ const helpers = {
 			switch(pluginType){
 				case "global":
 					return onGlobal();
-				
+
 				case "instance":
 					return onInstance();
-					
+
 				default:
 					return onUnknown();
 			}
@@ -76,7 +91,7 @@ const helpers = {
 		toArray(arrayLike){
 			if(arrayLike instanceof Array)
 				return arrayLike;
-			
+
 			return [].slice.call(arrayLike);
 		},
 	},

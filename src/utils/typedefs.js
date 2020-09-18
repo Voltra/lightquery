@@ -3,7 +3,15 @@
  */
 
 /**
- * @typedef	{string|DomElementType|NodeList|Iterable<DomElementType>|Callback} Selector
+ * @typedef {DomElementType|NodeList|Iterable<DomElementType>} DomElements
+ */
+
+/**
+ * @typedef	{string|DomElements|Callback} Selector
+ */
+
+/**
+ * @typedef {"instance"|"global"} PluginType
  */
 
 /**

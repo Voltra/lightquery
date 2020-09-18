@@ -48,6 +48,15 @@
 /**
  * @callback ElementMapper
  * @template T
- * @param {DomElementType} e
+ * @param {Element} e
  * @returns {T}
+ */
+
+/**
+ * @callback ElementReducer
+ * @template T
+ * @param {T} acc
+ * @param {Element}
+ * @returns {T}
+ *
  */

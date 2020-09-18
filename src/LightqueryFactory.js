@@ -114,7 +114,7 @@ class LightqueryFactory extends Callable{
 
 	/**
 	 * @override
-	 * @param {DomElementType|NodeList|Iterable<DomElementType>|Callback} selector
+	 * @param {DomElements|Callback} selector
 	 * @param {DomElementType|undefined} context
 	 * @param {Iterable<DomElementType>} previousResults
 	 * @returns {LightqueryCollection}
@@ -293,6 +293,17 @@ class LightqueryFactory extends Callable{
 	extend(target, ...objects){
 		return Object.assign(target, ...objects);
 	}
+
+    /**
+     * Getter/setter for CSS variables at the root
+     * @param {string} variable - The CSS variable name
+     * @param {string|number|undefined} value - The new value
+     * @returns {LightqueryCollection|string|number|null}
+     */
+	cssVar(variable, value){
+	    const ret = this(document.documentElement).cssVar(variable, value);
+	    return typeof value === "undefined" ? ret : this;
+    }
 }
 
 

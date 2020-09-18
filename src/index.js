@@ -4,9 +4,16 @@ import LightqueryCollection from "./LightqueryCollection"
 //TODO: Make a lightquery plugin for sequency
 
 /**
+ * Construct an instance of lightquery that derives from a plugin-free source
+ * @param {boolean} [strict = true] - Whether or not to enable strict mode
+ * @returns {LightqueryFactory}
+ */
+const makePureLightquery = (strict = true) => new LightqueryFactory(LightqueryCollection, strict);
+
+/**
  * @constant {LightqueryFactory} µ - Global lightquery factory function
  */
-const µ = new LightqueryFactory(LightqueryCollection, true);
+const µ = makePureLightquery(true);
 
 /**
  * @constant {LightqueryFactory} $ - Alias for {@link µ}
@@ -29,6 +36,7 @@ if(typeof window !== "undefined"){
 		lq,
 		lightquery,
 		$,
+        makePureLightquery,
 	});
 }
 
@@ -37,4 +45,5 @@ export {
 	$,
 	lq,
 	lightquery,
+    makePureLightquery,
 }

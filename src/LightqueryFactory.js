@@ -218,6 +218,14 @@ class LightqueryFactory extends Callable{
 	    return this;
     }
 
+    /**
+     * Clone the lightquery factory (e.g. to have two separate sets of plugins)
+     * @returns {LightqueryFactory}
+     */
+    cloneLightquery(){
+	    return new LightqueryFactory(this.__.collectionClass, this.__.strictMode);
+    }
+
 	/**
 	 * Execute a callback once the DOM is fully loaded
 	 * @param   {Callback}             callback - The function to execute after the DOM is loaded

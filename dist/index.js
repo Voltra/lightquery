@@ -9449,6 +9449,16 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
       return this;
     }
     /**
+     * Clone the lightquery factory (e.g. to have two separate sets of plugins)
+     * @returns {LightqueryFactory}
+     */
+
+  }, {
+    key: "cloneLightquery",
+    value: function cloneLightquery() {
+      return new LightqueryFactory(this.__.collectionClass, this.__.strictMode);
+    }
+    /**
      * Execute a callback once the DOM is fully loaded
      * @param   {Callback}             callback - The function to execute after the DOM is loaded
      * @returns {LightqueryCollection}
@@ -9814,7 +9824,7 @@ var UnsupportedError = /*#__PURE__*/function (_Error) {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: µ, $, lq, lightquery */
+/*! exports provided: µ, $, lq, lightquery, makePureLightquery */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9823,6 +9833,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "$", function() { return $; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lq", function() { return lq; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lightquery", function() { return lightquery; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makePureLightquery", function() { return makePureLightquery; });
 /* harmony import */ var core_js_modules_es_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.object.assign */ "./node_modules/core-js/modules/es.object.assign.js");
 /* harmony import */ var core_js_modules_es_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_assign__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _LightqueryFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LightqueryFactory */ "./src/LightqueryFactory.js");
@@ -9832,10 +9843,21 @@ __webpack_require__.r(__webpack_exports__);
  //TODO: Make a lightquery plugin for sequency
 
 /**
+ * Construct an instance of lightquery that derives from a plugin-free source
+ * @param {boolean} [strict = true] - Whether or not to enable strict mode
+ * @returns {LightqueryFactory}
+ */
+
+var makePureLightquery = function makePureLightquery() {
+  var strict = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+  return new _LightqueryFactory__WEBPACK_IMPORTED_MODULE_1__["default"](_LightqueryCollection__WEBPACK_IMPORTED_MODULE_2__["default"], strict);
+};
+/**
  * @constant {LightqueryFactory} µ - Global lightquery factory function
  */
 
-var µ = new _LightqueryFactory__WEBPACK_IMPORTED_MODULE_1__["default"](_LightqueryCollection__WEBPACK_IMPORTED_MODULE_2__["default"], true);
+
+var µ = makePureLightquery(true);
 /**
  * @constant {LightqueryFactory} $ - Alias for {@link µ}
  */
@@ -9857,7 +9879,8 @@ if (typeof window !== "undefined") {
     µ: µ,
     lq: lq,
     lightquery: lightquery,
-    $: $
+    $: $,
+    makePureLightquery: makePureLightquery
   });
 }
 

@@ -923,6 +923,11 @@ class LightqueryCollection{
         return this.filter(e => this.__.$(e).find(selector));
     }
 
+
+
+	/****************************************************************************************\
+	 * DOM based
+    \****************************************************************************************/
 	/**
 	 * Append the given elements to the first result of the results set
 	 * @param {ElementsOrLightquery} elements - The elements to append
@@ -963,11 +968,54 @@ class LightqueryCollection{
 		}else if(typeof element === "string"){
 			return this.appendTo(this.__.$(element));
 		}else{
-			this.__.ifStrict(() => throw new InvalidArgumentError("Expected element to be an Element in LightqueryCollection#appendTo(element)"));
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection#appendTo(element)"));
 		}
 
 		return this;
     }
+
+	/**
+	 * Prepend the given elements to the first result of the results set
+	 * @param {ElementsOrLightquery} elements - The elements to prepend
+	 * @returns {LightqueryCollection}
+	 */
+	prepend(elements){
+		const nameForStrict = "#append(elements)";
+
+		return this.__.doOnFirst({
+			onFirst: el => {
+				lqHelpers.elements.forElements({
+					elements,
+					LightqueryCollection,
+
+					onElement: e => el.prepend(e),
+					onElements: e => el.prepend(...e),
+					nameForStrict,
+				});
+			},
+			defaultValue: this,
+			nameForStrict,
+		});
+	}
+
+	/**
+	 * Appends the result set to the given element
+	 * @param {ElementOrLightquery|string} element - The element to append to (or a CSS selector to it)
+	 * @returns {LightqueryCollection}
+	 */
+	prependTo(element){
+		if(element instanceof LightqueryCollection){
+			return this.__.$(element).prepend(this);
+		}else if(lqHelpers.elements.isElement(element)){
+			this.__.$(this.__.getElement(element)).prepend(this);
+		}else if(typeof element === "string"){
+			return this.prependTo(this.__.$(element));
+		}else{
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection#prependTo(element)"));
+		}
+
+		return this;
+	}
 
 
 

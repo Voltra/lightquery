@@ -1,7 +1,7 @@
 import AbstractStrategy from "./AbstractStrategy";
 import LightqueryCollection from "../../LightqueryCollection";
 
-export default class LightqueryCollectionStrategy extends AbstractStrategy{
+export default class LightqueryCollectionStrategy extends AbstractStrategy{ // Makes them monads
 	shouldProcess(selector, context = undefined, previousResults = []){
 		return selector instanceof LightqueryCollection;
 	}

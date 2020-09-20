@@ -10,16 +10,13 @@ export default class SingleElementStrategy extends AbstractStrategy{
 			Window,
 		];
 	}
-	
-	constructor(){
-		super();
-		this.allowedClasses = SingleElementStrategy.allowedClasses;
-	}
-	
+
+	allowedClasses = SingleElementStrategy.allowedClasses;
+
 	shouldProcess(selector, context = undefined, previousResults = []){
 		return selector && this.allowedClasses.some(clazz => selector instanceof clazz);
 	}
-	
+
 	process(selector, context = undefined, previousResults = []){
 		return [...previousResults, selector];
 	}

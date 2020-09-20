@@ -11,31 +11,28 @@ export default class IterableStrategy extends AbstractStrategy{
 			NodeList,
 		];
 	}
-	
-	constructor(){
-		super();
-		this.allowedClasses = IterableStrategy.allowedClasses;
-		this.allowedItemClasses = SingleElementStrategy.allowedClasses;
-	}
-	
+
+	allowedClasses = IterableStrategy.allowedClasses;
+	allowedItemClasses = SingleElementStrategy.allowedClasses;
+
 	shouldProcess(selector, context = undefined, previousResults = []){
 		if(!selector)
 			return false;
-		
-		
+
+
 		const anyClass = this.allowedClasses.some(clazz => selector instanceof clazz);
 		if(!anyClass)
 			return false;
-		
+
 		//TODO: Check if we really want item consistency
 		/*for(const item of selector){
 			if(!this.allowedItemClasses.some(clazz => item instanceof clazz))
 				return false;
 		}*/
-		
+
 		return true;
 	}
-	
+
 	process(selector, context = undefined, previousResults = []){
 		return [...previousResults, ...selector];
 	}

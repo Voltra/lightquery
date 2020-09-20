@@ -9506,11 +9506,11 @@ var LightqueryCollection = /*#__PURE__*/function () {
     key: "appendTo",
     value: function appendTo(element) {
       if (element instanceof LightqueryCollection) {
-        return this.__.$(element).append(this);
+        this.__.$(element).append(this);
       } else if (_utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.isElement(element)) {
         this.__.$(this.__.getElement(element)).append(this);
       } else if (typeof element === "string") {
-        return this.appendTo(this.__.$(element));
+        this.appendTo(this.__.$(element));
       } else {
         this.__.ifStrict(function () {
           return function (e) {
@@ -9559,11 +9559,11 @@ var LightqueryCollection = /*#__PURE__*/function () {
     key: "prependTo",
     value: function prependTo(element) {
       if (element instanceof LightqueryCollection) {
-        return this.__.$(element).prepend(this);
+        this.__.$(element).prepend(this);
       } else if (_utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.isElement(element)) {
         this.__.$(this.__.getElement(element)).prepend(this);
       } else if (typeof element === "string") {
-        return this.prependTo(this.__.$(element));
+        this.prependTo(this.__.$(element));
       } else {
         this.__.ifStrict(function () {
           return function (e) {
@@ -10885,8 +10885,8 @@ var AbstractStrategy = /*#__PURE__*/function () {
     /**
      * Determine whether or not it should process the given selector
      * @param {any}               selector        The selector to process
-    	 * @param {Element|undefined} context         The context to get elements from
-    	 * @param {Iterable<Element>} previousResults The previous set of results
+    	 * @param {DomElementType|undefined} context         The context to get elements from
+    	 * @param {Iterable<DomElementType>} previousResults The previous set of results
      * @returns {boolean}
      */
     value: function shouldProcess(selector) {
@@ -10897,9 +10897,9 @@ var AbstractStrategy = /*#__PURE__*/function () {
     /**
      * Processes the given selector
      * @param {any}               selector        The selector to process
-    	 * @param {Element|undefined} context         The context to get elements from
-    	 * @param {Iterable<Element>} previousResults The previous set of results
-     * @returns {Iterable<Element>}
+    	 * @param {DomElementType|undefined} context         The context to get elements from
+    	 * @param {Iterable<DomElementType>} previousResults The previous set of results
+     * @returns {Iterable<DomElementType>}
      */
 
   }, {
@@ -11140,6 +11140,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -11149,23 +11151,21 @@ var IterableStrategy = /*#__PURE__*/function (_AbstractStrategy) {
 
   var _super = _createSuper(IterableStrategy);
 
-  _createClass(IterableStrategy, null, [{
-    key: "allowedClasses",
-    get: function get() {
-      //TODO: Add sequency sequences to the list
-      return [//			Iterator,
-      Array, NodeList];
-    }
-  }]);
-
   function IterableStrategy() {
     var _this;
 
     _classCallCheck(this, IterableStrategy);
 
-    _this = _super.call(this);
-    _this.allowedClasses = IterableStrategy.allowedClasses;
-    _this.allowedItemClasses = _SingleElementStrategy__WEBPACK_IMPORTED_MODULE_21__["default"].allowedClasses;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty(_assertThisInitialized(_this), "allowedClasses", IterableStrategy.allowedClasses);
+
+    _defineProperty(_assertThisInitialized(_this), "allowedItemClasses", _SingleElementStrategy__WEBPACK_IMPORTED_MODULE_21__["default"].allowedClasses);
+
     return _this;
   }
 
@@ -11193,6 +11193,13 @@ var IterableStrategy = /*#__PURE__*/function (_AbstractStrategy) {
       var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
       var previousResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
       return [].concat(_toConsumableArray(previousResults), _toConsumableArray(selector));
+    }
+  }], [{
+    key: "allowedClasses",
+    get: function get() {
+      //TODO: Add sequency sequences to the list
+      return [//			Iterator,
+      Array, NodeList];
     }
   }]);
 
@@ -11296,6 +11303,7 @@ var LightqueryCollectionStrategy = /*#__PURE__*/function (_AbstractStrategy) {
 
   _createClass(LightqueryCollectionStrategy, [{
     key: "shouldProcess",
+    // Makes them monads
     value: function shouldProcess(selector) {
       var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
       var previousResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -11423,6 +11431,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var SingleElementStrategy = /*#__PURE__*/function (_AbstractStrategy) {
@@ -11430,20 +11440,19 @@ var SingleElementStrategy = /*#__PURE__*/function (_AbstractStrategy) {
 
   var _super = _createSuper(SingleElementStrategy);
 
-  _createClass(SingleElementStrategy, null, [{
-    key: "allowedClasses",
-    get: function get() {
-      return [Element, Document, DocumentFragment, ShadowRoot, Window];
-    }
-  }]);
-
   function SingleElementStrategy() {
     var _this;
 
     _classCallCheck(this, SingleElementStrategy);
 
-    _this = _super.call(this);
-    _this.allowedClasses = SingleElementStrategy.allowedClasses;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty(_assertThisInitialized(_this), "allowedClasses", SingleElementStrategy.allowedClasses);
+
     return _this;
   }
 
@@ -11462,6 +11471,11 @@ var SingleElementStrategy = /*#__PURE__*/function (_AbstractStrategy) {
       var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
       var previousResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
       return [].concat(_toConsumableArray(previousResults), [selector]);
+    }
+  }], [{
+    key: "allowedClasses",
+    get: function get() {
+      return [Element, Document, DocumentFragment, ShadowRoot, Window];
     }
   }]);
 

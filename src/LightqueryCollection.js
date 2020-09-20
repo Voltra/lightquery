@@ -962,11 +962,11 @@ class LightqueryCollection{
 	 */
 	appendTo(element){
 		if(element instanceof LightqueryCollection){
-			return this.__.$(element).append(this);
+			this.__.$(element).append(this);
 		}else if(lqHelpers.elements.isElement(element)){
 			this.__.$(this.__.getElement(element)).append(this);
 		}else if(typeof element === "string"){
-			return this.appendTo(this.__.$(element));
+			this.appendTo(this.__.$(element));
 		}else{
 			this.__.ifStrict(() => throw new InvalidArgumentError("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection#appendTo(element)"));
 		}
@@ -1005,11 +1005,11 @@ class LightqueryCollection{
 	 */
 	prependTo(element){
 		if(element instanceof LightqueryCollection){
-			return this.__.$(element).prepend(this);
+			this.__.$(element).prepend(this);
 		}else if(lqHelpers.elements.isElement(element)){
 			this.__.$(this.__.getElement(element)).prepend(this);
 		}else if(typeof element === "string"){
-			return this.prependTo(this.__.$(element));
+			this.prependTo(this.__.$(element));
 		}else{
 			this.__.ifStrict(() => throw new InvalidArgumentError("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection#prependTo(element)"));
 		}

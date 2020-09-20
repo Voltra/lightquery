@@ -120,10 +120,15 @@ class LightqueryFactory extends Callable{
 	 * @returns {LightqueryCollection}
 	 */
 	__call(selector, context = undefined, previousResults = []){
-		if(typeof selector === "function")
-			return this.ready(selector);
-		else
-			return this.__.factory(selector);
+		try{
+			if(typeof selector === "function")
+				return this.ready(selector);
+			else
+				return this.__.factory(selector);
+		}catch(e){
+			this.__.ifStrict(() => throw e);
+			return this.__.emptySelection();
+		}
 	}
 
     /**
@@ -273,6 +278,15 @@ class LightqueryFactory extends Callable{
 		return this(document).ready(callback);
 	}
 
+    /**
+     * Listen to resize events (includes orientation change)
+     * @param {EventListener} listener
+     * @returns {LightqueryCollection}
+     */
+	resize(listener){
+	    return this(window).resize(listener);
+    }
+
 	/**
 	 * Help query using the given context as the selection root
 	 * @param   {DomElementType} context - The context to restrict to
@@ -304,6 +318,31 @@ class LightqueryFactory extends Callable{
 	    const ret = this(document.documentElement).cssVar(variable, value);
 	    return typeof value === "undefined" ? ret : this;
     }
+
+	/**
+	 * Create DOM from an HTML string
+	 * @param {string} htmlString - The string that contains the HTML structure to create
+	 * @returns {LightqueryCollection}
+	 */
+	create(htmlString){
+		const errorFactory = () => throw new UnsupportedError("Cannot create DOM elements from HTML string in LightqueryFactory#create(htmlString)");
+
+		if(!document.createRange)
+			this.__.ifStrict(errorFactory);
+
+		const range = document.createRange();
+
+		if(!range.createContextualFragment)
+			this.__.ifStrict(errorFactory);
+
+		try{
+			const el = range.createContextualFragment(htmlString);
+			return this(el);
+		}catch(e){
+			this.__.ifStrict(() => throw e);
+			return this.__.emptySelection();
+		}
+	}
 }
 
 

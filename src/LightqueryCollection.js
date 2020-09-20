@@ -227,7 +227,7 @@ class LightqueryCollectionImplDetails{
 
 	/**
 	 * Apply a function on the first element of a LightqueryCollection if it exists
-	 * @template R,U
+	 * @template R, U
 	 * @param {object} options
 	 * @param {LightqueryCollection~onFirst<R>} options.onFirst - The function to apply on the first element
 	 * @param {string} options.nameForStrict - The name to use on error in strict mode
@@ -352,12 +352,7 @@ class LightqueryCollectionImplDetails{
      * @returns {Element}
      */
     getElement(domEl){
-        if(domEl === document)
-            return this.getElement(document.documentElement);
-        else if(domEl instanceof Element)
-            return domEl
-        else // ShadowRoot
-            return domEl; //TODO: Check if OK (or if ShadowRoot should even be part of type alias)
+        return lqHelpers.elements.getElement(domEl);
     }
 
     /**
@@ -761,8 +756,8 @@ class LightqueryCollection{
 				const events = lqHelpers.spacedListString.toArray(eventNames);
 				this.forEach(el => {
 					events.forEach(event => {
-						if(e.addEventListener)
-							e.addEventListener(event, listener);
+						if(el.addEventListener)
+							el.addEventListener(event, listener);
 						else
 							this.__.ifStrict(() => throw new UnsupportedError("Cannot attach event listeners"));
 					});
@@ -916,7 +911,7 @@ class LightqueryCollection{
 
     /**
      * Reduce the set to the elements that have at least one descendant that matches the selector
-     * @param selector
+     * @param {string} selector
      * @returns {LightqueryCollection}
      */
     has(selector){
@@ -926,6 +921,52 @@ class LightqueryCollection{
         }
 
         return this.filter(e => this.__.$(e).find(selector));
+    }
+
+	/**
+	 * Append the given elements to the first result of the results set
+	 * @param {ElementsOrLightquery} elements - The elements to append
+	 * @returns {LightqueryCollection}
+	 */
+	append(elements){
+        const nameForStrict = "#append(elements)";
+
+        return this.__.doOnFirst({
+            onFirst: el => {
+                lqHelpers.elements.forElements({
+                    elements,
+                    LightqueryCollection,
+                    nameForStrict,
+
+                    onElement: e => el.append(e),
+                    onElements: e => el.append(...e),
+                });
+
+                return this;
+            },
+            nameForStrict,
+            defaultValue: this,
+        });
+
+    }
+
+	/**
+	 * Appends the result set to the given element
+	 * @param {ElementOrLightquery|string} element - The element to append to (or a CSS selector to it)
+	 * @returns {LightqueryCollection}
+	 */
+	appendTo(element){
+		if(element instanceof LightqueryCollection){
+			return this.__.$(element).append(this);
+		}else if(lqHelpers.elements.isElement(element)){
+			this.__.$(this.__.getElement(element)).append(this);
+		}else if(typeof element === "string"){
+			return this.appendTo(this.__.$(element));
+		}else{
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected element to be an Element in LightqueryCollection#appendTo(element)"));
+		}
+
+		return this;
     }
 
 
@@ -1059,6 +1100,20 @@ class LightqueryCollection{
 		return this.on("mouseenter", onEnter)
 					.on("mouseleave", onLeave);
 	}
+
+    /**
+     * Listen to resize events (includes orientation change)
+     * @param {EventListener} listener - The event listener to attach
+     * @returns {LightqueryCollection}
+     */
+	resize(listener){
+	    if(this.__.selector !== window){
+	        this.__.ifStrict(() => throw new InvalidArgumentError("Can only attach resize events on the window object"));
+	        return this;
+        }
+
+	    return this.on("resize orientationchange", listener);
+    }
 }
 
 export default LightqueryCollection

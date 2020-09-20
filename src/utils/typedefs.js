@@ -1,9 +1,17 @@
 /**
- * @typedef {Element|Document|ShadowRoot} DomElementType
+ * @typedef {Element|DocumentFragment|Document|Window} DomElementType
+ */
+
+/**
+ * @typedef {DomElementType|LightqueryCollection} ElementOrLightquery
  */
 
 /**
  * @typedef {DomElementType|NodeList|Iterable<DomElementType>} DomElements
+ */
+
+/**
+ * @typedef {DomElements|LightqueryCollection} ElementsOrLightquery
  */
 
 /**
@@ -27,7 +35,13 @@
 
 /**
  * @callback ElementCallback
- * @param {DomElementType} e
+ * @param {Element} e
+ * @returns {any}
+ */
+
+/**
+ * @callback ElementsCallback
+ * @param {Iterable<Element>} e
  * @returns {any}
  */
 

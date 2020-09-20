@@ -1,4 +1,5 @@
 import "./typedefs"
+import InvalidArgumentError from "../errors/InvalidArgumentError";
 
 const helpers = {
     string: {
@@ -107,6 +108,59 @@ const helpers = {
 			|| arr == new Array();
 		},
 	},
+    elements: {
+		/**
+		 * Get an element from a DOM element
+		 * @param {DomElementType} domEl
+		 * @returns {Element}
+		 */
+    	getElement(domEl){
+			if(domEl instanceof Document || domEl instanceof Window)
+				return this.getElement(document.documentElement);
+			else if(domEl instanceof Element)
+				return domEl
+			else // DocumentFragment
+				return domEl; //TODO: Check if OK (or if ShadowRoot should even be part of type alias)
+		},
+
+		/**
+		 * Determine whether or not the given element is a DOM element
+		 * @param el
+		 * @returns {boolean}
+		 */
+        isElement(el){
+            return el && (el instanceof Node || el instanceof Element || el instanceof DocumentFragment);
+        },
+
+		/**
+		 * Execute code for each element
+		 * @param {object} args
+		 * @param {ElementsOrLightquery} args.elements - The elements to execute code for
+		 * @param {ElementCallback} args.onElement - The callback for single elements
+		 * @param {ElementsCallback} args.onElements - The callback for iterable of elements
+		 * @param {string} args.nameForStrict - The name for error messages if strict mode is on
+		 * @param {typeof LightqueryCollection} args.LightqueryCollection - The class for the lightquery result set
+		 */
+        forElements({ elements, onElement, onElements, nameForStrict, LightqueryCollection }){
+            if(elements instanceof LightqueryCollection || elements instanceof NodeList){
+                onElements(elements);
+            }else if(this.isElement(elements)){
+                onElement(this.getElement(elements));
+            }else{
+                if(elements.forEach){
+                    elements.forEach(e => {
+                        if(!this.isElement(e)){
+                            this.__.ifStrict(() => throw new InvalidArgumentError(`Expected elements to contain (only) elements in LightqueryCollection${nameForStrict}`));
+                        }else{
+                            onElement(this.getElement(e));
+                        }
+                    });
+                }else{
+                    this.__.ifStrict(() => throw new InvalidArgumentError(`Expected elements to be iterable or an element in LightqueryCollection${nameForStrict}`));
+                }
+            }
+        }
+    },
 };
 
 export default helpers;

@@ -8570,7 +8570,7 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
     }
     /**
      * Apply a function on the first element of a LightqueryCollection if it exists
-     * @template R,U
+     * @template R, U
      * @param {object} options
      * @param {LightqueryCollection~onFirst<R>} options.onFirst - The function to apply on the first element
      * @param {string} options.nameForStrict - The name to use on error in strict mode
@@ -8729,8 +8729,7 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
   }, {
     key: "getElement",
     value: function getElement(domEl) {
-      if (domEl === document) return this.getElement(document.documentElement);else if (domEl instanceof Element) return domEl;else // ShadowRoot
-        return domEl; //TODO: Check if OK (or if ShadowRoot should even be part of type alias)
+      return _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.getElement(domEl);
     }
     /**
      * Filter an array based on a CSS selector
@@ -9238,7 +9237,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
           var events = _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].spacedListString.toArray(eventNames);
           this.forEach(function (el) {
             events.forEach(function (event) {
-              if (e.addEventListener) e.addEventListener(event, listener);else _this5.__.ifStrict(function () {
+              if (el.addEventListener) el.addEventListener(event, listener);else _this5.__.ifStrict(function () {
                 return function (e) {
                   throw e;
                 }(new _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_27__["default"]("Cannot attach event listeners"));
@@ -9439,7 +9438,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
     }
     /**
      * Reduce the set to the elements that have at least one descendant that matches the selector
-     * @param selector
+     * @param {string} selector
      * @returns {LightqueryCollection}
      */
 
@@ -9461,6 +9460,62 @@ var LightqueryCollection = /*#__PURE__*/function () {
       return this.filter(function (e) {
         return _this9.__.$(e).find(selector);
       });
+    }
+    /**
+     * Append the given elements to the first result of the results set
+     * @param {ElementsOrLightquery} elements - The elements to append
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "append",
+    value: function append(elements) {
+      var _this10 = this;
+
+      var nameForStrict = "#append(elements)";
+      return this.__.doOnFirst({
+        onFirst: function onFirst(el) {
+          _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElements({
+            elements: elements,
+            LightqueryCollection: LightqueryCollection,
+            nameForStrict: nameForStrict,
+            onElement: function onElement(e) {
+              return el.append(e);
+            },
+            onElements: function onElements(e) {
+              return el.append.apply(el, _toConsumableArray(e));
+            }
+          });
+          return _this10;
+        },
+        nameForStrict: nameForStrict,
+        defaultValue: this
+      });
+    }
+    /**
+     * Appends the result set to the given element
+     * @param {ElementOrLightquery|string} element - The element to append to (or a CSS selector to it)
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "appendTo",
+    value: function appendTo(element) {
+      if (element instanceof LightqueryCollection) {
+        return this.__.$(element).append(this);
+      } else if (_utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.isElement(element)) {
+        this.__.$(this.__.getElement(element)).append(this);
+      } else if (typeof element === "string") {
+        return this.appendTo(this.__.$(element));
+      } else {
+        this.__.ifStrict(function () {
+          return function (e) {
+            throw e;
+          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected element to be an Element in LightqueryCollection#appendTo(element)"));
+        });
+      }
+
+      return this;
     }
     /****************************************************************************************\
      * Misc.
@@ -9493,7 +9548,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "css",
     value: function css(properties) {
-      var _this10 = this;
+      var _this11 = this;
 
       var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
 
@@ -9506,12 +9561,12 @@ var LightqueryCollection = /*#__PURE__*/function () {
             onFirst: function onFirst(el) {
               return properties.reduce(function (ret, property) {
                 if (typeof property !== "string") {
-                  _this10.__.ifStrict(function () {
+                  _this11.__.ifStrict(function () {
                     return function (e) {
                       throw e;
                     }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Property \"".concat(property, "\" is not a string")));
                   });
-                } else ret[property] = _this10.__.getCssProperty(el, property);
+                } else ret[property] = _this11.__.getCssProperty(el, property);
 
                 return ret;
               }, {});
@@ -9524,8 +9579,8 @@ var LightqueryCollection = /*#__PURE__*/function () {
                 prop = _ref8[0],
                 val = _ref8[1];
 
-            _this10.forEach(function (el) {
-              return _this10.__.setCssProperty(el, prop, val);
+            _this11.forEach(function (el) {
+              return _this11.__.setCssProperty(el, prop, val);
             });
           });
           return this;
@@ -9535,7 +9590,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
             nameForStrict: "#css(properties, value)",
             defaultValue: "",
             onFirst: function onFirst(el) {
-              return _this10.__.getCssProperty(el, properties);
+              return _this11.__.getCssProperty(el, properties);
             }
           });
         } else {
@@ -9553,7 +9608,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
         this.forEach(function (el) {
           return props.forEach(function (prop) {
             if (typeof prop !== "string") {
-              _this10.__.ifStrict(function () {
+              _this11.__.ifStrict(function () {
                 return function (e) {
                   throw e;
                 }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Property \"".concat(prop, "\" is not a string")));
@@ -9562,7 +9617,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
               return;
             }
 
-            _this10.__.setCssProperty(el, prop, value);
+            _this11.__.setCssProperty(el, prop, value);
           });
         });
         return this;
@@ -9636,6 +9691,27 @@ var LightqueryCollection = /*#__PURE__*/function () {
     key: "hover",
     value: function hover(onEnter, onLeave) {
       return this.on("mouseenter", onEnter).on("mouseleave", onLeave);
+    }
+    /**
+     * Listen to resize events (includes orientation change)
+     * @param {EventListener} listener - The event listener to attach
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "resize",
+    value: function resize(listener) {
+      if (this.__.selector !== window) {
+        this.__.ifStrict(function () {
+          return function (e) {
+            throw e;
+          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Can only attach resize events on the window object"));
+        });
+
+        return this;
+      }
+
+      return this.on("resize orientationchange", listener);
     }
   }]);
 
@@ -9909,7 +9985,18 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
     value: function __call(selector) {
       var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
       var previousResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-      if (typeof selector === "function") return this.ready(selector);else return this.__.factory(selector);
+
+      try {
+        if (typeof selector === "function") return this.ready(selector);else return this.__.factory(selector);
+      } catch (e) {
+        this.__.ifStrict(function () {
+          return function (e) {
+            throw e;
+          }(e);
+        });
+
+        return this.__.emptySelection();
+      }
     }
     /**
      * Determine whether or not the plugin is registered
@@ -10131,6 +10218,17 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
       return this(document).ready(callback);
     }
     /**
+     * Listen to resize events (includes orientation change)
+     * @param {EventListener} listener
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "resize",
+    value: function resize(listener) {
+      return this(window).resize(listener);
+    }
+    /**
      * Help query using the given context as the selection root
      * @param   {DomElementType} context - The context to restrict to
      * @returns {LightqueryFactorySelectObject}
@@ -10175,6 +10273,38 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
     value: function cssVar(variable, value) {
       var ret = this(document.documentElement).cssVar(variable, value);
       return typeof value === "undefined" ? ret : this;
+    }
+    /**
+     * Create DOM from an HTML string
+     * @param {string} htmlString - The string that contains the HTML structure to create
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "create",
+    value: function create(htmlString) {
+      var errorFactory = function errorFactory() {
+        return function (e) {
+          throw e;
+        }(new UnsupportedError("Cannot create DOM elements from HTML string in LightqueryFactory#create(htmlString)"));
+      };
+
+      if (!document.createRange) this.__.ifStrict(errorFactory);
+      var range = document.createRange();
+      if (!range.createContextualFragment) this.__.ifStrict(errorFactory);
+
+      try {
+        var el = range.createContextualFragment(htmlString);
+        return this(el);
+      } catch (e) {
+        this.__.ifStrict(function () {
+          return function (e) {
+            throw e;
+          }(e);
+        });
+
+        return this.__.emptySelection();
+      }
     }
   }]);
 
@@ -11016,6 +11146,120 @@ var IterableStrategy = /*#__PURE__*/function (_AbstractStrategy) {
 
 /***/ }),
 
+/***/ "./src/strategies/init/LightqueryCollectionStrategy.js":
+/*!*************************************************************!*\
+  !*** ./src/strategies/init/LightqueryCollectionStrategy.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return LightqueryCollectionStrategy; });
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.symbol */ "./node_modules/core-js/modules/es.symbol.js");
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.symbol.description */ "./node_modules/core-js/modules/es.symbol.description.js");
+/* harmony import */ var core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.symbol.iterator */ "./node_modules/core-js/modules/es.symbol.iterator.js");
+/* harmony import */ var core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.array.iterator */ "./node_modules/core-js/modules/es.array.iterator.js");
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.date.to-string */ "./node_modules/core-js/modules/es.date.to-string.js");
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_object_create__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.object.create */ "./node_modules/core-js/modules/es.object.create.js");
+/* harmony import */ var core_js_modules_es_object_create__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_create__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.object.define-property */ "./node_modules/core-js/modules/es.object.define-property.js");
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_es_object_get_prototype_of__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/es.object.get-prototype-of */ "./node_modules/core-js/modules/es.object.get-prototype-of.js");
+/* harmony import */ var core_js_modules_es_object_get_prototype_of__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_prototype_of__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var core_js_modules_es_object_set_prototype_of__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.object.set-prototype-of */ "./node_modules/core-js/modules/es.object.set-prototype-of.js");
+/* harmony import */ var core_js_modules_es_object_set_prototype_of__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_set_prototype_of__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var core_js_modules_es_reflect_construct__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! core-js/modules/es.reflect.construct */ "./node_modules/core-js/modules/es.reflect.construct.js");
+/* harmony import */ var core_js_modules_es_reflect_construct__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_reflect_construct__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! core-js/modules/es.regexp.to-string */ "./node_modules/core-js/modules/es.regexp.to-string.js");
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _AbstractStrategy__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./AbstractStrategy */ "./src/strategies/init/AbstractStrategy.js");
+/* harmony import */ var _LightqueryCollection__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../LightqueryCollection */ "./src/LightqueryCollection.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var LightqueryCollectionStrategy = /*#__PURE__*/function (_AbstractStrategy) {
+  _inherits(LightqueryCollectionStrategy, _AbstractStrategy);
+
+  var _super = _createSuper(LightqueryCollectionStrategy);
+
+  function LightqueryCollectionStrategy() {
+    _classCallCheck(this, LightqueryCollectionStrategy);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(LightqueryCollectionStrategy, [{
+    key: "shouldProcess",
+    value: function shouldProcess(selector) {
+      var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+      var previousResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+      return selector instanceof _LightqueryCollection__WEBPACK_IMPORTED_MODULE_15__["default"];
+    }
+  }, {
+    key: "process",
+    value: function process(selector) {
+      var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+      var previousResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+      return selector;
+    }
+  }]);
+
+  return LightqueryCollectionStrategy;
+}(_AbstractStrategy__WEBPACK_IMPORTED_MODULE_14__["default"]);
+
+
+
+/***/ }),
+
 /***/ "./src/strategies/init/SingleElementStrategy.js":
 /*!******************************************************!*\
   !*** ./src/strategies/init/SingleElementStrategy.js ***!
@@ -11184,10 +11428,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CssSelectorStrategy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CssSelectorStrategy */ "./src/strategies/init/CssSelectorStrategy.js");
 /* harmony import */ var _SingleElementStrategy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SingleElementStrategy */ "./src/strategies/init/SingleElementStrategy.js");
 /* harmony import */ var _IterableStrategy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IterableStrategy */ "./src/strategies/init/IterableStrategy.js");
+/* harmony import */ var _LightqueryCollectionStrategy__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LightqueryCollectionStrategy */ "./src/strategies/init/LightqueryCollectionStrategy.js");
 
 
 
-var strategies = [new _CssSelectorStrategy__WEBPACK_IMPORTED_MODULE_0__["default"](), new _SingleElementStrategy__WEBPACK_IMPORTED_MODULE_1__["default"](), new _IterableStrategy__WEBPACK_IMPORTED_MODULE_2__["default"]()];
+
+var strategies = [new _LightqueryCollectionStrategy__WEBPACK_IMPORTED_MODULE_3__["default"](), new _CssSelectorStrategy__WEBPACK_IMPORTED_MODULE_0__["default"](), new _SingleElementStrategy__WEBPACK_IMPORTED_MODULE_1__["default"](), new _IterableStrategy__WEBPACK_IMPORTED_MODULE_2__["default"]()];
 
 /***/ }),
 
@@ -11330,18 +11576,26 @@ var Callable = /*#__PURE__*/function (_Function) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.array.includes */ "./node_modules/core-js/modules/es.array.includes.js");
-/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.array.slice */ "./node_modules/core-js/modules/es.array.slice.js");
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.regexp.exec */ "./node_modules/core-js/modules/es.regexp.exec.js");
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.string.split */ "./node_modules/core-js/modules/es.string.split.js");
-/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./typedefs */ "./src/utils/typedefs.js");
-/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_typedefs__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.array.for-each */ "./node_modules/core-js/modules/es.array.for-each.js");
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.array.includes */ "./node_modules/core-js/modules/es.array.includes.js");
+/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.array.slice */ "./node_modules/core-js/modules/es.array.slice.js");
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.regexp.exec */ "./node_modules/core-js/modules/es.regexp.exec.js");
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.string.split */ "./node_modules/core-js/modules/es.string.split.js");
+/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./typedefs */ "./src/utils/typedefs.js");
+/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_typedefs__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../errors/InvalidArgumentError */ "./src/errors/InvalidArgumentError.js");
+
+
+
 
 
 
@@ -11450,6 +11704,71 @@ var helpers = {
     isEmpty: function isEmpty(arr) {
       return arr.length === 0 || arr == [] || arr == new Array();
     }
+  },
+  elements: {
+    /**
+     * Get an element from a DOM element
+     * @param {DomElementType} domEl
+     * @returns {Element}
+     */
+    getElement: function getElement(domEl) {
+      if (domEl instanceof Document || domEl instanceof Window) return this.getElement(document.documentElement);else if (domEl instanceof Element) return domEl;else // DocumentFragment
+        return domEl; //TODO: Check if OK (or if ShadowRoot should even be part of type alias)
+    },
+
+    /**
+     * Determine whether or not the given element is a DOM element
+     * @param el
+     * @returns {boolean}
+     */
+    isElement: function isElement(el) {
+      return el && (el instanceof Node || el instanceof Element || el instanceof DocumentFragment);
+    },
+
+    /**
+     * Execute code for each element
+     * @param {object} args
+     * @param {ElementsOrLightquery} args.elements - The elements to execute code for
+     * @param {ElementCallback} args.onElement - The callback for single elements
+     * @param {ElementsCallback} args.onElements - The callback for iterable of elements
+     * @param {string} args.nameForStrict - The name for error messages if strict mode is on
+     * @param {typeof LightqueryCollection} args.LightqueryCollection - The class for the lightquery result set
+     */
+    forElements: function forElements(_ref2) {
+      var _this = this;
+
+      var elements = _ref2.elements,
+          onElement = _ref2.onElement,
+          onElements = _ref2.onElements,
+          nameForStrict = _ref2.nameForStrict,
+          LightqueryCollection = _ref2.LightqueryCollection;
+
+      if (elements instanceof LightqueryCollection || elements instanceof NodeList) {
+        onElements(elements);
+      } else if (this.isElement(elements)) {
+        onElement(this.getElement(elements));
+      } else {
+        if (elements.forEach) {
+          elements.forEach(function (e) {
+            if (!_this.isElement(e)) {
+              _this.__.ifStrict(function () {
+                return function (e) {
+                  throw e;
+                }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_9__["default"]("Expected elements to contain (only) elements in LightqueryCollection".concat(nameForStrict)));
+              });
+            } else {
+              onElement(_this.getElement(e));
+            }
+          });
+        } else {
+          this.__.ifStrict(function () {
+            return function (e) {
+              throw e;
+            }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_9__["default"]("Expected elements to be iterable or an element in LightqueryCollection".concat(nameForStrict)));
+          });
+        }
+      }
+    }
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (helpers);
@@ -11464,11 +11783,19 @@ var helpers = {
 /***/ (function(module, exports) {
 
 /**
- * @typedef {Element|Document|ShadowRoot} DomElementType
+ * @typedef {Element|DocumentFragment|Document|Window} DomElementType
+ */
+
+/**
+ * @typedef {DomElementType|LightqueryCollection} ElementOrLightquery
  */
 
 /**
  * @typedef {DomElementType|NodeList|Iterable<DomElementType>} DomElements
+ */
+
+/**
+ * @typedef {DomElements|LightqueryCollection} ElementsOrLightquery
  */
 
 /**
@@ -11492,7 +11819,13 @@ var helpers = {
 
 /**
  * @callback ElementCallback
- * @param {DomElementType} e
+ * @param {Element} e
+ * @returns {any}
+ */
+
+/**
+ * @callback ElementsCallback
+ * @param {Iterable<Element>} e
  * @returns {any}
  */
 

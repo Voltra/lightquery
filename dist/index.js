@@ -8957,7 +8957,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
      * Reduce the set of elements to a single return value
      * @template T
      * @param {ElementReducer<T>} reducer - The reducing function
-     * @param {T|undefined} acc - The initial value of the accumulator
+     * @param {T|undefined} [acc = undefined] - The initial value of the accumulator
      * @returns {T|undefined}
      */
 
@@ -8966,6 +8966,78 @@ var LightqueryCollection = /*#__PURE__*/function () {
     value: function reduce(reducer) {
       var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
       return this.__.elements.reduce(reducer, acc);
+    }
+    /**
+     * Determine whether or not all the elements match the given predicate
+     * @param   {Predicate<DomElementType>|string} predicate - The predicate function
+     * @param   {...any} args - Arguments for string callable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: "all",
+    value: function all(predicate) {
+      for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+        args[_key3 - 1] = arguments[_key3];
+      }
+
+      return this.__.arrayMethodDelegate({
+        method: "every",
+        func: predicate,
+        args: args
+      });
+    }
+    /**
+     * Determine whether or not any of the elements match the given predicate
+     * @param   {Predicate<DomElementType>|string} predicate - The predicate function
+     * @param   {...any} args - Arguments for string callable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: "any",
+    value: function any(predicate) {
+      for (var _len4 = arguments.length, args = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+        args[_key4 - 1] = arguments[_key4];
+      }
+
+      return this.__.arrayMethodDelegate({
+        method: "some",
+        func: predicate,
+        args: args
+      });
+    }
+    /**
+     * Determine whether or not none of the elements match the given predicate
+     * @param   {Predicate<DomElementType>|string} predicate - The predicate function
+     * @param   {...any} args - Arguments for string callable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: "none",
+    value: function none(predicate) {
+      for (var _len5 = arguments.length, args = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+        args[_key5 - 1] = arguments[_key5];
+      }
+
+      return !this.any.apply(this, [predicate].concat(args));
+    }
+    /**
+     * Determine whether or not some of the elements do not match the given predicate
+     * @param   {Predicate<DomElementType>|string} predicate - The predicate function
+     * @param   {...any} args - Arguments for string callable
+     * @returns {boolean}
+     */
+
+  }, {
+    key: "notAll",
+    value: function notAll(predicate) {
+      for (var _len6 = arguments.length, args = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+        args[_key6 - 1] = arguments[_key6];
+      }
+
+      return !this.all.apply(this, [predicate].concat(args));
     }
     /**
      * Converts the result set to an array
@@ -9791,6 +9863,35 @@ var LightqueryCollection = /*#__PURE__*/function () {
 
       return this;
     }
+    /**
+     * Remove the elements from the DOM
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "remove",
+    value: function remove() {
+      var _this15 = this;
+
+      this.forEach(function (e) {
+        return _this15.__.getElement(e).remove();
+      });
+      return this.__.$.__.emptySelection();
+    }
+    /**
+     * Empty the content of each element
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "empty",
+    value: function empty() {
+      var _this16 = this;
+
+      return this.forEach(function (e) {
+        return _this16.__.getElement(e).innerHTML = "";
+      });
+    }
     /****************************************************************************************\
      * Misc.
     \****************************************************************************************/
@@ -9822,7 +9923,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "css",
     value: function css(properties) {
-      var _this15 = this;
+      var _this17 = this;
 
       var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
 
@@ -9835,12 +9936,12 @@ var LightqueryCollection = /*#__PURE__*/function () {
             onFirst: function onFirst(el) {
               return properties.reduce(function (ret, property) {
                 if (typeof property !== "string") {
-                  _this15.__.ifStrict(function () {
+                  _this17.__.ifStrict(function () {
                     return function (e) {
                       throw e;
                     }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Property \"".concat(property, "\" is not a string")));
                   });
-                } else ret[property] = _this15.__.getCssProperty(el, property);
+                } else ret[property] = _this17.__.getCssProperty(el, property);
 
                 return ret;
               }, {});
@@ -9853,8 +9954,8 @@ var LightqueryCollection = /*#__PURE__*/function () {
                 prop = _ref8[0],
                 val = _ref8[1];
 
-            _this15.forEach(function (el) {
-              return _this15.__.setCssProperty(el, prop, val);
+            _this17.forEach(function (el) {
+              return _this17.__.setCssProperty(el, prop, val);
             });
           });
           return this;
@@ -9864,7 +9965,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
             nameForStrict: "#css(properties, value)",
             defaultValue: "",
             onFirst: function onFirst(el) {
-              return _this15.__.getCssProperty(el, properties);
+              return _this17.__.getCssProperty(el, properties);
             }
           });
         } else {
@@ -9882,7 +9983,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
         this.forEach(function (el) {
           return props.forEach(function (prop) {
             if (typeof prop !== "string") {
-              _this15.__.ifStrict(function () {
+              _this17.__.ifStrict(function () {
                 return function (e) {
                   throw e;
                 }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Property \"".concat(prop, "\" is not a string")));
@@ -9891,7 +9992,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
               return;
             }
 
-            _this15.__.setCssProperty(el, prop, value);
+            _this17.__.setCssProperty(el, prop, value);
           });
         });
         return this;

@@ -522,12 +522,60 @@ class LightqueryCollection{
      * Reduce the set of elements to a single return value
      * @template T
      * @param {ElementReducer<T>} reducer - The reducing function
-     * @param {T|undefined} acc - The initial value of the accumulator
+     * @param {T|undefined} [acc = undefined] - The initial value of the accumulator
      * @returns {T|undefined}
      */
 	reduce(reducer, acc = undefined){
 	    return this.__.elements.reduce(reducer, acc);
     }
+
+	/**
+	 * Determine whether or not all the elements match the given predicate
+	 * @param   {Predicate<DomElementType>|string} predicate - The predicate function
+	 * @param   {...any} args - Arguments for string callable
+	 * @returns {boolean}
+	 */
+    all(predicate, ...args){
+		return this.__.arrayMethodDelegate({
+			method: "every",
+			func: predicate,
+			args,
+		});
+	}
+
+	/**
+	 * Determine whether or not any of the elements match the given predicate
+	 * @param   {Predicate<DomElementType>|string} predicate - The predicate function
+	 * @param   {...any} args - Arguments for string callable
+	 * @returns {boolean}
+	 */
+	any(predicate, ...args){
+		return this.__.arrayMethodDelegate({
+			method: "some",
+			func: predicate,
+			args,
+		});
+	}
+
+	/**
+	 * Determine whether or not none of the elements match the given predicate
+	 * @param   {Predicate<DomElementType>|string} predicate - The predicate function
+	 * @param   {...any} args - Arguments for string callable
+	 * @returns {boolean}
+	 */
+	none(predicate, ...args){
+		return !this.any(predicate, ...args);
+	}
+
+	/**
+	 * Determine whether or not some of the elements do not match the given predicate
+	 * @param   {Predicate<DomElementType>|string} predicate - The predicate function
+	 * @param   {...any} args - Arguments for string callable
+	 * @returns {boolean}
+	 */
+	notAll(predicate, ...args){
+		return !this.all(predicate, ...args);
+	}
 
 	/**
 	 * Converts the result set to an array
@@ -1166,6 +1214,23 @@ class LightqueryCollection{
 		}
 
 		return this;
+	}
+
+	/**
+	 * Remove the elements from the DOM
+	 * @returns {LightqueryCollection}
+	 */
+	remove(){
+		this.forEach(e => this.__.getElement(e).remove());
+		return this.__.$.__.emptySelection();
+	}
+
+	/**
+	 * Empty the content of each element
+	 * @returns {LightqueryCollection}
+	 */
+	empty(){
+		return this.forEach(e => this.__.getElement(e).innerHTML = "");
 	}
 
 

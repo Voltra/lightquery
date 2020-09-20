@@ -34,15 +34,22 @@
  */
 
 /**
- * @callback ElementCallback
- * @param {Element} e
+ * @callback GenericCallback
+ * @template T
+ * @param {T} arg
  * @returns {any}
  */
 
 /**
- * @callback ElementsCallback
- * @param {Iterable<Element>} e
- * @returns {any}
+ * @typedef {GenericCallback<ElementCallback>} ElementCallback
+ */
+
+/**
+ * @typedef {GenericCallback<Iterable<Element>>} ElementsCallback
+ */
+
+/**
+ * @typedef {GenericCallback<LightqueryCollection>} LightqueryCollectionCallback
  */
 
 /**
@@ -72,5 +79,4 @@
  * @param {T} acc
  * @param {Element}
  * @returns {T}
- *
  */

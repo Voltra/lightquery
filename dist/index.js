@@ -8348,6 +8348,20 @@ var notEnoughFor = function notEnoughFor(str) {
   };
 };
 /**
+ * Callback to rethrow an exception
+ * @param {Error} e - The exception to rethrow
+ * @returns {Callback}
+ */
+
+
+var rethrow = function rethrow(e) {
+  return function () {
+    return function (e) {
+      throw e;
+    }(e);
+  };
+};
+/**
  * Predicates to satisfy to be an element of a lightquery collection
  */
 
@@ -8770,26 +8784,12 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
 
 
 var LightqueryCollection = /*#__PURE__*/function () {
-  _createClass(LightqueryCollection, null, [{
-    key: "ready",
-
-    /**
-     * Call a function once the document is loaded
-     * @param   {Callback} callback - The function to call once the document is loaded
-     * @returns {LightqueryCollection}
-     */
-    value: function ready(callback) {
-      return this.__.$(document).ready(callback);
-    }
-    /**
-     * @throws {InvalidArgumentError} If the selector is invalid
-     * @param {Selector} selector - The selector
-     * @param {DomElementType|undefined} [context = undefined] - The selection context
-     * @param {Iterable<DomElementType>} [previousResults = []] - The previous results set
-     */
-
-  }]);
-
+  /**
+   * @throws {InvalidArgumentError} If the selector is invalid
+   * @param {Selector} selector - The selector
+   * @param {DomElementType|undefined} [context = undefined] - The selection context
+   * @param {Iterable<DomElementType>} [previousResults = []] - The previous results set
+   */
   function LightqueryCollection(selector) {
     var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
     var previousResults = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -8850,6 +8850,27 @@ var LightqueryCollection = /*#__PURE__*/function () {
       }
 
       return this;
+    }
+    /**
+     * Listen to resize events (includes orientation change)
+     * @param {EventListener} listener - The event listener to attach
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "resize",
+    value: function resize(listener) {
+      if (this.__.selector !== window) {
+        this.__.ifStrict(function () {
+          return function (e) {
+            throw e;
+          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Can only attach resize events on the window object"));
+        });
+
+        return this;
+      }
+
+      return this.on("resize orientationchange", listener);
     }
     /****************************************************************************************\
      * Iteration methods
@@ -8946,6 +8967,16 @@ var LightqueryCollection = /*#__PURE__*/function () {
       var acc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
       return this.__.elements.reduce(reducer, acc);
     }
+    /**
+     * Converts the result set to an array
+     * @returns {DomElementType[]}
+     */
+
+  }, {
+    key: "toArray",
+    value: function toArray() {
+      return _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].arrayLike.toArray(this.__.elements);
+    }
     /****************************************************************************************\
      * Single item methods
     \****************************************************************************************/
@@ -8985,6 +9016,21 @@ var LightqueryCollection = /*#__PURE__*/function () {
     key: "last",
     value: function last() {
       return this.eq(this.length - 1);
+    }
+    /**
+     * Get/set the text content
+     * @param   {LightqueryCollection~setValueFactory<string, DomElementType, string>|string|number|null|undefined} [value = undefined] - The new value (or its factory)
+     * @returns {LightqueryCollection|string|number|null}
+     */
+
+  }, {
+    key: "text",
+    value: function text() {
+      var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.getSetMethod({
+        value: value,
+        key: "textContent"
+      });
     }
     /**
      * Get/set the value of an input field
@@ -9505,18 +9551,25 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "appendTo",
     value: function appendTo(element) {
-      if (element instanceof LightqueryCollection) {
-        this.__.$(element).append(this);
-      } else if (_utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.isElement(element)) {
-        this.__.$(this.__.getElement(element)).append(this);
-      } else if (typeof element === "string") {
-        this.appendTo(this.__.$(element));
-      } else {
-        this.__.ifStrict(function () {
-          return function (e) {
-            throw e;
-          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection#appendTo(element)"));
+      var _this11 = this;
+
+      try {
+        _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElement({
+          element: element,
+          LightqueryCollection: LightqueryCollection,
+          nameForStrict: "#appendTo",
+          onLq: function onLq($e) {
+            return $e.append(_this11);
+          },
+          onElement: function onElement(e) {
+            return _this11.appendTo(_this11.__.$(_this11.__.getElement(e)));
+          },
+          onString: function onString(selector) {
+            return _this11.appendTo(_this11.__.$(selector));
+          }
         });
+      } catch (e) {
+        this.__.ifStrict(rethrow(e));
       }
 
       return this;
@@ -9558,18 +9611,182 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "prependTo",
     value: function prependTo(element) {
-      if (element instanceof LightqueryCollection) {
-        this.__.$(element).prepend(this);
-      } else if (_utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.isElement(element)) {
-        this.__.$(this.__.getElement(element)).prepend(this);
-      } else if (typeof element === "string") {
-        this.prependTo(this.__.$(element));
-      } else {
-        this.__.ifStrict(function () {
-          return function (e) {
-            throw e;
-          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection#prependTo(element)"));
+      var _this12 = this;
+
+      try {
+        _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElement({
+          element: element,
+          LightqueryCollection: LightqueryCollection,
+          nameForStrict: "#prependTo(element)",
+          onLq: function onLq($e) {
+            return $e.prepend(_this12);
+          },
+          onElement: function onElement(e) {
+            return _this12.prependTo(_this12.__.$(_this12.__.getElement(e)));
+          },
+          onString: function onString(selector) {
+            return _this12.prependTo(_this12.__.$(selector));
+          }
         });
+      } catch (e) {
+        this.__.ifStrict(rethrow(e));
+      }
+
+      return this;
+    }
+    /**
+     * Insert the given elements before the first result
+     * @param {ElementsOrLightquery} elements - The elements to insert
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "before",
+    value: function before(elements) {
+      var nameForStrict = "#after(elements)";
+
+      var doInsert = function doInsert(el) {
+        return function (e) {
+          return el.parentElement.insertBefore(e, el);
+        };
+      };
+
+      return this.__.doOnFirst({
+        onFirst: function onFirst(el) {
+          var onElement = doInsert(el);
+          _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElements({
+            elements: elements,
+            LightqueryCollection: LightqueryCollection,
+            onElement: onElement,
+            onElements: function onElements(es) {
+              var _iterator3 = _createForOfIteratorHelper(es),
+                  _step3;
+
+              try {
+                for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                  var _e3 = _step3.value;
+                  onElement(_e3);
+                }
+              } catch (err) {
+                _iterator3.e(err);
+              } finally {
+                _iterator3.f();
+              }
+            },
+            nameForStrict: nameForStrict
+          });
+        },
+        defaultValue: this,
+        nameForStrict: nameForStrict
+      });
+    }
+    /**
+     * Insert the result set before the given element
+     * @param {ElementOrLightquery|string} element - The element to insert elements before (or a CSS selector to it)
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "insertBefore",
+    value: function insertBefore(element) {
+      var _this13 = this;
+
+      try {
+        _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElement({
+          element: element,
+          LightqueryCollection: LightqueryCollection,
+          nameForStrict: "#insertBefore(element)",
+          onLq: function onLq($e) {
+            return $e.before(_this13);
+          },
+          onElement: function onElement(e) {
+            return _this13.insertBefore(_this13.__.$(_this13.__.getElement(e)));
+          },
+          onString: function onString(selector) {
+            return _this13.insertBefore(_this13.__.$(selector));
+          }
+        });
+      } catch (e) {
+        this.__.ifStrict(rethrow(e));
+      }
+
+      return this;
+    }
+    /**
+     * Insert the given elements after the first result
+     * @param {ElementsOrLightquery} elements - The elements to insert
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "after",
+    value: function after(elements) {
+      var nameForStrict = "#after(elements)";
+
+      var doInsert = function doInsert(el) {
+        return function (e) {
+          var parent = el.parentElement;
+          parent.insertBefore(e, el.nextSibling);
+        };
+      };
+
+      return this.__.doOnFirst({
+        onFirst: function onFirst(el) {
+          var onElement = doInsert(el);
+          _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElements({
+            elements: elements,
+            LightqueryCollection: LightqueryCollection,
+            onElement: onElement,
+            onElements: function onElements(es) {
+              var _iterator4 = _createForOfIteratorHelper(es),
+                  _step4;
+
+              try {
+                for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                  var _e4 = _step4.value;
+                  onElement(_e4);
+                }
+              } catch (err) {
+                _iterator4.e(err);
+              } finally {
+                _iterator4.f();
+              }
+            },
+            nameForStrict: nameForStrict
+          });
+        },
+        defaultValue: this,
+        nameForStrict: nameForStrict
+      });
+    }
+    /**
+     * Insert the result set after the given element
+     * @param {ElementOrLightquery|string} element - The element to insert elements after (or a CSS selector to it)
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "insertAfter",
+    value: function insertAfter(element) {
+      var _this14 = this;
+
+      try {
+        _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElement({
+          element: element,
+          LightqueryCollection: LightqueryCollection,
+          nameForStrict: "#insertBefore(element)",
+          onLq: function onLq($e) {
+            return $e.after(_this14);
+          },
+          onElement: function onElement(e) {
+            return _this14.insertAfter(_this14.__.$(_this14.__.getElement(e)));
+          },
+          onString: function onString(selector) {
+            return _this14.insertAfter(_this14.__.$(selector));
+          }
+        });
+      } catch (e) {
+        this.__.ifStrict(rethrow(e));
       }
 
       return this;
@@ -9592,7 +9809,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
 
       var $others = this.__.$(selector, context);
 
-      var elems = [].concat(_toConsumableArray(this.__.elements), _toConsumableArray($others.__.elements));
+      var elems = [].concat(_toConsumableArray(this.toArray()), _toConsumableArray($others.toArray()));
       return this.__.$(elems);
     }
     /**
@@ -9605,7 +9822,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "css",
     value: function css(properties) {
-      var _this11 = this;
+      var _this15 = this;
 
       var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
 
@@ -9618,12 +9835,12 @@ var LightqueryCollection = /*#__PURE__*/function () {
             onFirst: function onFirst(el) {
               return properties.reduce(function (ret, property) {
                 if (typeof property !== "string") {
-                  _this11.__.ifStrict(function () {
+                  _this15.__.ifStrict(function () {
                     return function (e) {
                       throw e;
                     }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Property \"".concat(property, "\" is not a string")));
                   });
-                } else ret[property] = _this11.__.getCssProperty(el, property);
+                } else ret[property] = _this15.__.getCssProperty(el, property);
 
                 return ret;
               }, {});
@@ -9636,8 +9853,8 @@ var LightqueryCollection = /*#__PURE__*/function () {
                 prop = _ref8[0],
                 val = _ref8[1];
 
-            _this11.forEach(function (el) {
-              return _this11.__.setCssProperty(el, prop, val);
+            _this15.forEach(function (el) {
+              return _this15.__.setCssProperty(el, prop, val);
             });
           });
           return this;
@@ -9647,7 +9864,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
             nameForStrict: "#css(properties, value)",
             defaultValue: "",
             onFirst: function onFirst(el) {
-              return _this11.__.getCssProperty(el, properties);
+              return _this15.__.getCssProperty(el, properties);
             }
           });
         } else {
@@ -9665,7 +9882,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
         this.forEach(function (el) {
           return props.forEach(function (prop) {
             if (typeof prop !== "string") {
-              _this11.__.ifStrict(function () {
+              _this15.__.ifStrict(function () {
                 return function (e) {
                   throw e;
                 }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Property \"".concat(prop, "\" is not a string")));
@@ -9674,7 +9891,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
               return;
             }
 
-            _this11.__.setCssProperty(el, prop, value);
+            _this15.__.setCssProperty(el, prop, value);
           });
         });
         return this;
@@ -9722,7 +9939,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
 
     /**
      * Trigger (or listen to) click events
-     * @param {EventListener|undefind} [listener = undefined] - The event listener to attach
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
      * @returns {LightqueryCollection}
      * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
      */
@@ -9738,6 +9955,91 @@ var LightqueryCollection = /*#__PURE__*/function () {
       });
     }
     /**
+     * Trigger (or listen to) double-click events
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+     * @returns {LightqueryCollection}
+     * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+     */
+
+  }, {
+    key: "doubleClick",
+    value: function doubleClick() {
+      var listener = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.eventShorthand({
+        nameForStrict: "#doubleClick(listener)",
+        eventName: "dblclick",
+        listener: listener
+      });
+    }
+    /**
+     * Trigger (or listen to) mouse down events
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+     * @returns {LightqueryCollection}
+     * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+     */
+
+  }, {
+    key: "mouseUp",
+    value: function mouseUp() {
+      var listener = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.eventShorthand({
+        nameForStrict: "#mouseUp(listener)",
+        eventName: "mouseUp",
+        listener: listener
+      });
+    }
+    /**
+     * Trigger (or listen to) mouse down events
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+     * @returns {LightqueryCollection}
+     * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+     */
+
+  }, {
+    key: "mouseDown",
+    value: function mouseDown() {
+      var listener = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.eventShorthand({
+        nameForStrict: "#mouseDown(listener)",
+        eventName: "mousedown",
+        listener: listener
+      });
+    }
+    /**
+     * Trigger (or listen to) mouse entering events
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+     * @returns {LightqueryCollection}
+     * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+     */
+
+  }, {
+    key: "mouseEnter",
+    value: function mouseEnter() {
+      var listener = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.eventShorthand({
+        nameForStrict: "#mouseEnter(listener)",
+        eventName: "mouseenter",
+        listener: listener
+      });
+    }
+    /**
+     * Trigger (or listen to) mouse leaving events
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+     * @returns {LightqueryCollection}
+     * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+     */
+
+  }, {
+    key: "mouseLeave",
+    value: function mouseLeave() {
+      var listener = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.eventShorthand({
+        nameForStrict: "#mouseLeave(listener)",
+        eventName: "mouseleave",
+        listener: listener
+      });
+    }
+    /**
      * Listen to hovering events
      * @param {EventListener} onEnter - The listener to call on enter
      * @param {EventListener} onLeave - The listener to call on leave
@@ -9747,28 +10049,92 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "hover",
     value: function hover(onEnter, onLeave) {
-      return this.on("mouseenter", onEnter).on("mouseleave", onLeave);
+      return this.mouseEnter(onEnter).mouseLeave(onLeave);
     }
     /**
-     * Listen to resize events (includes orientation change)
-     * @param {EventListener} listener - The event listener to attach
+     * Trigger (or listen to) focus events
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
      * @returns {LightqueryCollection}
+     * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
      */
 
   }, {
-    key: "resize",
-    value: function resize(listener) {
-      if (this.__.selector !== window) {
-        this.__.ifStrict(function () {
-          return function (e) {
-            throw e;
-          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Can only attach resize events on the window object"));
-        });
+    key: "focus",
+    value: function focus() {
+      var listener = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.eventShorthand({
+        nameForStrict: "#focus(listener)",
+        eventName: "focus",
+        listener: listener
+      });
+    }
+    /**
+     * Trigger (or listen to) blur events
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+     * @returns {LightqueryCollection}
+     * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+     */
 
-        return this;
-      }
+  }, {
+    key: "blur",
+    value: function blur() {
+      var listener = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.eventShorthand({
+        nameForStrict: "#blur(listener)",
+        eventName: "blur",
+        listener: listener
+      });
+    }
+    /**
+     * Trigger (or listen to) change events
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+     * @returns {LightqueryCollection}
+     * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+     */
 
-      return this.on("resize orientationchange", listener);
+  }, {
+    key: "change",
+    value: function change() {
+      var listener = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.eventShorthand({
+        nameForStrict: "#change(listener)",
+        eventName: "change",
+        listener: listener
+      });
+    }
+    /**
+     * Trigger (or listen to) input events
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+     * @returns {LightqueryCollection}
+     * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+     */
+
+  }, {
+    key: "input",
+    value: function input() {
+      var listener = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.eventShorthand({
+        nameForStrict: "#input(listener)",
+        eventName: "input",
+        listener: listener
+      });
+    }
+    /**
+     * Trigger (or listen to) submit events
+     * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+     * @returns {LightqueryCollection}
+     * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+     */
+
+  }, {
+    key: "submit",
+    value: function submit() {
+      var listener = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.eventShorthand({
+        nameForStrict: "#submit(listener)",
+        eventName: "submit",
+        listener: listener
+      });
     }
   }]);
 
@@ -9830,6 +10196,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_helpers__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./utils/helpers */ "./src/utils/helpers.js");
 /* harmony import */ var _utils_typedefs__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./utils/typedefs */ "./src/utils/typedefs.js");
 /* harmony import */ var _utils_typedefs__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_utils_typedefs__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./errors/UnsupportedError */ "./src/errors/UnsupportedError.js");
 
 
 
@@ -9878,6 +10245,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+
 /**
  * @callback LightqueryFactory~selectCallback
  * @param {string} selector
@@ -9889,10 +10257,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * @property {LightqueryFactory~selectCallback} select
  */
 
+var rethrow = function rethrow(e) {
+  return function () {
+    return function (e) {
+      throw e;
+    }(e);
+  };
+};
 /**
  * @class
  * @classdesc Class that represents the implementation details of a lightquery factory
  */
+
 
 var LightqueryFactoryImplDetails = /*#__PURE__*/function () {
   /**
@@ -10046,11 +10422,7 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
       try {
         if (typeof selector === "function") return this.ready(selector);else return this.__.factory(selector);
       } catch (e) {
-        this.__.ifStrict(function () {
-          return function (e) {
-            throw e;
-          }(e);
-        });
+        this.__.ifStrict(rethrow(e));
 
         return this.__.emptySelection();
       }
@@ -10343,7 +10715,7 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
       var errorFactory = function errorFactory() {
         return function (e) {
           throw e;
-        }(new UnsupportedError("Cannot create DOM elements from HTML string in LightqueryFactory#create(htmlString)"));
+        }(new _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_23__["default"]("Cannot create DOM elements from HTML string in LightqueryFactory#create(htmlString)"));
       };
 
       if (!document.createRange) this.__.ifStrict(errorFactory);
@@ -10354,11 +10726,7 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
         var el = range.createContextualFragment(htmlString);
         return this(el);
       } catch (e) {
-        this.__.ifStrict(function () {
-          return function (e) {
-            throw e;
-          }(e);
-        });
+        this.__.ifStrict(rethrow(e));
 
         return this.__.emptySelection();
       }
@@ -11645,25 +12013,49 @@ var Callable = /*#__PURE__*/function (_Function) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
-/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.array.for-each */ "./node_modules/core-js/modules/es.array.for-each.js");
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.array.includes */ "./node_modules/core-js/modules/es.array.includes.js");
-/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.array.slice */ "./node_modules/core-js/modules/es.array.slice.js");
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.regexp.exec */ "./node_modules/core-js/modules/es.regexp.exec.js");
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.string.split */ "./node_modules/core-js/modules/es.string.split.js");
-/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./typedefs */ "./src/utils/typedefs.js");
-/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_typedefs__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../errors/InvalidArgumentError */ "./src/errors/InvalidArgumentError.js");
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.symbol */ "./node_modules/core-js/modules/es.symbol.js");
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.symbol.description */ "./node_modules/core-js/modules/es.symbol.description.js");
+/* harmony import */ var core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.symbol.iterator */ "./node_modules/core-js/modules/es.symbol.iterator.js");
+/* harmony import */ var core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.array.concat */ "./node_modules/core-js/modules/es.array.concat.js");
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.array.for-each */ "./node_modules/core-js/modules/es.array.for-each.js");
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_array_from__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.array.from */ "./node_modules/core-js/modules/es.array.from.js");
+/* harmony import */ var core_js_modules_es_array_from__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_from__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.array.includes */ "./node_modules/core-js/modules/es.array.includes.js");
+/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_es_array_is_array__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/es.array.is-array */ "./node_modules/core-js/modules/es.array.is-array.js");
+/* harmony import */ var core_js_modules_es_array_is_array__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_is_array__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.array.iterator */ "./node_modules/core-js/modules/es.array.iterator.js");
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! core-js/modules/es.array.slice */ "./node_modules/core-js/modules/es.array.slice.js");
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! core-js/modules/es.date.to-string */ "./node_modules/core-js/modules/es.date.to-string.js");
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! core-js/modules/es.regexp.exec */ "./node_modules/core-js/modules/es.regexp.exec.js");
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! core-js/modules/es.regexp.to-string */ "./node_modules/core-js/modules/es.regexp.to-string.js");
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! core-js/modules/es.string.split */ "./node_modules/core-js/modules/es.string.split.js");
+/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./typedefs */ "./src/utils/typedefs.js");
+/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_typedefs__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../errors/InvalidArgumentError */ "./src/errors/InvalidArgumentError.js");
 
 
 
@@ -11671,6 +12063,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
 
@@ -11762,8 +12179,8 @@ var helpers = {
      * @returns {Array}
      */
     toArray: function toArray(arrayLike) {
-      if (arrayLike instanceof Array) return arrayLike;
-      return [].slice.call(arrayLike);
+      // return [].slice.call(arrayLike);
+      return _toConsumableArray(arrayLike);
     }
   },
   array: {
@@ -11822,22 +12239,43 @@ var helpers = {
         if (elements.forEach) {
           elements.forEach(function (e) {
             if (!_this.isElement(e)) {
-              _this.__.ifStrict(function () {
-                return function (e) {
-                  throw e;
-                }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_9__["default"]("Expected elements to contain (only) elements in LightqueryCollection".concat(nameForStrict)));
-              });
+              throw new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_21__["default"]("Expected elements to contain (only) elements in LightqueryCollection".concat(nameForStrict));
             } else {
               onElement(_this.getElement(e));
             }
           });
         } else {
-          this.__.ifStrict(function () {
-            return function (e) {
-              throw e;
-            }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_9__["default"]("Expected elements to be iterable or an element in LightqueryCollection".concat(nameForStrict)));
-          });
+          throw new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_21__["default"]("Expected elements to be iterable or an element in LightqueryCollection".concat(nameForStrict));
         }
+      }
+    },
+
+    /**
+     * Execute code for an element
+     * @param {object} args
+    	 * @param {ElementOrLightquery|string} args.element - The element to execute code for
+     * @param {LightqueryCollectionCallback} args.onLq - The callback for a lightquery collection
+     * @param {ElementCallback} args.onElement - The callback for an element
+     * @param {GenericCallback<string>} args.onString - The callback for a CSS selector
+     * @param {string} args.nameForStrict - The name for error messages if strict mode is on
+     * @param {typeof LightqueryCollection} args.LightqueryCollection - The class for the lightquery result set
+     */
+    forElement: function forElement(_ref3) {
+      var element = _ref3.element,
+          onLq = _ref3.onLq,
+          onElement = _ref3.onElement,
+          onString = _ref3.onString,
+          nameForStrict = _ref3.nameForStrict,
+          LightqueryCollection = _ref3.LightqueryCollection;
+
+      if (element instanceof LightqueryCollection) {
+        onLq(element);
+      } else if (this.isElement(element)) {
+        onElement(element);
+      } else if (typeof element === "string") {
+        onString(element);
+      } else {
+        throw new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_21__["default"]("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection".concat(nameForStrict));
       }
     }
   }
@@ -11889,15 +12327,22 @@ var helpers = {
  */
 
 /**
- * @callback ElementCallback
- * @param {Element} e
+ * @callback GenericCallback
+ * @template T
+ * @param {T} arg
  * @returns {any}
  */
 
 /**
- * @callback ElementsCallback
- * @param {Iterable<Element>} e
- * @returns {any}
+ * @typedef {GenericCallback<ElementCallback>} ElementCallback
+ */
+
+/**
+ * @typedef {GenericCallback<Iterable<Element>>} ElementsCallback
+ */
+
+/**
+ * @typedef {GenericCallback<LightqueryCollection>} LightqueryCollectionCallback
  */
 
 /**
@@ -11927,7 +12372,6 @@ var helpers = {
  * @param {T} acc
  * @param {Element}
  * @returns {T}
- *
  */
 
 /***/ })

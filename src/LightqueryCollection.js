@@ -49,6 +49,13 @@ import NotEnoughElementsError from "./errors/NotEnoughElementsError";
  */
 const notEnoughFor = str => () => throw new NotEnoughElementsError(`Not enough elements to apply LightqueryCollection${str})`);
 
+/**
+ * Callback to rethrow an exception
+ * @param {Error} e - The exception to rethrow
+ * @returns {Callback}
+ */
+const rethrow = e => () => throw e;
+
 
 /**
  * Predicates to satisfy to be an element of a lightquery collection
@@ -383,15 +390,6 @@ class LightqueryCollectionImplDetails{
  */
 class LightqueryCollection{
 	/**
-	 * Call a function once the document is loaded
-	 * @param   {Callback} callback - The function to call once the document is loaded
-	 * @returns {LightqueryCollection}
-	 */
-	static ready(callback){
-		return this.__.$(document).ready(callback);
-	}
-
-	/**
 	 * @throws {InvalidArgumentError} If the selector is invalid
 	 * @param {Selector} selector - The selector
 	 * @param {DomElementType|undefined} [context = undefined] - The selection context
@@ -424,6 +422,8 @@ class LightqueryCollection{
 		this.__.makeIterable(this);
 	}
 
+
+
 	/****************************************************************************************\
 	 * Utils
 	\****************************************************************************************/
@@ -445,6 +445,20 @@ class LightqueryCollection{
 		}
 
 		return this;
+	}
+
+	/**
+	 * Listen to resize events (includes orientation change)
+	 * @param {EventListener} listener - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 */
+	resize(listener){
+		if(this.__.selector !== window){
+			this.__.ifStrict(() => throw new InvalidArgumentError("Can only attach resize events on the window object"));
+			return this;
+		}
+
+		return this.on("resize orientationchange", listener);
 	}
 
 
@@ -515,6 +529,14 @@ class LightqueryCollection{
 	    return this.__.elements.reduce(reducer, acc);
     }
 
+	/**
+	 * Converts the result set to an array
+	 * @returns {DomElementType[]}
+	 */
+	toArray(){
+		return lqHelpers.arrayLike.toArray(this.__.elements);
+	}
+
 
 
 	/****************************************************************************************\
@@ -552,6 +574,18 @@ class LightqueryCollection{
     last(){
 	    return this.eq(this.length - 1);
     }
+
+	/**
+	 * Get/set the text content
+	 * @param   {LightqueryCollection~setValueFactory<string, DomElementType, string>|string|number|null|undefined} [value = undefined] - The new value (or its factory)
+	 * @returns {LightqueryCollection|string|number|null}
+	 */
+    text(value = undefined){
+    	return this.__.getSetMethod({
+			value,
+			key: "textContent",
+		});
+	}
 
 	/**
 	 * Get/set the value of an input field
@@ -961,14 +995,17 @@ class LightqueryCollection{
 	 * @returns {LightqueryCollection}
 	 */
 	appendTo(element){
-		if(element instanceof LightqueryCollection){
-			this.__.$(element).append(this);
-		}else if(lqHelpers.elements.isElement(element)){
-			this.__.$(this.__.getElement(element)).append(this);
-		}else if(typeof element === "string"){
-			this.appendTo(this.__.$(element));
-		}else{
-			this.__.ifStrict(() => throw new InvalidArgumentError("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection#appendTo(element)"));
+		try{
+			lqHelpers.elements.forElement({
+				element,
+				LightqueryCollection,
+				nameForStrict: "#appendTo",
+				onLq: $e => $e.append(this),
+				onElement: e => this.appendTo(this.__.$(this.__.getElement(e))),
+				onString: selector => this.appendTo(this.__.$(selector)),
+			});
+		}catch(e){
+			this.__.ifStrict(rethrow(e));
 		}
 
 		return this;
@@ -1004,14 +1041,128 @@ class LightqueryCollection{
 	 * @returns {LightqueryCollection}
 	 */
 	prependTo(element){
-		if(element instanceof LightqueryCollection){
-			this.__.$(element).prepend(this);
-		}else if(lqHelpers.elements.isElement(element)){
-			this.__.$(this.__.getElement(element)).prepend(this);
-		}else if(typeof element === "string"){
-			this.prependTo(this.__.$(element));
-		}else{
-			this.__.ifStrict(() => throw new InvalidArgumentError("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection#prependTo(element)"));
+		try{
+			lqHelpers.elements.forElement({
+				element,
+				LightqueryCollection,
+				nameForStrict: "#prependTo(element)",
+				onLq: $e => $e.prepend(this),
+				onElement: e => this.prependTo(this.__.$(this.__.getElement(e))),
+				onString: selector => this.prependTo(this.__.$(selector)),
+			});
+		}catch(e){
+			this.__.ifStrict(rethrow(e));
+		}
+
+		return this;
+	}
+
+	/**
+	 * Insert the given elements before the first result
+	 * @param {ElementsOrLightquery} elements - The elements to insert
+	 * @returns {LightqueryCollection}
+	 */
+	before(elements){
+		const nameForStrict = "#after(elements)";
+
+		const doInsert = el => e => el.parentElement.insertBefore(e, el);
+
+		return this.__.doOnFirst({
+			onFirst: el => {
+				const onElement = doInsert(el);
+
+				lqHelpers.elements.forElements({
+					elements,
+					LightqueryCollection,
+
+					onElement,
+					onElements: es => {
+						for(const e of es)
+							onElement(e);
+					},
+					nameForStrict,
+				});
+			},
+			defaultValue: this,
+			nameForStrict,
+		});
+	}
+
+	/**
+	 * Insert the result set before the given element
+	 * @param {ElementOrLightquery|string} element - The element to insert elements before (or a CSS selector to it)
+	 * @returns {LightqueryCollection}
+	 */
+	insertBefore(element){
+		try{
+			lqHelpers.elements.forElement({
+				element,
+				LightqueryCollection,
+				nameForStrict: "#insertBefore(element)",
+
+				onLq: $e => $e.before(this),
+				onElement: e => this.insertBefore(this.__.$(this.__.getElement(e))),
+				onString: selector => this.insertBefore(this.__.$(selector)),
+			});
+		}catch(e){
+			this.__.ifStrict(rethrow(e));
+		}
+
+		return this;
+	}
+
+	/**
+	 * Insert the given elements after the first result
+	 * @param {ElementsOrLightquery} elements - The elements to insert
+	 * @returns {LightqueryCollection}
+	 */
+	after(elements){
+		const nameForStrict = "#after(elements)";
+
+		const doInsert = el => e => {
+			const parent = el.parentElement;
+			parent.insertBefore(e, el.nextSibling);
+		};
+
+		return this.__.doOnFirst({
+			onFirst: el => {
+				const onElement = doInsert(el);
+
+				lqHelpers.elements.forElements({
+					elements,
+					LightqueryCollection,
+
+					onElement,
+					onElements: es => {
+						for(const e of es)
+							onElement(e);
+					},
+					nameForStrict,
+				});
+			},
+			defaultValue: this,
+			nameForStrict,
+		});
+	}
+
+	/**
+	 * Insert the result set after the given element
+	 * @param {ElementOrLightquery|string} element - The element to insert elements after (or a CSS selector to it)
+	 * @returns {LightqueryCollection}
+	 */
+	insertAfter(element){
+		try{
+			lqHelpers.elements.forElement({
+				element,
+				LightqueryCollection,
+				nameForStrict: "#insertBefore(element)",
+
+				onLq: $e => $e.after(this),
+				onElement: e => this.insertAfter(this.__.$(this.__.getElement(e))),
+				onString: selector => this.insertAfter(this.__.$(selector)),
+			});
+		}catch(e){
+			this.__.ifStrict(rethrow(e));
 		}
 
 		return this;
@@ -1032,8 +1183,8 @@ class LightqueryCollection{
 	    const $others = this.__.$(selector, context);
 
 	    const elems = [
-            ...this.__.elements,
-            ...$others.__.elements,
+            ...this.toArray(),
+            ...$others.toArray(),
         ];
 
 	    return this.__.$(elems);
@@ -1126,7 +1277,7 @@ class LightqueryCollection{
 	\****************************************************************************************/
 	/**
 	 * Trigger (or listen to) click events
-	 * @param {EventListener|undefind} [listener = undefined] - The event listener to attach
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
 	 * @returns {LightqueryCollection}
 	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
 	 */
@@ -1138,6 +1289,76 @@ class LightqueryCollection{
 		})
 	}
 
+	/**
+	 * Trigger (or listen to) double-click events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	doubleClick(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#doubleClick(listener)",
+			eventName: "dblclick",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) mouse down events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	mouseUp(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#mouseUp(listener)",
+			eventName: "mouseUp",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) mouse down events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	mouseDown(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#mouseDown(listener)",
+			eventName: "mousedown",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) mouse entering events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	mouseEnter(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#mouseEnter(listener)",
+			eventName: "mouseenter",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) mouse leaving events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	mouseLeave(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#mouseLeave(listener)",
+			eventName: "mouseleave",
+			listener,
+		});
+	}
+
     /**
      * Listen to hovering events
      * @param {EventListener} onEnter - The listener to call on enter
@@ -1145,23 +1366,78 @@ class LightqueryCollection{
      * @returns {LightqueryCollection}
      */
 	hover(onEnter, onLeave){
-		return this.on("mouseenter", onEnter)
-					.on("mouseleave", onLeave);
+		return this.mouseEnter(onEnter).mouseLeave(onLeave);
 	}
 
-    /**
-     * Listen to resize events (includes orientation change)
-     * @param {EventListener} listener - The event listener to attach
-     * @returns {LightqueryCollection}
-     */
-	resize(listener){
-	    if(this.__.selector !== window){
-	        this.__.ifStrict(() => throw new InvalidArgumentError("Can only attach resize events on the window object"));
-	        return this;
-        }
+	/**
+	 * Trigger (or listen to) focus events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	focus(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#focus(listener)",
+			eventName: "focus",
+			listener,
+		});
+	}
 
-	    return this.on("resize orientationchange", listener);
-    }
+	/**
+	 * Trigger (or listen to) blur events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	blur(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#blur(listener)",
+			eventName: "blur",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) change events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	change(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#change(listener)",
+			eventName: "change",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) input events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	input(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#input(listener)",
+			eventName: "input",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) submit events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	submit(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#submit(listener)",
+			eventName: "submit",
+			listener,
+		});
+	}
 }
 
 export default LightqueryCollection

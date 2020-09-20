@@ -3,6 +3,7 @@ import LightqueryCollection from "./LightqueryCollection"
 import InvalidArgumentError from "./errors/InvalidArgumentError"
 import lqHelpers from "./utils/helpers"
 import "./utils/typedefs"
+import UnsupportedError from "./errors/UnsupportedError";
 
 /**
  * @callback LightqueryFactory~selectCallback
@@ -14,6 +15,10 @@ import "./utils/typedefs"
  * @typedef {object} LightqueryFactorySelectObject
  * @property {LightqueryFactory~selectCallback} select
  */
+
+
+const rethrow = e => () => throw e;
+
 
 
 /**
@@ -126,7 +131,7 @@ class LightqueryFactory extends Callable{
 			else
 				return this.__.factory(selector);
 		}catch(e){
-			this.__.ifStrict(() => throw e);
+			this.__.ifStrict(rethrow(e));
 			return this.__.emptySelection();
 		}
 	}
@@ -339,7 +344,7 @@ class LightqueryFactory extends Callable{
 			const el = range.createContextualFragment(htmlString);
 			return this(el);
 		}catch(e){
-			this.__.ifStrict(() => throw e);
+			this.__.ifStrict(rethrow(e));
 			return this.__.emptySelection();
 		}
 	}

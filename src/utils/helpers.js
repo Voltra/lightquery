@@ -90,10 +90,8 @@ const helpers = {
 		 * @returns {Array}
 		 */
 		toArray(arrayLike){
-			if(arrayLike instanceof Array)
-				return arrayLike;
-
-			return [].slice.call(arrayLike);
+			// return [].slice.call(arrayLike);
+			return [...arrayLike];
 		},
 	},
     array: {
@@ -150,16 +148,38 @@ const helpers = {
                 if(elements.forEach){
                     elements.forEach(e => {
                         if(!this.isElement(e)){
-                            this.__.ifStrict(() => throw new InvalidArgumentError(`Expected elements to contain (only) elements in LightqueryCollection${nameForStrict}`));
+                            throw new InvalidArgumentError(`Expected elements to contain (only) elements in LightqueryCollection${nameForStrict}`);
                         }else{
                             onElement(this.getElement(e));
                         }
                     });
                 }else{
-                    this.__.ifStrict(() => throw new InvalidArgumentError(`Expected elements to be iterable or an element in LightqueryCollection${nameForStrict}`));
+                    throw new InvalidArgumentError(`Expected elements to be iterable or an element in LightqueryCollection${nameForStrict}`);
                 }
             }
-        }
+        },
+
+		/**
+		 * Execute code for an element
+		 * @param {object} args
+ 		 * @param {ElementOrLightquery|string} args.element - The element to execute code for
+		 * @param {LightqueryCollectionCallback} args.onLq - The callback for a lightquery collection
+		 * @param {ElementCallback} args.onElement - The callback for an element
+		 * @param {GenericCallback<string>} args.onString - The callback for a CSS selector
+		 * @param {string} args.nameForStrict - The name for error messages if strict mode is on
+		 * @param {typeof LightqueryCollection} args.LightqueryCollection - The class for the lightquery result set
+		 */
+        forElement({ element, onLq, onElement, onString, nameForStrict, LightqueryCollection}){
+			if(element instanceof LightqueryCollection){
+				onLq(element);
+			}else if(this.isElement(element)){
+				onElement(element);
+			}else if(typeof element === "string"){
+				onString(element);
+			}else{
+				throw new InvalidArgumentError(`Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection${nameForStrict}`);
+			}
+		}
     },
 };
 

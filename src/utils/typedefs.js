@@ -41,7 +41,7 @@
  */
 
 /**
- * @typedef {GenericCallback<ElementCallback>} ElementCallback
+ * @typedef {GenericCallback<Element>} ElementCallback
  */
 
 /**

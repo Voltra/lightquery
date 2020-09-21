@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "declarationDir": "./",
+    "target": "es5",
+    "sourceRoot": "../src/",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
+  },
+  "compileOnSave": false
+}

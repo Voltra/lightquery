@@ -110,18 +110,13 @@ class LightqueryFactory extends Callable{
 			configurable: false,
 			value: new LightqueryFactoryImplDetails(this, collectionClass, strictMode),
 		});
-
-		/**
-		 * @member {boolean} - Whether or not to use strict mode with this factory
-		 */
-		this.strictMode = strictMode;
 	}
 
 	/**
 	 * @override
-	 * @param {DomElements|Callback} selector
+	 * @param {Selector} selector
 	 * @param {DomElementType|undefined} context
-	 * @param {Iterable<DomElementType>} previousResults
+	 * @param {Iterable<DomElementType>|undefined} previousResults
 	 * @returns {LightqueryCollection}
 	 */
 	__call(selector, context = undefined, previousResults = []){

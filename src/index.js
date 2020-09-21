@@ -1,3 +1,4 @@
+import "./utils/polyfills"
 import LightqueryFactory from "./LightqueryFactory"
 import LightqueryCollection from "./LightqueryCollection"
 

@@ -3,8 +3,8 @@
 	"version": "1.0.0-indev.0.5",
 	"description": "a lightweight alternative to jQuery",
 	"main": "dist/index.js",
-	"module": "src/index.js",
 	"browser": "dist/index.js",
+    "types": "types/index.d.ts",
 	"scripts": {
 		"setup": "npm i && npm up",
 		"start": "npm run watch",

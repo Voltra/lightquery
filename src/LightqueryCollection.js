@@ -88,7 +88,7 @@ class LightqueryCollectionImplDetails{
 
 		/**
 		 * @readonly
-		 * @property {string|Element|Iterable<Element>} selector - The selector used to create this instance
+		 * @property {Selector} selector - The selector used to create this instance
 		 */
 		this.selector = selector;
 
@@ -99,7 +99,7 @@ class LightqueryCollectionImplDetails{
 		this.previousResults = previousResults;
 
 		/**
-		 * @property {Iterable<Element>} elements - The current result set
+		 * @property {DomElementType[]} elements - The current result set
 		 */
 		this.elements = [];
 
@@ -758,9 +758,8 @@ class LightqueryCollection{
 
     /**
      * Determine whether or not the first element matches the given selector
-     * @template R
      * @param {string} selector - The CSS selector to match against
-     * @returns {R|boolean}
+     * @returns {boolean}
      */
 	matches(selector){
 		return this.__.doOnFirst({

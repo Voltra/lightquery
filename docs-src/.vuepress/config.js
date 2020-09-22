@@ -9,24 +9,20 @@ module.exports = {
 	themeConfig: {
 		smoothScroll: true,
 		plugins: [
-			["clean-urls", true]
+			["clean-urls", true],
+			"@vuepress/back-to-top",
 		],
 		sidebar: [
-			'/',
-			/*'/exports',
-			'/plugin',
 			{
-				title: "Components",
-				path: "/components",
-				children: [
-					"/components/GdprManager",
-					"/components/GdprGroup",
-					"/components/GdprGuard"
-				],
-				prev: "/plugin",
-				next: "/components/GdprManager",
+				title: "User guide",
+				path: "/",
+				next: "/history",
 			},
-			'/helpers',*/
+			{
+				title: "A bit of history",
+				path: "/history",
+				prev: "/",
+			},
 		],
 	},
 };

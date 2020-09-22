@@ -2,8 +2,7 @@
 
 // const webpack = require("webpack");
 const path = require("path");
-const thisPath = __dirname;
-const here = uri => path.resolve(thisPath, uri);
+const here = (uri = "") => path.resolve(__dirname, uri);
 
 const WebpackProgressBar = require("webpack-progress-bar");
 const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
@@ -25,6 +24,9 @@ module.exports = {
 	output: {
 		filename: "[name].js",
 		path: here("dist"),
+	},
+	optimization: {
+		usedExports: true,
 	},
 	module: {
 		rules: [

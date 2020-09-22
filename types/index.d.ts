@@ -16,7 +16,7 @@ export * from "./errors/UnsupportedError"
 export * from "./errors/NotEnoughElementsError"
 export * from "./errors/InvalidArgumentError"
 
-export * from "./strategies/init"
+export * from "./strategies/init/index"
 
 export * from "./CssEngine"
 export * from "./LightqueryCollection"

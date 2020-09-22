@@ -4,15 +4,22 @@
 	"description": "a lightweight alternative to jQuery",
 	"main": "dist/index.js",
 	"browser": "dist/index.js",
+	"module": "dist/esm/index.js",
 	"types": "types/index.d.ts",
+	"sideEffects": [
+		"./src/utils/typedefs.js",
+		"./src/utils/polyfills.js"
+	],
 	"scripts": {
 		"setup": "npm i && npm up",
 		"start": "npm run watch",
 		"watch": "webpack --mode development --devtool source-map --colors --watch",
-		"build": "webpack --mode production --colors",
+		"build": "npm run build:bundle && npm run build:esm",
 		"jsdoc": "jsdoc -c ./jsdoc.json -d ./jsdoc/",
 		"docs": "vuepress build ./docs-src/",
-		"watch:docs": "vuepress dev ./docs-src/"
+		"watch:docs": "vuepress dev ./docs-src/",
+		"build:bundle": "webpack --mode production --colors",
+		"build:esm": "babel src --out-dir dist/esm/ --source-maps"
 	},
 	"repository": {
 		"type": "git",
@@ -30,12 +37,14 @@
 		"@babel/plugin-proposal-object-rest-spread": "^7.10.4",
 		"@babel/plugin-proposal-throw-expressions": "^7.10.4",
 		"@babel/preset-env": "^7.10.4",
+		"@vuepress/plugin-back-to-top": "^1.5.4",
 		"babel-loader": "^8.1.0",
 		"core-js": "^3.6.5",
 		"friendly-errors-webpack-plugin": "^1.7.0",
 		"jsdoc": "^3.6.5",
 		"jsdoc-plugin-intersection": "^1.0.3",
 		"jsdoc-ts-utils": "^1.1.1",
+		"typescript": "^4.0.3",
 		"vuepress": "^1.5.4",
 		"vuepress-plugin-clean-urls": "^1.1.2",
 		"webpack": "^4.43.0",

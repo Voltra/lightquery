@@ -13,6 +13,8 @@ const makePureLightquery = (strict = true) => new LightqueryFactory(LightqueryCo
 
 /**
  * @constant {LightqueryFactory} µ - Global lightquery factory function
+ * @example µ("body"); //-> LightqueryCollection[body]
+ * µ([window, document, document.body]); //-> LightqueryCollection[window, document, body]
  */
 const µ = makePureLightquery(true);
 

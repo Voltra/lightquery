@@ -11675,6 +11675,8 @@ var makePureLightquery = function makePureLightquery() {
 };
 /**
  * @constant {LightqueryFactory} µ - Global lightquery factory function
+ * @example µ("body"); //-> LightqueryCollection[body]
+ * µ([window, document, document.body]); //-> LightqueryCollection[window, document, body]
  */
 
 

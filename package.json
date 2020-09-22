@@ -4,13 +4,15 @@
 	"description": "a lightweight alternative to jQuery",
 	"main": "dist/index.js",
 	"browser": "dist/index.js",
-    "types": "types/index.d.ts",
+	"types": "types/index.d.ts",
 	"scripts": {
 		"setup": "npm i && npm up",
 		"start": "npm run watch",
 		"watch": "webpack --mode development --devtool source-map --colors --watch",
 		"build": "webpack --mode production --colors",
-		"docs": "jsdoc -c ./jsdoc.json -d docs/"
+		"jsdoc": "jsdoc -c ./jsdoc.json -d ./jsdoc/",
+		"docs": "vuepress build ./docs-src/",
+		"watch:docs": "vuepress dev ./docs-src/"
 	},
 	"repository": {
 		"type": "git",
@@ -34,6 +36,8 @@
 		"jsdoc": "^3.6.5",
 		"jsdoc-plugin-intersection": "^1.0.3",
 		"jsdoc-ts-utils": "^1.1.1",
+		"vuepress": "^1.5.4",
+		"vuepress-plugin-clean-urls": "^1.1.2",
 		"webpack": "^4.43.0",
 		"webpack-cli": "^3.3.12",
 		"webpack-progress-bar": "^1.2.1"

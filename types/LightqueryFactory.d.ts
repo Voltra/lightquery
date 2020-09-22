@@ -35,7 +35,7 @@ declare class LightqueryFactory extends Callable {
     public constructor(collectionClass: typeof LightqueryCollection, strictMode: boolean);
 
     public hasPlugin(pluginName: string, pluginType?: PluginType, nameForStrict?: string);
-    public registerPlugin(pluginName: string, plugin, pluginType?: PluginType);
+    public registerPlugin(pluginName: string, plugin: Function|any, pluginType?: PluginType);
     public removePlugin(pluginName: string, pluginType?: PluginType);
 
     public cloneLightquery(): LightqueryFactory;

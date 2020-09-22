@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "declarationDir": "./types",
+    "declarationDir": "./",
     "module": "esnext",
     "target": "es5",
-    "sourceRoot": "./src",
+    "sourceRoot": "../src/",
     "sourceMap": true,
     "lib": [
       "dom",

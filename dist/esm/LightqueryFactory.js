@@ -165,6 +165,20 @@ class LightqueryFactory extends Callable {
       return false;
     }
 
+    if (pluginType === "instance" && pluginName in LightqueryCollection.prototype) {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError(`Invalid plugin name "${pluginName}", it's the name of a core instance method`)));
+
+      return true;
+    } else if (pluginType === "global" && pluginName in LightqueryFactory.prototype) {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError(`Invalid plugin name "${pluginName}", it's the name of a core global method`)));
+
+      return true;
+    }
+
     const pluginRepo = this.__.plugins[pluginType];
     return pluginRepo.has(pluginName);
   }

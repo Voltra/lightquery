@@ -16,12 +16,23 @@ module.exports = {
 			{
 				title: "User guide",
 				path: "/",
+				prev: null,
 				next: "/history",
+				children: [],
 			},
 			{
 				title: "A bit of history",
 				path: "/history",
 				prev: "/",
+				next: null,
+				children: [],
+			},
+			{
+				title: "About design",
+				path: "/design",
+				prev: "/",
+				next: null,
+				children: [],
 			},
 		],
 	},

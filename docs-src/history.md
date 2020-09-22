@@ -78,4 +78,5 @@ lightquery.createOtherLightquery = function(newName){ // here µ was lightquery
 }
 ```
 
-In addition to code quality, the overall development experience is way better. I use my usual toolchain to build down to ES5.
+In addition to code quality, the overall development experience is way better.
+I use my usual toolchain to build down to ES5 and have a semi-separate toolchain to build clean ESM.

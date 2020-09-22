@@ -1,9 +1,9 @@
 ---
-title: User Guide
+title: User guide
 description: A lightweight alternative to jQuery
 lang: en-US
 ---
-# User Guide
+# User guide
 
 ## What is Lightquery
 
@@ -28,4 +28,5 @@ protection which can be really handy when trying to understand what goes wrong i
 
 * Via npm/yarn : `npm i -S light_query`
 * Via a CDN (e.g. [via jsdelivr](https://www.jsdelivr.com/package/npm/light_query))
+* Downloading it from [github](https://github.com/Voltra/lightquery/releases) and including it in the DOM
 

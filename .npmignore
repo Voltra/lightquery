@@ -1,4 +1,7 @@
 test/
-jsdoc.json
+src/
+docs/
+docs-src/
+jsdoc/
 babel.config.js
 webpack.config.js

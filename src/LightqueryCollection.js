@@ -381,6 +381,41 @@ class LightqueryCollectionImplDetails{
                 return this.$.__.emptySelection();
         }
     }
+
+	/**
+	 * Shorthand for dimension get/set method
+	 * @param {object} args
+	 * @param {string|number|undefined} args.value
+	 * @param {string} args.nameForStrict
+	 * @param {LightqueryCollection~onFirst<number>} args.onFirst
+	 * @param {"width"|"height"} args.cssProperty
+	 * @returns {LightqueryCollection|number|null}
+	 */
+	dimensionShorthand({ value, nameForStrict, onFirst, cssProperty }){
+		if(typeof value === "undefined"){ // get
+			return this.doOnFirst({
+				nameForStrict,
+				defaultValue: null,
+				onFirst,
+			});
+		}else{ // set
+			switch(typeof value){
+				case "number":
+					this.self.css(cssProperty, `${value}px`);
+					break;
+
+				case "string":
+					this.self.css(cssProperty, value);
+					break;
+
+				default:
+					this.ifStrict(() => throw new InvalidArgumentError(`Expected value to be a string or a number in LightqueryCollection${nameForStrict}`));
+					break
+			}
+
+			return this.self;
+		}
+	}
 }
 
 
@@ -1004,6 +1039,71 @@ class LightqueryCollection{
         return this.filter(e => this.__.$(e).find(selector));
     }
 
+	/**
+	 * Get all the previous siblings (filtering by the given selector if any)
+	 * @param {string|undefined} selector - The selector to restrict previous siblings to
+	 * @returns {LightqueryCollection}
+	 */
+    prevAll(selector = undefined){
+    	const ret = this.reduce((arr, el) => {
+    		let cur = el.previousElementSibling;
+    		while(cur !== null){
+    			arr.push(cur);
+    			cur = cur.previousElementSibling;
+			}
+
+			return arr;
+		}, []);
+
+    	return this.__.selectorFiltering(ret, selector);
+	}
+
+	/**
+	 * Get all the next siblings (filtering by the given selector if any)
+	 * @param {string|undefined} selector - The selector to restrict next siblings to
+	 * @returns {LightqueryCollection}
+	 */
+	nextAll(selector = undefined){
+		const ret = this.reduce((arr, el) => {
+			let cur = el.nextElementSibling;
+			while(cur !== null){
+				arr.push(cur);
+				cur = cur.nextElementSibling;
+			}
+
+			return arr;
+		}, []);
+
+		return this.__.selectorFiltering(ret, selector);
+	}
+
+	/**
+	 * Get all the siblings (filtering by the given selector if any)
+	 * @param {string|undefined} selector - The selector to restrict siblings to
+	 * @returns {LightqueryCollection}
+	 */
+	siblings(selector = undefined){
+		return this.prevAll(selector).add(this.nextAll(selector));
+	}
+
+	/**
+	 * Get the previous sibling of each element
+	 * @returns {LightqueryCollection}
+	 */
+	prev(){
+		const ret = this.map(e => this.__.getElement(e).previousElementSibling);
+		return this.__.$(ret);
+	}
+
+	/**
+	 * Get the next sibling of each element
+	 * @returns {LightqueryCollection}
+	 */
+	next(){
+		const ret = this.map(e => this.__.getElement(e).nextElementSibling);
+		return this.__.$(ret);
+	}
+
 
 
 	/****************************************************************************************\
@@ -1500,6 +1600,115 @@ class LightqueryCollection{
 			nameForStrict: "#submit(listener)",
 			eventName: "submit",
 			listener,
+		});
+	}
+
+
+
+	/****************************************************************************************\
+	 * Dimensions
+	\****************************************************************************************/
+	/**
+	 * Get/set the width
+	 * @param {string|number|undefined} [value = undefined] - The new value
+	 * @returns {LightqueryCollection|number|null}
+	 */
+	width(value = undefined){
+		return this.__.dimensionShorthand({
+			value,
+			nameForStrict: "#width(value)",
+			cssProperty: "width",
+			onFirst: el => el.clientWidth,
+		});
+	}
+
+	/**
+	 * Get/set the height
+	 * @param {string|number|undefined} [value = undefined] - The new value
+	 * @returns {LightqueryCollection|number|null}
+	 */
+	height(value = undefined){
+		return this.__.dimensionShorthand({
+			value,
+			nameForStrict: "#height(value)",
+			cssProperty: "height",
+			onFirst: el => el.clientHeight,
+		});
+	}
+
+	/**
+	 * Get the outer width of the first element (up to borders)
+	 * @returns {number|null}
+	 */
+	borderBoxWidth(){
+		return this.__.doOnFirst({
+			nameForStrict: "#borderBoxWidth()",
+			defaultValue: null,
+			onFirst: el => {
+				const { borderLeftWidth, borderRightWidth } = getComputedStyle(el);
+				const [borderLeft, borderRight] = [borderLeftWidth, borderRightWidth].map(lqHelpers.string.parsePx);
+
+				return [borderLeft, borderRight].some(x => x === null)
+				? null
+				: this.__.$(el).width() + borderLeft + borderRight;
+			},
+		});
+	}
+
+	/**
+	 * Get the outer height of the first element (up to borders)
+	 * @returns {number|null}
+	 */
+	borderBoxHeight(){
+		return this.__.doOnFirst({
+			nameForStrict: "#borderBoxHeight()",
+			defaultValue: null,
+			onFirst: el => {
+				const { borderTopWidth, borderBottomWidth } = getComputedStyle(el);
+				const [borderTop, borderBottom] = [borderTopWidth, borderBottomWidth].map(lqHelpers.string.parsePx);
+
+				return [borderTop, borderBottom].some(x => x === null)
+				? null
+				: this.__.$(el).height() + borderTop + borderBottom;
+			},
+		});
+	}
+
+	/**
+	 * Get the width of the margin box of the first element
+	 * @returns {number|null}
+	 */
+	marginBoxWidth(){
+		return this.__.doOnFirst({
+			nameForStrict: "#marginBoxWidth()",
+			defaultValue: null,
+			onFirst: el => {
+				const { marginLeft, marginRight } = getComputedStyle(el);
+				const [mleft, mright] = [marginLeft, marginRight].map(lqHelpers.string.parsePx);
+
+				return [mleft, mright].some(x => x === null)
+				? null
+				: this.__.$(el).outerWidth() + mleft + mright;
+			},
+		});
+	}
+
+	/**
+	 * Get the width of the margin box of the first element
+	 * @returns {number|null}
+	 */
+	marginBoxHeight(){
+		return this.__.doOnFirst({
+			nameForStrict: "#marginBoxWidth()",
+			defaultValue: null,
+			onFirst: el => {
+				const { marginTop, marginBottom } = getComputedStyle(el);
+				const [mtop, mbottom] = [marginTop, marginBottom].map(lqHelpers.string.parsePx);
+
+				return [mtop, mbottom].some(x => x === null)
+					? null
+					: this.__.$(el).outerHeight() + mtop + mbottom;
+			},
 		});
 	}
 }

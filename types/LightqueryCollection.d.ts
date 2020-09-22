@@ -39,6 +39,7 @@ export declare class LightqueryCollectionImplDetails{
     public setCssProperty(element: DomElementType, property: string, value: number|string): string;
     public getElement(element: DomElementType): Element;
     public selectorFiltering(ret: Element[], selector?: string): LightqueryCollection;
+    public dimensionShorthand(args: { value: string|number|undefined, nameForStrict: string, onFirst: LightqueryCollection_onFirst<number>, cssProperty: "width"|"height" }): LightqueryCollection|number|null;
 }
 
 declare class LightqueryCollection implements Iterable<DomElementType>{
@@ -88,6 +89,11 @@ declare class LightqueryCollection implements Iterable<DomElementType>{
     public parents(selector?: string): LightqueryCollection;
     public find(selector?: string): LightqueryCollection;
     public has(selector: string): LightqueryCollection;
+    public prevAll(selector?: string): LightqueryCollection;
+    public nextAll(selector?: string): LightqueryCollection;
+    public siblings(selector?: string): LightqueryCollection;
+    public prev(): LightqueryCollection;
+    public next(): LightqueryCollection;
 
     public append(elements: ElementOrLightquery): this;
     public appendTo(elements: ElementOrLightquery|string): this;
@@ -101,8 +107,8 @@ declare class LightqueryCollection implements Iterable<DomElementType>{
     public empty(): this;
 
     public add(selector: Selector, context?: DomElementType): LightqueryCollection;
-    public css(properties: string|string[]|Record<string, string|number>, value?: string|number): LightqueryCollection|string|number|null;
-    public cssVar(variable: string, value?: string|number): LightqueryCollection|string|number|null;
+    public css(properties: string|string[]|Record<string, string|number>, value?: string|number): this|string|number|null;
+    public cssVar(variable: string, value?: string|number): this|string|number|null;
 
     public click(listener?: EventListener): this;
     public doubleClick(listener?: EventListener): this;
@@ -116,6 +122,13 @@ declare class LightqueryCollection implements Iterable<DomElementType>{
     public change(listener?: EventListener): this;
     public input(listener?: EventListener): this;
     public submit(listener?: EventListener): this;
+
+    public width(value?: string|number): this|number|null;
+    public height(value?: string|number): this|number|null;
+    public borderBoxWidth(): number|null;
+    public borderBoxHeight(): number|null;
+    public marginBoxWidth(): number|null;
+    public marginBoxHeight(): number|null;
 }
 
 export default LightqueryCollection;

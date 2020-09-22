@@ -15,6 +15,7 @@ import LightqueryCollection from "../LightqueryCollection"
 export declare interface Helpers {
     string: {
         capitalizeFirst: (str: string) => string;
+        parsePx: (str: string) => number|null;
     };
 
     spacedListString: {

@@ -30,23 +30,23 @@
 import UnsupportedError from "./errors/UnsupportedError"
 import InvalidArgumentError from "./errors/InvalidArgumentError"
 import { strategies } from "./strategies/init"
-import { asSequence } from "./utils/lazy"
 import lqHelpers from "./utils/helpers"
 import "./utils/typedefs"
+import NotEnoughElementsError from "./errors/NotEnoughElementsError";
 
 
 
 /**
  * @callback LightqueryCollection~onFirst
  * @template R
- * @param {DomElementType} first
+ * @param {Element} first
  * @returns {R}
  */
 
 /**
  * @callback LightqueryCollection~setterRoot
  * @template X
- * @param {DomElementType} e
+ * @param {Element} e
  * @returns {X}
  */
 
@@ -63,7 +63,7 @@ import "./utils/typedefs"
  * @callback LightqueryCollection~classManipHandler
  * @param {DOMTokenList} classList - The class list to alter
  * @param {string} clazz - The class which is being altered
- * @param {DomElementType} element - The element being modified
+ * @param {Element} element - The element being modified
  * @param {LightqueryCollection} $element - The LightqueryCollection instance to the element being modified
  * @returns {any}
  */
@@ -76,6 +76,22 @@ import "./utils/typedefs"
  * @returns {Callback}
  */
 const notEnoughFor = str => () => throw new NotEnoughElementsError(`Not enough elements to apply LightqueryCollection${str})`);
+
+/**
+ * Callback to rethrow an exception
+ * @param {Error} e - The exception to rethrow
+ * @returns {Callback}
+ */
+const rethrow = e => () => throw e;
+
+
+/**
+ * Predicates to satisfy to be an element of a lightquery collection
+ */
+const checks = [
+	e => typeof e !== "undefined",
+	e => e !== null,
+];
 
 /**
  * @class
@@ -91,56 +107,91 @@ class LightqueryCollectionImplDetails{
 	 */
 	constructor(self, selector, context, previousResults){
 		this.self = self;
-		
+
 		/**
 		 * @readonly
 		 * @property {LightqueryFactory} lightquery - Instance of lightquery factory used to get the collection
 		 */
 		this.lightquery = self.constructor.lightquery;
-		
+
 		/**
 		 * @readonly
-		 * @property {string|Element|Iterable&lt;Element>} selector - The selector used to create this instance
+		 * @property {Selector} selector - The selector used to create this instance
 		 */
 		this.selector = selector;
-		
+
 		/**
 		 * @readonly
 		 * @property {Iterable&lt;Element>} previousResults - The previous results set
 		 */
 		this.previousResults = previousResults;
-		
+
 		/**
-		 * @property {Iterable&lt;Element>} elements - The current result set
+		 * @property {DomElementType[]} elements - The current result set
 		 */
 		this.elements = [];
-		
-		
+
+
 		/**
 		 * @property {LightqueryFactory} $ -  Alias for LightqueryCollectionImplDetails#lightquery
 		 */
 		Object.defineProperties(this, {
 			$: {
 				get: () => this.lightquery,
-			}
+			},
 		});
 	}
-		
+
+	__cleanElements(elements){
+		const uniques = new WeakSet();
+		const ret = [];
+
+		for(const element of elements){
+			const passAllChecks = [
+				...checks,
+				e => !uniques.has(e),
+			].every(check => check(element));
+
+			if(passAllChecks){
+				ret.push(element);
+				uniques.add(element);
+			}
+		}
+
+		return ret;
+
+		/*
+			asSequence(this.elements)
+			.filterNotNull()
+			.filterNot(x => typeof x === "undefined")
+			.distinct()
+			.toArray();
+		*/
+	}
+
 	/**
 	 * Make the LightqueryCollection instance iterable
 	 * @private
-	 * @readonly              
+	 * @readonly
 	 */
 	makeIterable(){
-		this.elements = asSequence(this.elements)
-						.filterNotNull()
-						.filterNot(x => typeof x === "undefined")
-						.distinct()
-						.toArray();
+		this.elements = this.__cleanElements(this.elements);
 
 		const { elements, self } = this;
-		self[Symbol.iterator] = elements[Symbol.iterator];
-		self.length = elements.length;
+
+		Object.defineProperties(self, {
+			[Symbol.iterator]: {
+				get(){
+					return elements[Symbol.iterator];
+				},
+			},
+			length: {
+				enumerable: true,
+				get(){
+					return elements.length;
+				},
+			},
+		});
 
 		for(const i in elements)
 			self[i] = elements[i];
@@ -167,7 +218,7 @@ class LightqueryCollectionImplDetails{
 			if(typeof value === "function"){
 				self.forEach(e => {
 					keys.forEach(key => {
-						const root = setterRoot(e);
+						const root = setterRoot(this.getElement(e));
 						root[key] = value(root[key], root, key);
 					});
 				});
@@ -183,7 +234,7 @@ class LightqueryCollectionImplDetails{
 				loose: "",
 			});
 
-			const first = self[0];
+			const first = this.getElement(self[0]);
 			const firstKey = keys[0];
 			return first ? setterRoot(first)[firstKey] : defaultValue;
 		}
@@ -206,13 +257,12 @@ class LightqueryCollectionImplDetails{
 	 * @param {Callback} callback - The callback to execute
 	 */
 	ifStrict(callback){
-		if(this.$.strictMode)
-			callback();
+		this.$.__.ifStrict(callback);
 	}
 
 	/**
 	 * Apply a function on the first element of a LightqueryCollection if it exists
-	 * @template R,U
+	 * @template R, U
 	 * @param {object} options
 	 * @param {LightqueryCollection~onFirst&lt;R>} options.onFirst - The function to apply on the first element
 	 * @param {string} options.nameForStrict - The name to use on error in strict mode
@@ -222,7 +272,7 @@ class LightqueryCollectionImplDetails{
 	 */
 	doOnFirst({ onFirst, nameForStrict, defaultValue = false, }){
 		const { self } = this;
-		const first = self[0];
+		const first = this.getElement(self[0]);
 
 		if(!first){
 			this.ifStrict(notEnoughFor(nameForStrict));
@@ -243,15 +293,18 @@ class LightqueryCollectionImplDetails{
 	 */
 	arrayMethodDelegate({ method, func, args = [], }){
 		const { self } = this;
-		
+
 		if(typeof func === "string"){
 			return self[method](e => {
 				return this.$(e)[func](...args);
 			});
 		}else
-			return this.elements[method](e => func.call(e, e));
+			return this.elements[method](e => {
+                const el = this.getElement(e);
+			    return func.call(el, el);
+			});
 	}
-	
+
 	/**
 	 * Handle delegating to the class list of each elements
 	 * @param {object} options
@@ -263,21 +316,22 @@ class LightqueryCollectionImplDetails{
 	 */
 	classManip({ classNames, nameForStrict, ifHasClass = () => {}, ifDoesNotHaveClass = () => {}, anyCase = () => {} }){
 		const { self, $ } = this;
-		
+
 		if(typeof classNames === "string"){
 			lqHelpers.spacedListString
 			.toArray(classNames)
 			.forEach(clazz => {
 				self.forEach(elem => {
-					const $elem = $(elem);
+				    const element = this.getElement(elem);
+					const $elem = $(element);
 
 					if($elem.hasClass(clazz))
-						ifHasClass(elem.classList, clazz, elem, $elem);
+						ifHasClass(element.classList, clazz, element, $elem);
 					else
-						ifDoesNotHaveClass(elem.classList, clazz, elem, $elem);
+						ifDoesNotHaveClass(element.classList, clazz, element, $elem);
 
 
-					anyCase(elem.classList, clazz, elem, $elem);
+					anyCase(element.classList, clazz, element, $elem);
 				});
 			});
 		}else
@@ -285,7 +339,7 @@ class LightqueryCollectionImplDetails{
 
 		return self;
 	}
-	
+
 	/**
 	 * Handle event shorthand methods
 	 * @param {object} options
@@ -294,14 +348,101 @@ class LightqueryCollectionImplDetails{
 	 * @param {string} options.nameForStrict - The name to use in the error message if strict mode is on
 	 */
 	eventShorthand({ eventName, listener, nameForStrict }){
-		const { self, $ } = this;
-		
+		const { self } = this;
+
 		if(typeof listener === "undefined")
 			return self.trigger(eventName);
 		else if(typeof listener === "function")
 			return self.on(eventName, listener);
 		else
 			this.ifStrict(() => throw new InvalidArgumentError(`Expected argument listener to be undefined or a function in LightqueryCollection${nameForStrict}`));
+
+		return self;
+	}
+
+    /**
+     * Get the value of a CSS property
+     * @param {DomElementType} element - The element to get properties for
+     * @param {string} property - The name of the property
+     * @returns {string}
+     */
+	getCssProperty(element, property){
+	    const styles = getComputedStyle(this.getElement(element));
+	    return styles[property];
+    }
+
+    /**
+     * Set the value of a CSS property
+     * @param {DomElementType} element - The element to set properties for
+     * @param {string} property - The name of the property
+     * @param {number|string} value - The new value
+     */
+    setCssProperty(element, property, value){
+        this.getElement(element).style[property] = value;
+    }
+
+    /**
+     * Get an element from a DOM element
+     * @param {DomElementType} domEl
+     * @returns {Element}
+     */
+    getElement(domEl){
+        return lqHelpers.elements.getElement(domEl);
+    }
+
+    /**
+     * Filter an array based on a CSS selector
+     * @param {Element[]} ret
+     * @param {string|undefined} selector
+     * @returns {LightqueryCollection}
+     */
+    selectorFiltering(ret, selector){
+        switch(typeof selector){
+            case "undefined":
+                return this.$(ret);
+
+            case "string":
+                return this.$(ret.filter(el => cssEngine.matchesSelector(selector, el)));
+
+            default:
+                this.ifStrict(() => throw new InvalidArgumentError("Expected selector to be a string or undefined in LightqueryCollection#children(selector)"));
+                return this.$.__.emptySelection();
+        }
+    }
+
+	/**
+	 * Shorthand for dimension get/set method
+	 * @param {object} args
+	 * @param {string|number|undefined} args.value
+	 * @param {string} args.nameForStrict
+	 * @param {LightqueryCollection~onFirst&lt;number>} args.onFirst
+	 * @param {"width"|"height"} args.cssProperty
+	 * @returns {LightqueryCollection|number|null}
+	 */
+	dimensionShorthand({ value, nameForStrict, onFirst, cssProperty }){
+		if(typeof value === "undefined"){ // get
+			return this.doOnFirst({
+				nameForStrict,
+				defaultValue: null,
+				onFirst,
+			});
+		}else{ // set
+			switch(typeof value){
+				case "number":
+					this.self.css(cssProperty, `${value}px`);
+					break;
+
+				case "string":
+					this.self.css(cssProperty, value);
+					break;
+
+				default:
+					this.ifStrict(() => throw new InvalidArgumentError(`Expected value to be a string or a number in LightqueryCollection${nameForStrict}`));
+					break
+			}
+
+			return this.self;
+		}
 	}
 }
 
@@ -312,42 +453,40 @@ class LightqueryCollectionImplDetails{
  */
 class LightqueryCollection{
 	/**
-	 * Call a function once the document is loaded
-	 * @param   {Callback} callback - The function to call once the document is loaded
-	 * @returns {LightqueryCollection}
-	 */
-	static ready(callback){
-		return this.lightquery(document).ready(callback);
-	}
-	
-	/**
 	 * @throws {InvalidArgumentError} If the selector is invalid
 	 * @param {Selector} selector - The selector
 	 * @param {DomElementType|undefined} [context = undefined] - The selection context
 	 * @param {Iterable&lt;DomElementType>} [previousResults = []] - The previous results set
 	 */
-	constructor(selector, context = undefined, previousResults = []){		
+	constructor(selector, context = undefined, previousResults = []){
 		/**
 		 * Private methods and properties
 		 * @protected
 		 * @readonly
-		 * @property {LightqueryCollectionImplDetails} - The protected implementation details
+		 * @property {LightqueryCollectionImplDetails} __ - The protected implementation details
 		 */
-		this.__ = new LightqueryCollectionImplDetails(this, selector, context, previousResults);
-		
+		Object.defineProperty(this, "__", {
+			enumerable: false,
+			configurable: false,
+			writable: false,
+			value: new LightqueryCollectionImplDetails(this, selector, context, previousResults)
+		});
+
 		const previousResultSet = [...previousResults];
 		const initStrategy = strategies.find(strategy => strategy.shouldProcess(selector, context, previousResultSet));
-		
+
 		if(initStrategy)
 			this.__.elements = initStrategy.process(selector, context, previousResultSet);
 		else{
 			this.__.ifStrict(() => throw new InvalidArgumentError(`Invalid selector "${selector}"`));
 			this.__.elements = previousResultSet;
 		}
-		
+
 		this.__.makeIterable(this);
 	}
-	
+
+
+
 	/****************************************************************************************\
 	 * Utils
 	\****************************************************************************************/
@@ -358,35 +497,35 @@ class LightqueryCollection{
 	 * @throws {UnsupportedError} If it cannot attach event listeners
 	 */
 	ready(callback){
-		if(this.selector === document){
+		if(this.__.selector === document){
 			if(["complete", "interactive"].includes(document.readyState))
 				callback.call(document);
-			
+
 			if(typeof document.addEventListener == "function"){
 				document.addEventListener("DOMContentLoaded", callback, false);
-			}else if(typeof window.addEventListener == "function"){
-				window.addEventListener("load", callback, false);
-			}else if(typeof document.attachEvent == "function"){
-				document.attachEvent("onreadystatechange", callback);
-			}else if(typeof window.attachEvent == "function"){
-				window.attachEvent("onload", callback);
 			}else
 				throw new UnsupportedError("Cannot attach document ready event handler");
 		}
-		
+
 		return this;
 	}
-	
+
 	/**
-	 * Transform the LigtqueryCollection into a sequency Sequence
-	 * @returns {import("sequency").Sequence&lt;Element>}
+	 * Listen to resize events (includes orientation change)
+	 * @param {EventListener} listener - The event listener to attach
+	 * @returns {LightqueryCollection}
 	 */
-	lazy(){
-		return asSequence(this.__.elements);
+	resize(listener){
+		if(this.__.selector !== window){
+			this.__.ifStrict(() => throw new InvalidArgumentError("Can only attach resize events on the window object"));
+			return this;
+		}
+
+		return this.on("resize orientationchange", listener);
 	}
-	
-	
-	
+
+
+
 	/****************************************************************************************\
 	 * Iteration methods
 	\****************************************************************************************/
@@ -398,19 +537,20 @@ class LightqueryCollection{
 	forEach(callback){
 		for(const element of this)
 			callback.call(element, element);
-		
+
 		return this;
 	}
-	
+
 	/**
 	 * Map each element
+     * @template U
 	 * @param   {ElementMapper&lt;U>|string} mapper - The mapping function
-	 * @param   {...any} ...args - Arguments for string callable
+	 * @param   {...any} args - Arguments for string callable
 	 * @returns {U[]|any[]}
 	 *
 	 * @example &lt;caption>Same as &lt;code>µ("form input").map(e => µ(e).val());&lt;/code>&lt;/caption>
 	 * µ("form input").map("val");
-	 * 
+	 *
 	 * @example &lt;caption>Same as &lt;code>µ("form input[type="checkbox"]").map(e => µ(e).hasAttr("checked"));&lt;/code>&lt;/caption>
 	 * µ("form input[type="checkbox"]").map("hasAttr", "checked");
 	 */
@@ -421,11 +561,11 @@ class LightqueryCollection{
 			args,
 		});
 	}
-	
+
 	/**
 	 * Filter elements
 	 * @param   {Predicate&lt;DomElementType>|string} predicate - The predicate function
-	 * @param   {...any} ...args - Arguments for string callable
+	 * @param   {...any} args - Arguments for string callable
 	 * @returns {LightqueryCollection}
 	 *
 	 * @example &lt;caption>Same as &lt;code>µ("form input").filter(e => µ(e).hasAttr("checked"));&lt;/code>&lt;/caption>
@@ -437,12 +577,79 @@ class LightqueryCollection{
 			func: predicate,
 			args,
 		});
-		
+
 		return this.__.$(arr);
 	}
-	
-	
-	
+
+    /**
+     * Reduce the set of elements to a single return value
+     * @template T
+     * @param {ElementReducer&lt;T>} reducer - The reducing function
+     * @param {T|undefined} [acc = undefined] - The initial value of the accumulator
+     * @returns {T|undefined}
+     */
+	reduce(reducer, acc = undefined){
+	    return this.__.elements.reduce(reducer, acc);
+    }
+
+	/**
+	 * Determine whether or not all the elements match the given predicate
+	 * @param   {Predicate&lt;DomElementType>|string} predicate - The predicate function
+	 * @param   {...any} args - Arguments for string callable
+	 * @returns {boolean}
+	 */
+    all(predicate, ...args){
+		return this.__.arrayMethodDelegate({
+			method: "every",
+			func: predicate,
+			args,
+		});
+	}
+
+	/**
+	 * Determine whether or not any of the elements match the given predicate
+	 * @param   {Predicate&lt;DomElementType>|string} predicate - The predicate function
+	 * @param   {...any} args - Arguments for string callable
+	 * @returns {boolean}
+	 */
+	any(predicate, ...args){
+		return this.__.arrayMethodDelegate({
+			method: "some",
+			func: predicate,
+			args,
+		});
+	}
+
+	/**
+	 * Determine whether or not none of the elements match the given predicate
+	 * @param   {Predicate&lt;DomElementType>|string} predicate - The predicate function
+	 * @param   {...any} args - Arguments for string callable
+	 * @returns {boolean}
+	 */
+	none(predicate, ...args){
+		return !this.any(predicate, ...args);
+	}
+
+	/**
+	 * Determine whether or not some of the elements do not match the given predicate
+	 * @param   {Predicate&lt;DomElementType>|string} predicate - The predicate function
+	 * @param   {...any} args - Arguments for string callable
+	 * @returns {boolean}
+	 */
+	notAll(predicate, ...args){
+		return !this.all(predicate, ...args);
+	}
+
+	/**
+	 * Converts the result set to an array
+	 * @returns {DomElementType[]}
+	 */
+	toArray(){
+		return lqHelpers.arrayLike.toArray(this.__.elements);
+	}
+
+
+
 	/****************************************************************************************\
 	 * Single item methods
 	\****************************************************************************************/
@@ -456,13 +663,41 @@ class LightqueryCollection{
 			strict: null,
 			loose: this.__.lightquery.__.emptySelection(),
 		});
-		
+
 		if(index >= 0 &amp;&amp; index &lt; this.length)
 			return this[index] ? this.__.lightquery(this[index]) : defaultValue;
 		else
 			return defaultValue;
 	}
-	
+
+    /**
+     * Get the first item
+     * @returns {LightqueryCollection|null}
+     */
+	first(){
+	    return this.eq(0);
+    }
+
+    /**
+     * Get the last item
+     * @returns {LightqueryCollection|null}
+     */
+    last(){
+	    return this.eq(this.length - 1);
+    }
+
+	/**
+	 * Get/set the text content
+	 * @param   {LightqueryCollection~setValueFactory&lt;string, DomElementType, string>|string|number|null|undefined} [value = undefined] - The new value (or its factory)
+	 * @returns {LightqueryCollection|string|number|null}
+	 */
+    text(value = undefined){
+    	return this.__.getSetMethod({
+			value,
+			key: "textContent",
+		});
+	}
+
 	/**
 	 * Get/set the value of an input field
 	 * @param   {LightqueryCollection~setValueFactory&lt;string, DomElementType, string>|string|number|null|undefined} [value = undefined] - The new value (or its factory)
@@ -474,7 +709,7 @@ class LightqueryCollection{
 			key: "value",
 		});
 	}
-	
+
 	/**
 	 * Get/set the html content
 	 * @param   {LightqueryCollection~setValueFactory&lt;string, DomElementType, string>|string|undefined} [value = undefined] - The new HTML content
@@ -486,7 +721,7 @@ class LightqueryCollection{
 			key: "innerHTML",
 		});
 	}
-	
+
 	/**
 	 * Get/set an attribute's value
 	 * @param {string} name The name of the attribute
@@ -500,7 +735,7 @@ class LightqueryCollection{
 			setterRoot: e => e.attributes,
 		});
 	}
-	
+
 	/**
 	 * Get/set a property's value
 	 * @param {string} name The name of the property
@@ -513,7 +748,7 @@ class LightqueryCollection{
 			key: name,
 		});
 	}
-	
+
 	/**
 	 * Get/set a data attribute's value
 	 * @param {string} name The name of the data attribute
@@ -527,7 +762,7 @@ class LightqueryCollection{
 			setterRoot: e => e.dataset,
 		});
 	}
-	
+
 	/**
 	 * Determine whether or not the first element has the given attribute
 	 * @param   {string}  attr - The attribute's name
@@ -536,12 +771,12 @@ class LightqueryCollection{
 	 */
 	hasAttr(attr){
 		return this.__.doOnFirst({
+			nameForStrict: "#hasAttribute(attr)",
 			onFirst: first => first.hasAttribute(attr),
 			defaultValue: false,
-			nameForStrict: "#hasAttribute(attr)",
 		});
 	}
-	
+
 	/**
 	 * Determine whether or not the first element has the given property
 	 * @param   {string}  prop - The property's name
@@ -550,26 +785,26 @@ class LightqueryCollection{
 	 */
 	hasProp(prop){
 		return this.__.doOnFirst({
+			nameForStrict: "#hasProp(prop)",
 			onFirst: first => first.hasOwnProperty(prop),
 			defaultValue: false,
-			nameForStrict: "#hasProp(prop)",
 		});
 	}
-	
+
 	/**
 	 * Determine whether or not the first element has the given data attribute
-	 * @param   {string}  attr - The data attribute's name
+	 * @param   {string}  data - The data attribute's name
 	 * @returns {boolean}
 	 * @throws {NotEnoughElementsError} If strict mode is on and there are no elements
 	 */
 	hasData(data){
 		return this.__.doOnFirst({
+			nameForStrict: "#hasData(data)",
 			onFirst: first => data in first.dataset,
 			defaultValue: false,
-			nameForStrict: "#hasData(data)",
 		});
 	}
-	
+
 	/**
 	 * Determine whether or not the first element has the given class applied
 	 * @param   {string}  className - The name of the class to have
@@ -578,22 +813,27 @@ class LightqueryCollection{
 	 */
 	hasClass(className){
 		return this.__.doOnFirst({
+			nameForStrict: "#hasClass(className)",
 			onFirst: first => first.classList.contains(className),
 			defaultValue: false,
-			nameForStrict: "#hasClass(className)",
 		});
 	}
-	
+
+    /**
+     * Determine whether or not the first element matches the given selector
+     * @param {string} selector - The CSS selector to match against
+     * @returns {boolean}
+     */
 	matches(selector){
 		return this.__.doOnFirst({
+			nameForStrict: "#matches(selector)",
 			onFirst: first => cssEngine.matchesSelector(selector, first),
 			defaultValue: false,
-			nameForStrict: "#matches(selector)",
 		});
 	}
-	
-	
-	
+
+
+
 	/****************************************************************************************\
 	 * Multiple items methods
 	\****************************************************************************************/
@@ -612,7 +852,7 @@ class LightqueryCollection{
 			},
 		});
 	}
-	
+
 	/**
 	 * Remove the given classes from each element
 	 * @param   {string}               classNames - The space separated list of classes to remove
@@ -628,7 +868,7 @@ class LightqueryCollection{
 			},
 		});
 	}
-	
+
 	/**
 	 * Toggle the given classes for each element
 	 * @param   {string}               classNames - The space separated list of classes to toggle
@@ -644,8 +884,8 @@ class LightqueryCollection{
 			},
 		});
 	}
-	
-	
+
+
 	/**
 	 * Trigger a callback on event
 	 * @param   {string}               eventNames - The spaced separated list of events to listen to
@@ -660,10 +900,8 @@ class LightqueryCollection{
 				const events = lqHelpers.spacedListString.toArray(eventNames);
 				this.forEach(el => {
 					events.forEach(event => {
-						if(e.addEventListener)
-							e.addEventListener(event, listener);
-						else if(e.attachEvent)
-							e.attachEvent(`on${event}`, listener);
+						if(el.addEventListener)
+							el.addEventListener(event, listener);
 						else
 							this.__.ifStrict(() => throw new UnsupportedError("Cannot attach event listeners"));
 					});
@@ -672,10 +910,10 @@ class LightqueryCollection{
 				this.__.ifStrict(() => throw new InvalidArgumentError("Expected eventNames to be a string in LightqueryCollection#on(eventNames, listener)"));
 		}else
 			this.__.ifStrict(() => throw new InvalidArgumentError("Invalid listener in LightqueryCollection#on(eventNames, listener)"));
-		
+
 		return this;
 	}
-	
+
 	/**
 	 * Unregister an event listener
 	 * @param   {string}               eventNames - The spaced separated list of events to stop listening to
@@ -692,8 +930,6 @@ class LightqueryCollection{
 					events.forEach(event => {
 						if(e.removeEventListener)
 							e.removeEventListener(event, listener);
-						else if(e.detachEvent)
-							e.detachEvent(`on${event}`, listener);
 						else
 							this.__.ifStrict(() => throw new UnsupportedError("Cannot detach event listeners"));
 					});
@@ -702,10 +938,10 @@ class LightqueryCollection{
 				this.__.ifStrict(() => throw new InvalidArgumentError("Expected eventNames to be a string in LightqueryCollection#off(eventNames, listener)"));
 		}else
 			this.__.ifStrict(() => throw new InvalidArgumentError("Invalid listener in LightqueryCollection#off(eventNames, listener)"));
-		
+
 		return this;
 	}
-	
+
 	/**
 	 * Trigger events on each element
 	 * @param {string} eventNames - The spaced separated list of events to stop listening to
@@ -718,37 +954,522 @@ class LightqueryCollection{
 			this.__.ifStrict(() => throw new InvalidArgumentError("Expected eventNames to be a string in LightqueryCollection#trigger(eventNames, options)"));
 		if(typeof options !== "object" || options === null)
 			this.__.ifStrict(() => throw new InvalidArgumentError("Expected options to be an object in LightqueryCollection#trigger(eventNames, options)"));
-		
+
 		const events = lqHelpers.spacedListString.toArray(eventNames);
-		
-		const eventObjectFactory = window.CustomEvent
-			? (event, opts) => new window.CustomEvent(event, opts)
-			: (event, opts) => {
-				const obj = document.createEvent("CustomEvent");
-				obj.initCustomEvent(event, true, true, opts);
-				return obj;
-			};
-		
+
+		const eventObjectFactory = (event, opts) => new window.CustomEvent(event, opts);
+
 		this.forEach(el => {
-			const eventOptions = this.__.$.extend({target: el}, options);			
-			
+			const eventOptions = this.__.$.extend({target: el}, options);
+
 			events.forEach(event => {
 				const eventObj = eventObjectFactory(event, eventOptions);
 				el.dispatchEvent(eventObj);
 			});
 		});
-		
+
 		return this;
 	}
-	
-	
-	
+
+    /**
+     * Get the closest element matching the given selector
+     * @param {string} selector - The CSS selector for the closest elements to find
+     * @returns {LightqueryCollection}
+     */
+	closest(selector){
+	    if(typeof selector !== "string"){
+	        this.__.ifStrict(() => throw new InvalidArgumentError("Expected selector to be a string in LightqueryCollection#closest(selector)"));
+	        return this;
+        }
+
+	    const closests = this.map(el => el.closest(selector));
+	    return this.__.$(closests);
+    }
+
+    /**
+     * Get all the children (that optionally match the given selector)
+     * @param {string|undefined} selector - The CSS selector to restrict children to
+     * @return {LightqueryCollection}
+     */
+    children(selector = undefined){
+	    const ret = this.reduce((children, el) => {
+	        if(el.children.length > 0)
+	            children.push(lqHelpers.arrayLike.toArray(el.children));
+
+	        return children;
+        }, []);
+
+	    return this.__.selectorFiltering(ret, selector);
+    }
+
+    /**
+     * Get all the parents (filtering by the given selector if there is any)
+     * @param {string|undefined} selector - The CSS selector to restrict parents to
+     * @returns {LightqueryCollection}
+     */
+    parent(selector = undefined){
+        const ret = this.reduce((arr, el) => {
+            if(el.parentElement)
+                arr.push(el.parentElement);
+
+            return arr;
+        }, []);
+
+        return this.__.selectorFiltering(ret, selector);
+    }
+
+    /**
+     * Get all the predecessors (parents), filtering by the given selector if there is any
+     * @param {string|undefined} selector  - The CSS selector to restrict predecessors to
+     * @returns {LightqueryCollection}
+     */
+    parents(selector = undefined){
+        const ret = this.reduce((arr, el) => {
+            let cur = el;
+
+            while(cur.parentElement){
+                arr.push(cur.parentElement);
+                cur = cur.parentElement;
+            }
+
+            return arr;
+        }, []);
+
+        return this.__.selectorFiltering(ret, selector);
+    }
+
+    /**
+     * Get all the descendants (filtering by the given selector if any)
+     * @param {string|undefined} selector - The selector to restrict descendants to
+     * @returns {LightqueryCollection}
+     */
+    find(selector = undefined){
+        const ret = this.reduce((arr, el) => {
+            const $found = this.__.$(selector || "*", el);
+            arr.push(...$found.__.elements);
+            return arr;
+        }, []);
+
+        return this.__.$(ret);
+    }
+
+    /**
+     * Reduce the set to the elements that have at least one descendant that matches the selector
+     * @param {string} selector
+     * @returns {LightqueryCollection}
+     */
+    has(selector){
+        if(typeof selector !== "string"){
+            this.__.ifStrict(() => throw new InvalidArgumentError("Expected selector to be a string in LightqueryCollection#has(selector)"));
+            return this.__.$.__.emptySelection();
+        }
+
+        return this.filter(e => this.__.$(e).find(selector));
+    }
+
+	/**
+	 * Get all the previous siblings (filtering by the given selector if any)
+	 * @param {string|undefined} selector - The selector to restrict previous siblings to
+	 * @returns {LightqueryCollection}
+	 */
+    prevAll(selector = undefined){
+    	const ret = this.reduce((arr, el) => {
+    		let cur = el.previousElementSibling;
+    		while(cur !== null){
+    			arr.push(cur);
+    			cur = cur.previousElementSibling;
+			}
+
+			return arr;
+		}, []);
+
+    	return this.__.selectorFiltering(ret, selector);
+	}
+
+	/**
+	 * Get all the next siblings (filtering by the given selector if any)
+	 * @param {string|undefined} selector - The selector to restrict next siblings to
+	 * @returns {LightqueryCollection}
+	 */
+	nextAll(selector = undefined){
+		const ret = this.reduce((arr, el) => {
+			let cur = el.nextElementSibling;
+			while(cur !== null){
+				arr.push(cur);
+				cur = cur.nextElementSibling;
+			}
+
+			return arr;
+		}, []);
+
+		return this.__.selectorFiltering(ret, selector);
+	}
+
+	/**
+	 * Get all the siblings (filtering by the given selector if any)
+	 * @param {string|undefined} selector - The selector to restrict siblings to
+	 * @returns {LightqueryCollection}
+	 */
+	siblings(selector = undefined){
+		return this.prevAll(selector).add(this.nextAll(selector));
+	}
+
+	/**
+	 * Get the previous sibling of each element
+	 * @returns {LightqueryCollection}
+	 */
+	prev(){
+		const ret = this.map(e => this.__.getElement(e).previousElementSibling);
+		return this.__.$(ret);
+	}
+
+	/**
+	 * Get the next sibling of each element
+	 * @returns {LightqueryCollection}
+	 */
+	next(){
+		const ret = this.map(e => this.__.getElement(e).nextElementSibling);
+		return this.__.$(ret);
+	}
+
+
+
+	/****************************************************************************************\
+	 * DOM based
+    \****************************************************************************************/
+	/**
+	 * Append the given elements to the first result of the results set
+	 * @param {ElementsOrLightquery} elements - The elements to append
+	 * @returns {LightqueryCollection}
+	 */
+	append(elements){
+        const nameForStrict = "#append(elements)";
+
+        return this.__.doOnFirst({
+            onFirst: el => {
+                lqHelpers.elements.forElements({
+                    elements,
+                    LightqueryCollection,
+                    nameForStrict,
+
+                    onElement: e => el.append(e),
+                    onElements: e => el.append(...e),
+                });
+
+                return this;
+            },
+            nameForStrict,
+            defaultValue: this,
+        });
+
+    }
+
+	/**
+	 * Appends the result set to the given element
+	 * @param {ElementOrLightquery|string} element - The element to append to (or a CSS selector to it)
+	 * @returns {LightqueryCollection}
+	 */
+	appendTo(element){
+		try{
+			lqHelpers.elements.forElement({
+				element,
+				LightqueryCollection,
+				nameForStrict: "#appendTo",
+				onLq: $e => $e.append(this),
+				onElement: e => this.appendTo(this.__.$(this.__.getElement(e))),
+				onString: selector => this.appendTo(this.__.$(selector)),
+			});
+		}catch(e){
+			this.__.ifStrict(rethrow(e));
+		}
+
+		return this;
+    }
+
+	/**
+	 * Prepend the given elements to the first result of the results set
+	 * @param {ElementsOrLightquery} elements - The elements to prepend
+	 * @returns {LightqueryCollection}
+	 */
+	prepend(elements){
+		const nameForStrict = "#append(elements)";
+
+		return this.__.doOnFirst({
+			onFirst: el => {
+				lqHelpers.elements.forElements({
+					elements,
+					LightqueryCollection,
+
+					onElement: e => el.prepend(e),
+					onElements: e => el.prepend(...e),
+					nameForStrict,
+				});
+			},
+			defaultValue: this,
+			nameForStrict,
+		});
+	}
+
+	/**
+	 * Appends the result set to the given element
+	 * @param {ElementOrLightquery|string} element - The element to append to (or a CSS selector to it)
+	 * @returns {LightqueryCollection}
+	 */
+	prependTo(element){
+		try{
+			lqHelpers.elements.forElement({
+				element,
+				LightqueryCollection,
+				nameForStrict: "#prependTo(element)",
+				onLq: $e => $e.prepend(this),
+				onElement: e => this.prependTo(this.__.$(this.__.getElement(e))),
+				onString: selector => this.prependTo(this.__.$(selector)),
+			});
+		}catch(e){
+			this.__.ifStrict(rethrow(e));
+		}
+
+		return this;
+	}
+
+	/**
+	 * Insert the given elements before the first result
+	 * @param {ElementsOrLightquery} elements - The elements to insert
+	 * @returns {LightqueryCollection}
+	 */
+	before(elements){
+		const nameForStrict = "#after(elements)";
+
+		const doInsert = el => e => el.parentElement.insertBefore(e, el);
+
+		return this.__.doOnFirst({
+			onFirst: el => {
+				const onElement = doInsert(el);
+
+				lqHelpers.elements.forElements({
+					elements,
+					LightqueryCollection,
+
+					onElement,
+					onElements: es => {
+						for(const e of es)
+							onElement(e);
+					},
+					nameForStrict,
+				});
+			},
+			defaultValue: this,
+			nameForStrict,
+		});
+	}
+
+	/**
+	 * Insert the result set before the given element
+	 * @param {ElementOrLightquery|string} element - The element to insert elements before (or a CSS selector to it)
+	 * @returns {LightqueryCollection}
+	 */
+	insertBefore(element){
+		try{
+			lqHelpers.elements.forElement({
+				element,
+				LightqueryCollection,
+				nameForStrict: "#insertBefore(element)",
+
+				onLq: $e => $e.before(this),
+				onElement: e => this.insertBefore(this.__.$(this.__.getElement(e))),
+				onString: selector => this.insertBefore(this.__.$(selector)),
+			});
+		}catch(e){
+			this.__.ifStrict(rethrow(e));
+		}
+
+		return this;
+	}
+
+	/**
+	 * Insert the given elements after the first result
+	 * @param {ElementsOrLightquery} elements - The elements to insert
+	 * @returns {LightqueryCollection}
+	 */
+	after(elements){
+		const nameForStrict = "#after(elements)";
+
+		const doInsert = el => e => {
+			const parent = el.parentElement;
+			parent.insertBefore(e, el.nextSibling);
+		};
+
+		return this.__.doOnFirst({
+			onFirst: el => {
+				const onElement = doInsert(el);
+
+				lqHelpers.elements.forElements({
+					elements,
+					LightqueryCollection,
+
+					onElement,
+					onElements: es => {
+						for(const e of es)
+							onElement(e);
+					},
+					nameForStrict,
+				});
+			},
+			defaultValue: this,
+			nameForStrict,
+		});
+	}
+
+	/**
+	 * Insert the result set after the given element
+	 * @param {ElementOrLightquery|string} element - The element to insert elements after (or a CSS selector to it)
+	 * @returns {LightqueryCollection}
+	 */
+	insertAfter(element){
+		try{
+			lqHelpers.elements.forElement({
+				element,
+				LightqueryCollection,
+				nameForStrict: "#insertBefore(element)",
+
+				onLq: $e => $e.after(this),
+				onElement: e => this.insertAfter(this.__.$(this.__.getElement(e))),
+				onString: selector => this.insertAfter(this.__.$(selector)),
+			});
+		}catch(e){
+			this.__.ifStrict(rethrow(e));
+		}
+
+		return this;
+	}
+
+	/**
+	 * Remove the elements from the DOM
+	 * @returns {LightqueryCollection}
+	 */
+	remove(){
+		this.forEach(e => this.__.getElement(e).remove());
+		return this.__.$.__.emptySelection();
+	}
+
+	/**
+	 * Empty the content of each element
+	 * @returns {LightqueryCollection}
+	 */
+	empty(){
+		return this.forEach(e => this.__.getElement(e).innerHTML = "");
+	}
+
+
+
+    /****************************************************************************************\
+     * Misc.
+    \****************************************************************************************/
+    /**
+     * Add elements to the set of results
+     * @param {Selector} selector - The selector for the new elements
+     * @param {DomElementType|undefined} context
+     * @returns {LightqueryCollection}
+     */
+	add(selector, context = undefined){
+	    const $others = this.__.$(selector, context);
+
+	    const elems = [
+            ...this.toArray(),
+            ...$others.toArray(),
+        ];
+
+	    return this.__.$(elems);
+    }
+
+    /**
+     * Getter/setter for CSS properties
+     * @param {string|string[]|Record&lt;string, string|number>} properties - The property (or properties) to get/set
+     * @param {string|number|undefined} value - The new value of the property (or properties)
+     * @returns {LightqueryCollection|string|number|null}
+     */
+    css(properties, value = undefined){
+        if(typeof value === "undefined"){
+            if(properties instanceof Array){ // get all values from first
+                return this.__.doOnFirst({
+                    nameForStrict: "#css(properties, value)",
+                    defaultValue: {},
+                    onFirst: el => {
+                        return properties.reduce((ret, property) => {
+                            if(typeof property !== "string"){
+                                this.__.ifStrict(() => throw new InvalidArgumentError(`Property "${property}" is not a string`));
+                            }else
+                                ret[property] = this.__.getCssProperty(el, property);
+
+                            return ret;
+                        }, {});
+                    },
+                });
+            }else if(properties &amp;&amp; typeof properties === "object"){ // set all values for all
+                Object.entries(properties)
+                    .forEach(([prop, val]) => {
+                        this.forEach(el => this.__.setCssProperty(el, prop, val));
+                    });
+
+                return this;
+            }else if(typeof properties === "string"){ // get value from first
+                return this.__.doOnFirst({
+                    nameForStrict: "#css(properties, value)",
+                    defaultValue: "",
+                    onFirst: el => this.__.getCssProperty(el, properties),
+                });
+            }else{
+                this.__.ifStrict(() => throw new InvalidArgumentError("Invalid properties in LightqueryCollection#css(properties, value)"));
+                return "";
+            }
+        }else{ // set values for all
+            const props = properties instanceof Array ? properties : [properties];
+
+            this.forEach(el => props.forEach(prop => {
+                if(typeof prop !== "string"){
+                    this.__.ifStrict(() => throw new InvalidArgumentError(`Property "${prop}" is not a string`));
+                    return;
+                }
+
+                this.__.setCssProperty(el, prop, value);
+            }));
+
+            return this;
+        }
+    }
+
+    /**
+     * Getter/setter for CSS variables at the root
+     * @param {string} variable - The CSS variable name
+     * @param {string|number|undefined} value - The new value
+     * @returns {LightqueryCollection|string|number|null}
+     */
+    cssVar(variable, value){
+        if(typeof variable !== "string"){
+            this.__.ifStrict(() => throw new InvalidArgumentError("Expected variable to be a string in LightqueryCollection#cssVar(variable, value)"));
+            return typeof value === "undefined" ? null : this;
+        }
+
+        const varname = lqHelpers.css_variables.regex.no_trailing.test(variable) ? `--${variable}` : variable;
+
+        if(typeof value === "undefined"){ // get
+            return this.__.doOnFirst({
+                nameForStrict: "#cssVar(variable, value)",
+                defaultValue: null,
+                onFirst: el => getComputedStyle(el).getPropertyValue(varname),
+            });
+        }else // set
+            return this.forEach(el => el.style.setProperty(varname, value));
+    }
+
+
+
 	/****************************************************************************************\
 	 * Events shorthand
 	\****************************************************************************************/
 	/**
 	 * Trigger (or listen to) click events
-	 * @param {EventListener|undefind} [listener = undefined] - The event listener to attach
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
 	 * @returns {LightqueryCollection}
 	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
 	 */
@@ -759,9 +1480,269 @@ class LightqueryCollection{
 			listener,
 		})
 	}
+
+	/**
+	 * Trigger (or listen to) double-click events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	doubleClick(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#doubleClick(listener)",
+			eventName: "dblclick",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) mouse down events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	mouseUp(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#mouseUp(listener)",
+			eventName: "mouseUp",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) mouse down events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	mouseDown(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#mouseDown(listener)",
+			eventName: "mousedown",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) mouse entering events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	mouseEnter(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#mouseEnter(listener)",
+			eventName: "mouseenter",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) mouse leaving events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	mouseLeave(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#mouseLeave(listener)",
+			eventName: "mouseleave",
+			listener,
+		});
+	}
+
+    /**
+     * Listen to hovering events
+     * @param {EventListener} onEnter - The listener to call on enter
+     * @param {EventListener} onLeave - The listener to call on leave
+     * @returns {LightqueryCollection}
+     */
+	hover(onEnter, onLeave){
+		return this.mouseEnter(onEnter).mouseLeave(onLeave);
+	}
+
+	/**
+	 * Trigger (or listen to) focus events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	focus(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#focus(listener)",
+			eventName: "focus",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) blur events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	blur(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#blur(listener)",
+			eventName: "blur",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) change events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	change(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#change(listener)",
+			eventName: "change",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) input events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	input(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#input(listener)",
+			eventName: "input",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) submit events
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	submit(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#submit(listener)",
+			eventName: "submit",
+			listener,
+		});
+	}
+
+
+
+	/****************************************************************************************\
+	 * Dimensions
+	\****************************************************************************************/
+	/**
+	 * Get/set the width
+	 * @param {string|number|undefined} [value = undefined] - The new value
+	 * @returns {LightqueryCollection|number|null}
+	 */
+	width(value = undefined){
+		return this.__.dimensionShorthand({
+			value,
+			nameForStrict: "#width(value)",
+			cssProperty: "width",
+			onFirst: el => el.clientWidth,
+		});
+	}
+
+	/**
+	 * Get/set the height
+	 * @param {string|number|undefined} [value = undefined] - The new value
+	 * @returns {LightqueryCollection|number|null}
+	 */
+	height(value = undefined){
+		return this.__.dimensionShorthand({
+			value,
+			nameForStrict: "#height(value)",
+			cssProperty: "height",
+			onFirst: el => el.clientHeight,
+		});
+	}
+
+	/**
+	 * Get the outer width of the first element (up to borders)
+	 * @returns {number|null}
+	 */
+	borderBoxWidth(){
+		return this.__.doOnFirst({
+			nameForStrict: "#borderBoxWidth()",
+			defaultValue: null,
+			onFirst: el => {
+				const { borderLeftWidth, borderRightWidth } = getComputedStyle(el);
+				const [borderLeft, borderRight] = [borderLeftWidth, borderRightWidth].map(lqHelpers.string.parsePx);
+
+				return [borderLeft, borderRight].some(x => x === null)
+				? null
+				: this.__.$(el).width() + borderLeft + borderRight;
+			},
+		});
+	}
+
+	/**
+	 * Get the outer height of the first element (up to borders)
+	 * @returns {number|null}
+	 */
+	borderBoxHeight(){
+		return this.__.doOnFirst({
+			nameForStrict: "#borderBoxHeight()",
+			defaultValue: null,
+			onFirst: el => {
+				const { borderTopWidth, borderBottomWidth } = getComputedStyle(el);
+				const [borderTop, borderBottom] = [borderTopWidth, borderBottomWidth].map(lqHelpers.string.parsePx);
+
+				return [borderTop, borderBottom].some(x => x === null)
+				? null
+				: this.__.$(el).height() + borderTop + borderBottom;
+			},
+		});
+	}
+
+	/**
+	 * Get the width of the margin box of the first element
+	 * @returns {number|null}
+	 */
+	marginBoxWidth(){
+		return this.__.doOnFirst({
+			nameForStrict: "#marginBoxWidth()",
+			defaultValue: null,
+			onFirst: el => {
+				const { marginLeft, marginRight } = getComputedStyle(el);
+				const [mleft, mright] = [marginLeft, marginRight].map(lqHelpers.string.parsePx);
+
+				return [mleft, mright].some(x => x === null)
+				? null
+				: this.__.$(el).outerWidth() + mleft + mright;
+			},
+		});
+	}
+
+	/**
+	 * Get the width of the margin box of the first element
+	 * @returns {number|null}
+	 */
+	marginBoxHeight(){
+		return this.__.doOnFirst({
+			nameForStrict: "#marginBoxWidth()",
+			defaultValue: null,
+			onFirst: el => {
+				const { marginTop, marginBottom } = getComputedStyle(el);
+				const [mtop, mbottom] = [marginTop, marginBottom].map(lqHelpers.string.parsePx);
+
+				return [mtop, mbottom].some(x => x === null)
+					? null
+					: this.__.$(el).outerHeight() + mtop + mbottom;
+			},
+		});
+	}
 }
 
-export default LightqueryCollection</code></pre>
+export default LightqueryCollection
+</code></pre>
         </article>
     </section>
 
@@ -771,13 +1752,13 @@ export default LightqueryCollection</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-ConstructorParameters.html">ConstructorParameters</a></li><li><a href="external-Exclude.html">Exclude</a></li><li><a href="external-Extract.html">Extract</a></li><li><a href="external-InstanceType.html">InstanceType</a></li><li><a href="external-NonNullable.html">NonNullable</a></li><li><a href="external-Omit.html">Omit</a></li><li><a href="external-OmitThisParameter.html">OmitThisParameter</a></li><li><a href="external-Parameters.html">Parameters</a></li><li><a href="external-Partial.html">Partial</a></li><li><a href="external-Pick.html">Pick</a></li><li><a href="external-Readonly.html">Readonly</a></li><li><a href="external-Record.html">Record</a></li><li><a href="external-Required.html">Required</a></li><li><a href="external-ReturnType.html">ReturnType</a></li><li><a href="external-ThisParameterType.html">ThisParameterType</a></li><li><a href="external-ThisType.html">ThisType</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractCssEngine.html">AbstractCssEngine</a></li><li><a href="LightqueryCollection.html">LightqueryCollection</a></li><li><a href="LightqueryCollectionImplDetails.html">LightqueryCollectionImplDetails</a></li><li><a href="LightqueryFactory.html">LightqueryFactory</a></li><li><a href="LightqueryFactoryImplDetails.html">LightqueryFactoryImplDetails</a></li><li><a href="SizzleCssEngine.html">SizzleCssEngine</a></li></ul><h3>Global</h3><ul><li><a href="global.html#$">$</a></li><li><a href="global.html#cssEngine">cssEngine</a></li><li><a href="global.html#lightquery">lightquery</a></li><li><a href="global.html#lq">lq</a></li><li><a href="global.html#notEnoughFor">notEnoughFor</a></li><li><a href="global.html#%25C2%25B5">µ</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-ConstructorParameters.html">ConstructorParameters</a></li><li><a href="external-Exclude.html">Exclude</a></li><li><a href="external-Extract.html">Extract</a></li><li><a href="external-InstanceType.html">InstanceType</a></li><li><a href="external-NonNullable.html">NonNullable</a></li><li><a href="external-Omit.html">Omit</a></li><li><a href="external-OmitThisParameter.html">OmitThisParameter</a></li><li><a href="external-Parameters.html">Parameters</a></li><li><a href="external-Partial.html">Partial</a></li><li><a href="external-Pick.html">Pick</a></li><li><a href="external-Readonly.html">Readonly</a></li><li><a href="external-Record.html">Record</a></li><li><a href="external-Required.html">Required</a></li><li><a href="external-ReturnType.html">ReturnType</a></li><li><a href="external-ThisParameterType.html">ThisParameterType</a></li><li><a href="external-ThisType.html">ThisType</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractCssEngine.html">AbstractCssEngine</a></li><li><a href="LightqueryCollection.html">LightqueryCollection</a></li><li><a href="LightqueryCollectionImplDetails.html">LightqueryCollectionImplDetails</a></li><li><a href="LightqueryFactory.html">LightqueryFactory</a></li><li><a href="LightqueryFactoryImplDetails.html">LightqueryFactoryImplDetails</a></li><li><a href="SizzleCssEngine.html">SizzleCssEngine</a></li></ul><h3>Global</h3><ul><li><a href="global.html#$">$</a></li><li><a href="global.html#checks">checks</a></li><li><a href="global.html#cssEngine">cssEngine</a></li><li><a href="global.html#defaultPluginType">defaultPluginType</a></li><li><a href="global.html#lightquery">lightquery</a></li><li><a href="global.html#lq">lq</a></li><li><a href="global.html#makePureLightquery">makePureLightquery</a></li><li><a href="global.html#notEnoughFor">notEnoughFor</a></li><li><a href="global.html#rethrow">rethrow</a></li><li><a href="global.html#%25C2%25B5">µ</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Fri Sep 04 2020 16:42:50 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Sep 22 2020 18:15:25 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>

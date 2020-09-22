@@ -1,5 +1,4 @@
 import LightqueryFactory from "./LightqueryFactory";
-import LightqueryCollection from "./LightqueryCollection";
 
 export declare const makePureLightquery: (strict?: boolean) => LightqueryFactory;
 

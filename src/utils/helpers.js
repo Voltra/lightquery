@@ -14,6 +14,17 @@ const helpers = {
 
             return `${first}${rest}`;
         },
+
+		/**
+		 * Parse a pixel string
+		 * @param {string} str - The string to parse
+		 * @returns {number|null}
+		 */
+		parsePx(str){
+        	const nbStr = str.replace(/px$/i, "");
+        	const maybeFloat = parseFloat(nbStr);
+        	return isNaN(maybeFloat) ? null : maybeFloat;
+		}
     },
     spacedListString: {
         regex: /(\S)\s+(\S)/g,

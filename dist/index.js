@@ -2480,6 +2480,31 @@ module.exports = typeof WeakMap === 'function' && /native code/.test(inspectSour
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/number-parse-float.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/internals/number-parse-float.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(/*! ../internals/global */ "./node_modules/core-js/internals/global.js");
+var trim = __webpack_require__(/*! ../internals/string-trim */ "./node_modules/core-js/internals/string-trim.js").trim;
+var whitespaces = __webpack_require__(/*! ../internals/whitespaces */ "./node_modules/core-js/internals/whitespaces.js");
+
+var $parseFloat = global.parseFloat;
+var FORCED = 1 / $parseFloat(whitespaces + '-0') !== -Infinity;
+
+// `parseFloat` method
+// https://tc39.github.io/ecma262/#sec-parsefloat-string
+module.exports = FORCED ? function parseFloat(string) {
+  var trimmedString = trim(String(string));
+  var result = $parseFloat(trimmedString);
+  return result === 0 && trimmedString.charAt(0) == '-' ? -0 : result;
+} : $parseFloat;
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/object-assign.js":
 /*!*********************************************************!*\
   !*** ./node_modules/core-js/internals/object-assign.js ***!
@@ -3491,6 +3516,45 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/string-trim.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/core-js/internals/string-trim.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ "./node_modules/core-js/internals/require-object-coercible.js");
+var whitespaces = __webpack_require__(/*! ../internals/whitespaces */ "./node_modules/core-js/internals/whitespaces.js");
+
+var whitespace = '[' + whitespaces + ']';
+var ltrim = RegExp('^' + whitespace + whitespace + '*');
+var rtrim = RegExp(whitespace + whitespace + '*$');
+
+// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+var createMethod = function (TYPE) {
+  return function ($this) {
+    var string = String(requireObjectCoercible($this));
+    if (TYPE & 1) string = string.replace(ltrim, '');
+    if (TYPE & 2) string = string.replace(rtrim, '');
+    return string;
+  };
+};
+
+module.exports = {
+  // `String.prototype.{ trimLeft, trimStart }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
+  start: createMethod(1),
+  // `String.prototype.{ trimRight, trimEnd }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
+  end: createMethod(2),
+  // `String.prototype.trim` method
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
+  trim: createMethod(3)
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/to-absolute-index.js":
 /*!*************************************************************!*\
   !*** ./node_modules/core-js/internals/to-absolute-index.js ***!
@@ -3706,6 +3770,20 @@ module.exports = function (name) {
     else WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
   } return WellKnownSymbolsStore[name];
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/whitespaces.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/core-js/internals/whitespaces.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// a string of all valid unicode whitespaces
+// eslint-disable-next-line max-len
+module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
 
 
 /***/ }),
@@ -4479,6 +4557,25 @@ var toString = __webpack_require__(/*! ../internals/object-to-string */ "./node_
 if (!TO_STRING_TAG_SUPPORT) {
   redefine(Object.prototype, 'toString', toString, { unsafe: true });
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.parse-float.js":
+/*!********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.parse-float.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var parseFloatImplementation = __webpack_require__(/*! ../internals/number-parse-float */ "./node_modules/core-js/internals/number-parse-float.js");
+
+// `parseFloat` method
+// https://tc39.github.io/ecma262/#sec-parsefloat-string
+$({ global: true, forced: parseFloat != parseFloatImplementation }, {
+  parseFloat: parseFloatImplementation
+});
 
 
 /***/ }),
@@ -8207,36 +8304,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_reduce__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_reduce__WEBPACK_IMPORTED_MODULE_13__);
 /* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! core-js/modules/es.array.slice */ "./node_modules/core-js/modules/es.array.slice.js");
 /* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! core-js/modules/es.date.to-string */ "./node_modules/core-js/modules/es.date.to-string.js");
-/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
-/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! core-js/modules/es.object.define-properties */ "./node_modules/core-js/modules/es.object.define-properties.js");
-/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_17__);
-/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! core-js/modules/es.object.define-property */ "./node_modules/core-js/modules/es.object.define-property.js");
-/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_18__);
-/* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! core-js/modules/es.object.entries */ "./node_modules/core-js/modules/es.object.entries.js");
-/* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_19__);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_20__);
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! core-js/modules/es.regexp.to-string */ "./node_modules/core-js/modules/es.regexp.to-string.js");
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_21__);
-/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
-/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_22__);
-/* harmony import */ var core_js_modules_es_weak_set__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! core-js/modules/es.weak-set */ "./node_modules/core-js/modules/es.weak-set.js");
-/* harmony import */ var core_js_modules_es_weak_set__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_weak_set__WEBPACK_IMPORTED_MODULE_23__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_24__);
-/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
-/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_25__);
-/* harmony import */ var _CssEngine__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./CssEngine */ "./src/CssEngine.js");
-/* harmony import */ var _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./errors/UnsupportedError */ "./src/errors/UnsupportedError.js");
-/* harmony import */ var _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./errors/InvalidArgumentError */ "./src/errors/InvalidArgumentError.js");
-/* harmony import */ var _strategies_init__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./strategies/init */ "./src/strategies/init/index.js");
-/* harmony import */ var _utils_helpers__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./utils/helpers */ "./src/utils/helpers.js");
-/* harmony import */ var _utils_typedefs__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./utils/typedefs */ "./src/utils/typedefs.js");
-/* harmony import */ var _utils_typedefs__WEBPACK_IMPORTED_MODULE_31___default = /*#__PURE__*/__webpack_require__.n(_utils_typedefs__WEBPACK_IMPORTED_MODULE_31__);
-/* harmony import */ var _errors_NotEnoughElementsError__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./errors/NotEnoughElementsError */ "./src/errors/NotEnoughElementsError.js");
+/* harmony import */ var core_js_modules_es_array_some__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! core-js/modules/es.array.some */ "./node_modules/core-js/modules/es.array.some.js");
+/* harmony import */ var core_js_modules_es_array_some__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_some__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! core-js/modules/es.date.to-string */ "./node_modules/core-js/modules/es.date.to-string.js");
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! core-js/modules/es.object.define-properties */ "./node_modules/core-js/modules/es.object.define-properties.js");
+/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! core-js/modules/es.object.define-property */ "./node_modules/core-js/modules/es.object.define-property.js");
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! core-js/modules/es.object.entries */ "./node_modules/core-js/modules/es.object.entries.js");
+/* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_21__);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! core-js/modules/es.regexp.to-string */ "./node_modules/core-js/modules/es.regexp.to-string.js");
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_23__);
+/* harmony import */ var core_js_modules_es_weak_set__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! core-js/modules/es.weak-set */ "./node_modules/core-js/modules/es.weak-set.js");
+/* harmony import */ var core_js_modules_es_weak_set__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_weak_set__WEBPACK_IMPORTED_MODULE_24__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_25__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_26___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_26__);
+/* harmony import */ var _CssEngine__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./CssEngine */ "./src/CssEngine.js");
+/* harmony import */ var _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./errors/UnsupportedError */ "./src/errors/UnsupportedError.js");
+/* harmony import */ var _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./errors/InvalidArgumentError */ "./src/errors/InvalidArgumentError.js");
+/* harmony import */ var _strategies_init__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./strategies/init */ "./src/strategies/init/index.js");
+/* harmony import */ var _utils_helpers__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./utils/helpers */ "./src/utils/helpers.js");
+/* harmony import */ var _utils_typedefs__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./utils/typedefs */ "./src/utils/typedefs.js");
+/* harmony import */ var _utils_typedefs__WEBPACK_IMPORTED_MODULE_32___default = /*#__PURE__*/__webpack_require__.n(_utils_typedefs__WEBPACK_IMPORTED_MODULE_32__);
+/* harmony import */ var _errors_NotEnoughElementsError__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./errors/NotEnoughElementsError */ "./src/errors/NotEnoughElementsError.js");
+
 
 
 
@@ -8344,7 +8444,7 @@ var notEnoughFor = function notEnoughFor(str) {
   return function () {
     return function (e) {
       throw e;
-    }(new _errors_NotEnoughElementsError__WEBPACK_IMPORTED_MODULE_32__["default"]("Not enough elements to apply LightqueryCollection".concat(str, ")")));
+    }(new _errors_NotEnoughElementsError__WEBPACK_IMPORTED_MODULE_33__["default"]("Not enough elements to apply LightqueryCollection".concat(str, ")")));
   };
 };
 /**
@@ -8398,7 +8498,7 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
     this.lightquery = self.constructor.lightquery;
     /**
      * @readonly
-     * @property {string|Element|Iterable<Element>} selector - The selector used to create this instance
+     * @property {Selector} selector - The selector used to create this instance
      */
 
     this.selector = selector;
@@ -8409,7 +8509,7 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
 
     this.previousResults = previousResults;
     /**
-     * @property {Iterable<Element>} elements - The current result set
+     * @property {DomElementType[]} elements - The current result set
      */
 
     this.elements = [];
@@ -8526,7 +8626,7 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
           setterRoot = _ref$setterRoot === void 0 ? function (e) {
         return e;
       } : _ref$setterRoot;
-      var keys = _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].spacedListString.toArray(key);
+      var keys = _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].spacedListString.toArray(key);
       var self = this.self;
 
       if (typeof value !== "undefined") {
@@ -8670,7 +8770,7 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
           $ = this.$;
 
       if (typeof classNames === "string") {
-        _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].spacedListString.toArray(classNames).forEach(function (clazz) {
+        _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].spacedListString.toArray(classNames).forEach(function (clazz) {
           self.forEach(function (elem) {
             var element = _this4.getElement(elem);
 
@@ -8682,7 +8782,7 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
       } else this.ifStrict(function () {
         return function (e) {
           throw e;
-        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected argument classNames to be a string in LightqueryCollection".concat(nameForStrict)));
+        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected argument classNames to be a string in LightqueryCollection".concat(nameForStrict)));
       });
 
       return self;
@@ -8705,7 +8805,7 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
       if (typeof listener === "undefined") return self.trigger(eventName);else if (typeof listener === "function") return self.on(eventName, listener);else this.ifStrict(function () {
         return function (e) {
           throw e;
-        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected argument listener to be undefined or a function in LightqueryCollection".concat(nameForStrict)));
+        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected argument listener to be undefined or a function in LightqueryCollection".concat(nameForStrict)));
       });
       return self;
     }
@@ -8743,7 +8843,7 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
   }, {
     key: "getElement",
     value: function getElement(domEl) {
-      return _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.getElement(domEl);
+      return _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].elements.getElement(domEl);
     }
     /**
      * Filter an array based on a CSS selector
@@ -8761,16 +8861,64 @@ var LightqueryCollectionImplDetails = /*#__PURE__*/function () {
 
         case "string":
           return this.$(ret.filter(function (el) {
-            return _CssEngine__WEBPACK_IMPORTED_MODULE_26__["cssEngine"].matchesSelector(selector, el);
+            return _CssEngine__WEBPACK_IMPORTED_MODULE_27__["cssEngine"].matchesSelector(selector, el);
           }));
 
         default:
           this.ifStrict(function () {
             return function (e) {
               throw e;
-            }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected selector to be a string or undefined in LightqueryCollection#children(selector)"));
+            }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected selector to be a string or undefined in LightqueryCollection#children(selector)"));
           });
           return this.$.__.emptySelection();
+      }
+    }
+    /**
+     * Shorthand for dimension get/set method
+     * @param {object} args
+     * @param {string|number|undefined} args.value
+     * @param {string} args.nameForStrict
+     * @param {LightqueryCollection~onFirst<number>} args.onFirst
+     * @param {"width"|"height"} args.cssProperty
+     * @returns {LightqueryCollection|number|null}
+     */
+
+  }, {
+    key: "dimensionShorthand",
+    value: function dimensionShorthand(_ref7) {
+      var value = _ref7.value,
+          nameForStrict = _ref7.nameForStrict,
+          onFirst = _ref7.onFirst,
+          cssProperty = _ref7.cssProperty;
+
+      if (typeof value === "undefined") {
+        // get
+        return this.doOnFirst({
+          nameForStrict: nameForStrict,
+          defaultValue: null,
+          onFirst: onFirst
+        });
+      } else {
+        // set
+        switch (_typeof(value)) {
+          case "number":
+            this.self.css(cssProperty, "".concat(value, "px"));
+            break;
+
+          case "string":
+            this.self.css(cssProperty, value);
+            break;
+
+          default:
+            this.ifStrict(function () {
+              return function (e) {
+                throw e;
+              }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected value to be a string or a number in LightqueryCollection".concat(nameForStrict)));
+            });
+            break;
+        }
+
+        return this.self;
       }
     }
   }]);
@@ -8811,14 +8959,14 @@ var LightqueryCollection = /*#__PURE__*/function () {
 
     var previousResultSet = _toConsumableArray(previousResults);
 
-    var initStrategy = _strategies_init__WEBPACK_IMPORTED_MODULE_29__["strategies"].find(function (strategy) {
+    var initStrategy = _strategies_init__WEBPACK_IMPORTED_MODULE_30__["strategies"].find(function (strategy) {
       return strategy.shouldProcess(selector, context, previousResultSet);
     });
     if (initStrategy) this.__.elements = initStrategy.process(selector, context, previousResultSet);else {
       this.__.ifStrict(function () {
         return function (e) {
           throw e;
-        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Invalid selector \"".concat(selector, "\"")));
+        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Invalid selector \"".concat(selector, "\"")));
       });
 
       this.__.elements = previousResultSet;
@@ -8846,7 +8994,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
 
         if (typeof document.addEventListener == "function") {
           document.addEventListener("DOMContentLoaded", callback, false);
-        } else throw new _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_27__["default"]("Cannot attach document ready event handler");
+        } else throw new _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_28__["default"]("Cannot attach document ready event handler");
       }
 
       return this;
@@ -8864,7 +9012,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
         this.__.ifStrict(function () {
           return function (e) {
             throw e;
-          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Can only attach resize events on the window object"));
+          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Can only attach resize events on the window object"));
         });
 
         return this;
@@ -9047,7 +9195,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "toArray",
     value: function toArray() {
-      return _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].arrayLike.toArray(this.__.elements);
+      return _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].arrayLike.toArray(this.__.elements);
     }
     /****************************************************************************************\
      * Single item methods
@@ -9262,9 +9410,8 @@ var LightqueryCollection = /*#__PURE__*/function () {
     }
     /**
      * Determine whether or not the first element matches the given selector
-     * @template R
      * @param {string} selector - The CSS selector to match against
-     * @returns {R|boolean}
+     * @returns {boolean}
      */
 
   }, {
@@ -9273,7 +9420,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
       return this.__.doOnFirst({
         nameForStrict: "#matches(selector)",
         onFirst: function onFirst(first) {
-          return _CssEngine__WEBPACK_IMPORTED_MODULE_26__["cssEngine"].matchesSelector(selector, first);
+          return _CssEngine__WEBPACK_IMPORTED_MODULE_27__["cssEngine"].matchesSelector(selector, first);
         },
         defaultValue: false
       });
@@ -9352,25 +9499,25 @@ var LightqueryCollection = /*#__PURE__*/function () {
 
       if (typeof listener === "function") {
         if (typeof eventNames === "string") {
-          var events = _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].spacedListString.toArray(eventNames);
+          var events = _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].spacedListString.toArray(eventNames);
           this.forEach(function (el) {
             events.forEach(function (event) {
               if (el.addEventListener) el.addEventListener(event, listener);else _this5.__.ifStrict(function () {
                 return function (e) {
                   throw e;
-                }(new _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_27__["default"]("Cannot attach event listeners"));
+                }(new _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_28__["default"]("Cannot attach event listeners"));
               });
             });
           });
         } else this.__.ifStrict(function () {
           return function (e) {
             throw e;
-          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected eventNames to be a string in LightqueryCollection#on(eventNames, listener)"));
+          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected eventNames to be a string in LightqueryCollection#on(eventNames, listener)"));
         });
       } else this.__.ifStrict(function () {
         return function (e) {
           throw e;
-        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Invalid listener in LightqueryCollection#on(eventNames, listener)"));
+        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Invalid listener in LightqueryCollection#on(eventNames, listener)"));
       });
 
       return this;
@@ -9391,25 +9538,25 @@ var LightqueryCollection = /*#__PURE__*/function () {
 
       if (typeof listener === "function") {
         if (typeof eventNames === "string") {
-          var events = _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].spacedListString.toArray(eventNames);
+          var events = _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].spacedListString.toArray(eventNames);
           this.forEach(function (el) {
             events.forEach(function (event) {
               if (e.removeEventListener) e.removeEventListener(event, listener);else _this6.__.ifStrict(function () {
                 return function (e) {
                   throw e;
-                }(new _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_27__["default"]("Cannot detach event listeners"));
+                }(new _errors_UnsupportedError__WEBPACK_IMPORTED_MODULE_28__["default"]("Cannot detach event listeners"));
               });
             });
           });
         } else this.__.ifStrict(function () {
           return function (e) {
             throw e;
-          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected eventNames to be a string in LightqueryCollection#off(eventNames, listener)"));
+          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected eventNames to be a string in LightqueryCollection#off(eventNames, listener)"));
         });
       } else this.__.ifStrict(function () {
         return function (e) {
           throw e;
-        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Invalid listener in LightqueryCollection#off(eventNames, listener)"));
+        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Invalid listener in LightqueryCollection#off(eventNames, listener)"));
       });
 
       return this;
@@ -9431,14 +9578,14 @@ var LightqueryCollection = /*#__PURE__*/function () {
       if (typeof eventNames !== "string") this.__.ifStrict(function () {
         return function (e) {
           throw e;
-        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected eventNames to be a string in LightqueryCollection#trigger(eventNames, options)"));
+        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected eventNames to be a string in LightqueryCollection#trigger(eventNames, options)"));
       });
       if (_typeof(options) !== "object" || options === null) this.__.ifStrict(function () {
         return function (e) {
           throw e;
-        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected options to be an object in LightqueryCollection#trigger(eventNames, options)"));
+        }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected options to be an object in LightqueryCollection#trigger(eventNames, options)"));
       });
-      var events = _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].spacedListString.toArray(eventNames);
+      var events = _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].spacedListString.toArray(eventNames);
 
       var eventObjectFactory = function eventObjectFactory(event, opts) {
         return new window.CustomEvent(event, opts);
@@ -9469,7 +9616,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
         this.__.ifStrict(function () {
           return function (e) {
             throw e;
-          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected selector to be a string in LightqueryCollection#closest(selector)"));
+          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected selector to be a string in LightqueryCollection#closest(selector)"));
         });
 
         return this;
@@ -9491,7 +9638,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
     value: function children() {
       var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
       var ret = this.reduce(function (children, el) {
-        if (el.children.length > 0) children.push(_utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].arrayLike.toArray(el.children));
+        if (el.children.length > 0) children.push(_utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].arrayLike.toArray(el.children));
         return children;
       }, []);
       return this.__.selectorFiltering(ret, selector);
@@ -9569,7 +9716,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
         this.__.ifStrict(function () {
           return function (e) {
             throw e;
-          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected selector to be a string in LightqueryCollection#has(selector)"));
+          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected selector to be a string in LightqueryCollection#has(selector)"));
         });
 
         return this.__.$.__.emptySelection();
@@ -9578,6 +9725,92 @@ var LightqueryCollection = /*#__PURE__*/function () {
       return this.filter(function (e) {
         return _this9.__.$(e).find(selector);
       });
+    }
+    /**
+     * Get all the previous siblings (filtering by the given selector if any)
+     * @param {string|undefined} selector - The selector to restrict previous siblings to
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "prevAll",
+    value: function prevAll() {
+      var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      var ret = this.reduce(function (arr, el) {
+        var cur = el.previousElementSibling;
+
+        while (cur !== null) {
+          arr.push(cur);
+          cur = cur.previousElementSibling;
+        }
+
+        return arr;
+      }, []);
+      return this.__.selectorFiltering(ret, selector);
+    }
+    /**
+     * Get all the next siblings (filtering by the given selector if any)
+     * @param {string|undefined} selector - The selector to restrict next siblings to
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "nextAll",
+    value: function nextAll() {
+      var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      var ret = this.reduce(function (arr, el) {
+        var cur = el.nextElementSibling;
+
+        while (cur !== null) {
+          arr.push(cur);
+          cur = cur.nextElementSibling;
+        }
+
+        return arr;
+      }, []);
+      return this.__.selectorFiltering(ret, selector);
+    }
+    /**
+     * Get all the siblings (filtering by the given selector if any)
+     * @param {string|undefined} selector - The selector to restrict siblings to
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "siblings",
+    value: function siblings() {
+      var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.prevAll(selector).add(this.nextAll(selector));
+    }
+    /**
+     * Get the previous sibling of each element
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "prev",
+    value: function prev() {
+      var _this10 = this;
+
+      var ret = this.map(function (e) {
+        return _this10.__.getElement(e).previousElementSibling;
+      });
+      return this.__.$(ret);
+    }
+    /**
+     * Get the next sibling of each element
+     * @returns {LightqueryCollection}
+     */
+
+  }, {
+    key: "next",
+    value: function next() {
+      var _this11 = this;
+
+      var ret = this.map(function (e) {
+        return _this11.__.getElement(e).nextElementSibling;
+      });
+      return this.__.$(ret);
     }
     /****************************************************************************************\
      * DOM based
@@ -9592,12 +9825,12 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "append",
     value: function append(elements) {
-      var _this10 = this;
+      var _this12 = this;
 
       var nameForStrict = "#append(elements)";
       return this.__.doOnFirst({
         onFirst: function onFirst(el) {
-          _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElements({
+          _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].elements.forElements({
             elements: elements,
             LightqueryCollection: LightqueryCollection,
             nameForStrict: nameForStrict,
@@ -9608,7 +9841,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
               return el.append.apply(el, _toConsumableArray(e));
             }
           });
-          return _this10;
+          return _this12;
         },
         nameForStrict: nameForStrict,
         defaultValue: this
@@ -9623,21 +9856,21 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "appendTo",
     value: function appendTo(element) {
-      var _this11 = this;
+      var _this13 = this;
 
       try {
-        _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElement({
+        _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].elements.forElement({
           element: element,
           LightqueryCollection: LightqueryCollection,
           nameForStrict: "#appendTo",
           onLq: function onLq($e) {
-            return $e.append(_this11);
+            return $e.append(_this13);
           },
           onElement: function onElement(e) {
-            return _this11.appendTo(_this11.__.$(_this11.__.getElement(e)));
+            return _this13.appendTo(_this13.__.$(_this13.__.getElement(e)));
           },
           onString: function onString(selector) {
-            return _this11.appendTo(_this11.__.$(selector));
+            return _this13.appendTo(_this13.__.$(selector));
           }
         });
       } catch (e) {
@@ -9658,7 +9891,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
       var nameForStrict = "#append(elements)";
       return this.__.doOnFirst({
         onFirst: function onFirst(el) {
-          _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElements({
+          _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].elements.forElements({
             elements: elements,
             LightqueryCollection: LightqueryCollection,
             onElement: function onElement(e) {
@@ -9683,21 +9916,21 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "prependTo",
     value: function prependTo(element) {
-      var _this12 = this;
+      var _this14 = this;
 
       try {
-        _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElement({
+        _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].elements.forElement({
           element: element,
           LightqueryCollection: LightqueryCollection,
           nameForStrict: "#prependTo(element)",
           onLq: function onLq($e) {
-            return $e.prepend(_this12);
+            return $e.prepend(_this14);
           },
           onElement: function onElement(e) {
-            return _this12.prependTo(_this12.__.$(_this12.__.getElement(e)));
+            return _this14.prependTo(_this14.__.$(_this14.__.getElement(e)));
           },
           onString: function onString(selector) {
-            return _this12.prependTo(_this12.__.$(selector));
+            return _this14.prependTo(_this14.__.$(selector));
           }
         });
       } catch (e) {
@@ -9726,7 +9959,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
       return this.__.doOnFirst({
         onFirst: function onFirst(el) {
           var onElement = doInsert(el);
-          _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElements({
+          _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].elements.forElements({
             elements: elements,
             LightqueryCollection: LightqueryCollection,
             onElement: onElement,
@@ -9761,21 +9994,21 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "insertBefore",
     value: function insertBefore(element) {
-      var _this13 = this;
+      var _this15 = this;
 
       try {
-        _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElement({
+        _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].elements.forElement({
           element: element,
           LightqueryCollection: LightqueryCollection,
           nameForStrict: "#insertBefore(element)",
           onLq: function onLq($e) {
-            return $e.before(_this13);
+            return $e.before(_this15);
           },
           onElement: function onElement(e) {
-            return _this13.insertBefore(_this13.__.$(_this13.__.getElement(e)));
+            return _this15.insertBefore(_this15.__.$(_this15.__.getElement(e)));
           },
           onString: function onString(selector) {
-            return _this13.insertBefore(_this13.__.$(selector));
+            return _this15.insertBefore(_this15.__.$(selector));
           }
         });
       } catch (e) {
@@ -9805,7 +10038,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
       return this.__.doOnFirst({
         onFirst: function onFirst(el) {
           var onElement = doInsert(el);
-          _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElements({
+          _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].elements.forElements({
             elements: elements,
             LightqueryCollection: LightqueryCollection,
             onElement: onElement,
@@ -9840,21 +10073,21 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "insertAfter",
     value: function insertAfter(element) {
-      var _this14 = this;
+      var _this16 = this;
 
       try {
-        _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].elements.forElement({
+        _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].elements.forElement({
           element: element,
           LightqueryCollection: LightqueryCollection,
           nameForStrict: "#insertBefore(element)",
           onLq: function onLq($e) {
-            return $e.after(_this14);
+            return $e.after(_this16);
           },
           onElement: function onElement(e) {
-            return _this14.insertAfter(_this14.__.$(_this14.__.getElement(e)));
+            return _this16.insertAfter(_this16.__.$(_this16.__.getElement(e)));
           },
           onString: function onString(selector) {
-            return _this14.insertAfter(_this14.__.$(selector));
+            return _this16.insertAfter(_this16.__.$(selector));
           }
         });
       } catch (e) {
@@ -9871,10 +10104,10 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "remove",
     value: function remove() {
-      var _this15 = this;
+      var _this17 = this;
 
       this.forEach(function (e) {
-        return _this15.__.getElement(e).remove();
+        return _this17.__.getElement(e).remove();
       });
       return this.__.$.__.emptySelection();
     }
@@ -9886,10 +10119,10 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "empty",
     value: function empty() {
-      var _this16 = this;
+      var _this18 = this;
 
       return this.forEach(function (e) {
-        return _this16.__.getElement(e).innerHTML = "";
+        return _this18.__.getElement(e).innerHTML = "";
       });
     }
     /****************************************************************************************\
@@ -9923,7 +10156,7 @@ var LightqueryCollection = /*#__PURE__*/function () {
   }, {
     key: "css",
     value: function css(properties) {
-      var _this17 = this;
+      var _this19 = this;
 
       var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
 
@@ -9936,12 +10169,12 @@ var LightqueryCollection = /*#__PURE__*/function () {
             onFirst: function onFirst(el) {
               return properties.reduce(function (ret, property) {
                 if (typeof property !== "string") {
-                  _this17.__.ifStrict(function () {
+                  _this19.__.ifStrict(function () {
                     return function (e) {
                       throw e;
-                    }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Property \"".concat(property, "\" is not a string")));
+                    }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Property \"".concat(property, "\" is not a string")));
                   });
-                } else ret[property] = _this17.__.getCssProperty(el, property);
+                } else ret[property] = _this19.__.getCssProperty(el, property);
 
                 return ret;
               }, {});
@@ -9949,13 +10182,13 @@ var LightqueryCollection = /*#__PURE__*/function () {
           });
         } else if (properties && _typeof(properties) === "object") {
           // set all values for all
-          Object.entries(properties).forEach(function (_ref7) {
-            var _ref8 = _slicedToArray(_ref7, 2),
-                prop = _ref8[0],
-                val = _ref8[1];
+          Object.entries(properties).forEach(function (_ref8) {
+            var _ref9 = _slicedToArray(_ref8, 2),
+                prop = _ref9[0],
+                val = _ref9[1];
 
-            _this17.forEach(function (el) {
-              return _this17.__.setCssProperty(el, prop, val);
+            _this19.forEach(function (el) {
+              return _this19.__.setCssProperty(el, prop, val);
             });
           });
           return this;
@@ -9965,14 +10198,14 @@ var LightqueryCollection = /*#__PURE__*/function () {
             nameForStrict: "#css(properties, value)",
             defaultValue: "",
             onFirst: function onFirst(el) {
-              return _this17.__.getCssProperty(el, properties);
+              return _this19.__.getCssProperty(el, properties);
             }
           });
         } else {
           this.__.ifStrict(function () {
             return function (e) {
               throw e;
-            }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Invalid properties in LightqueryCollection#css(properties, value)"));
+            }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Invalid properties in LightqueryCollection#css(properties, value)"));
           });
 
           return "";
@@ -9983,16 +10216,16 @@ var LightqueryCollection = /*#__PURE__*/function () {
         this.forEach(function (el) {
           return props.forEach(function (prop) {
             if (typeof prop !== "string") {
-              _this17.__.ifStrict(function () {
+              _this19.__.ifStrict(function () {
                 return function (e) {
                   throw e;
-                }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Property \"".concat(prop, "\" is not a string")));
+                }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Property \"".concat(prop, "\" is not a string")));
               });
 
               return;
             }
 
-            _this17.__.setCssProperty(el, prop, value);
+            _this19.__.setCssProperty(el, prop, value);
           });
         });
         return this;
@@ -10012,13 +10245,13 @@ var LightqueryCollection = /*#__PURE__*/function () {
         this.__.ifStrict(function () {
           return function (e) {
             throw e;
-          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_28__["default"]("Expected variable to be a string in LightqueryCollection#cssVar(variable, value)"));
+          }(new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_29__["default"]("Expected variable to be a string in LightqueryCollection#cssVar(variable, value)"));
         });
 
         return typeof value === "undefined" ? null : this;
       }
 
-      var varname = _utils_helpers__WEBPACK_IMPORTED_MODULE_30__["default"].css_variables.regex.no_trailing.test(variable) ? "--".concat(variable) : variable;
+      var varname = _utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].css_variables.regex.no_trailing.test(variable) ? "--".concat(variable) : variable;
 
       if (typeof value === "undefined") {
         // get
@@ -10235,6 +10468,164 @@ var LightqueryCollection = /*#__PURE__*/function () {
         nameForStrict: "#submit(listener)",
         eventName: "submit",
         listener: listener
+      });
+    }
+    /****************************************************************************************\
+     * Dimensions
+    \****************************************************************************************/
+
+    /**
+     * Get/set the width
+     * @param {string|number|undefined} [value = undefined] - The new value
+     * @returns {LightqueryCollection|number|null}
+     */
+
+  }, {
+    key: "width",
+    value: function width() {
+      var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.dimensionShorthand({
+        value: value,
+        nameForStrict: "#width(value)",
+        cssProperty: "width",
+        onFirst: function onFirst(el) {
+          return el.clientWidth;
+        }
+      });
+    }
+    /**
+     * Get/set the height
+     * @param {string|number|undefined} [value = undefined] - The new value
+     * @returns {LightqueryCollection|number|null}
+     */
+
+  }, {
+    key: "height",
+    value: function height() {
+      var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+      return this.__.dimensionShorthand({
+        value: value,
+        nameForStrict: "#height(value)",
+        cssProperty: "height",
+        onFirst: function onFirst(el) {
+          return el.clientHeight;
+        }
+      });
+    }
+    /**
+     * Get the outer width of the first element (up to borders)
+     * @returns {number|null}
+     */
+
+  }, {
+    key: "borderBoxWidth",
+    value: function borderBoxWidth() {
+      var _this20 = this;
+
+      return this.__.doOnFirst({
+        nameForStrict: "#borderBoxWidth()",
+        defaultValue: null,
+        onFirst: function onFirst(el) {
+          var _getComputedStyle = getComputedStyle(el),
+              borderLeftWidth = _getComputedStyle.borderLeftWidth,
+              borderRightWidth = _getComputedStyle.borderRightWidth;
+
+          var _map = [borderLeftWidth, borderRightWidth].map(_utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].string.parsePx),
+              _map2 = _slicedToArray(_map, 2),
+              borderLeft = _map2[0],
+              borderRight = _map2[1];
+
+          return [borderLeft, borderRight].some(function (x) {
+            return x === null;
+          }) ? null : _this20.__.$(el).width() + borderLeft + borderRight;
+        }
+      });
+    }
+    /**
+     * Get the outer height of the first element (up to borders)
+     * @returns {number|null}
+     */
+
+  }, {
+    key: "borderBoxHeight",
+    value: function borderBoxHeight() {
+      var _this21 = this;
+
+      return this.__.doOnFirst({
+        nameForStrict: "#borderBoxHeight()",
+        defaultValue: null,
+        onFirst: function onFirst(el) {
+          var _getComputedStyle2 = getComputedStyle(el),
+              borderTopWidth = _getComputedStyle2.borderTopWidth,
+              borderBottomWidth = _getComputedStyle2.borderBottomWidth;
+
+          var _map3 = [borderTopWidth, borderBottomWidth].map(_utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].string.parsePx),
+              _map4 = _slicedToArray(_map3, 2),
+              borderTop = _map4[0],
+              borderBottom = _map4[1];
+
+          return [borderTop, borderBottom].some(function (x) {
+            return x === null;
+          }) ? null : _this21.__.$(el).height() + borderTop + borderBottom;
+        }
+      });
+    }
+    /**
+     * Get the width of the margin box of the first element
+     * @returns {number|null}
+     */
+
+  }, {
+    key: "marginBoxWidth",
+    value: function marginBoxWidth() {
+      var _this22 = this;
+
+      return this.__.doOnFirst({
+        nameForStrict: "#marginBoxWidth()",
+        defaultValue: null,
+        onFirst: function onFirst(el) {
+          var _getComputedStyle3 = getComputedStyle(el),
+              marginLeft = _getComputedStyle3.marginLeft,
+              marginRight = _getComputedStyle3.marginRight;
+
+          var _map5 = [marginLeft, marginRight].map(_utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].string.parsePx),
+              _map6 = _slicedToArray(_map5, 2),
+              mleft = _map6[0],
+              mright = _map6[1];
+
+          return [mleft, mright].some(function (x) {
+            return x === null;
+          }) ? null : _this22.__.$(el).outerWidth() + mleft + mright;
+        }
+      });
+    }
+    /**
+     * Get the width of the margin box of the first element
+     * @returns {number|null}
+     */
+
+  }, {
+    key: "marginBoxHeight",
+    value: function marginBoxHeight() {
+      var _this23 = this;
+
+      return this.__.doOnFirst({
+        nameForStrict: "#marginBoxWidth()",
+        defaultValue: null,
+        onFirst: function onFirst(el) {
+          var _getComputedStyle4 = getComputedStyle(el),
+              marginTop = _getComputedStyle4.marginTop,
+              marginBottom = _getComputedStyle4.marginBottom;
+
+          var _map7 = [marginTop, marginBottom].map(_utils_helpers__WEBPACK_IMPORTED_MODULE_31__["default"].string.parsePx),
+              _map8 = _slicedToArray(_map7, 2),
+              mtop = _map8[0],
+              mbottom = _map8[1];
+
+          return [mtop, mbottom].some(function (x) {
+            return x === null;
+          }) ? null : _this23.__.$(el).outerHeight() + mtop + mbottom;
+        }
       });
     }
   }]);
@@ -10498,18 +10889,13 @@ var LightqueryFactory = /*#__PURE__*/function (_Callable) {
       configurable: false,
       value: new LightqueryFactoryImplDetails(_assertThisInitialized(_this), collectionClass, strictMode)
     });
-    /**
-     * @member {boolean} - Whether or not to use strict mode with this factory
-     */
-
-    _this.strictMode = strictMode;
     return _this;
   }
   /**
    * @override
-   * @param {DomElements|Callback} selector
+   * @param {Selector} selector
    * @param {DomElementType|undefined} context
-   * @param {Iterable<DomElementType>} previousResults
+   * @param {Iterable<DomElementType>|undefined} previousResults
    * @returns {LightqueryCollection}
    */
 
@@ -11268,8 +11654,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makePureLightquery", function() { return makePureLightquery; });
 /* harmony import */ var core_js_modules_es_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.object.assign */ "./node_modules/core-js/modules/es.object.assign.js");
 /* harmony import */ var core_js_modules_es_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_assign__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _LightqueryFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LightqueryFactory */ "./src/LightqueryFactory.js");
-/* harmony import */ var _LightqueryCollection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LightqueryCollection */ "./src/LightqueryCollection.js");
+/* harmony import */ var _utils_polyfills__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/polyfills */ "./src/utils/polyfills.js");
+/* harmony import */ var _utils_polyfills__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_utils_polyfills__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _LightqueryFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LightqueryFactory */ "./src/LightqueryFactory.js");
+/* harmony import */ var _LightqueryCollection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LightqueryCollection */ "./src/LightqueryCollection.js");
+
 
 
  //TODO: Make a lightquery plugin for sequency
@@ -11282,7 +11671,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var makePureLightquery = function makePureLightquery() {
   var strict = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-  return new _LightqueryFactory__WEBPACK_IMPORTED_MODULE_1__["default"](_LightqueryCollection__WEBPACK_IMPORTED_MODULE_2__["default"], strict);
+  return new _LightqueryFactory__WEBPACK_IMPORTED_MODULE_2__["default"](_LightqueryCollection__WEBPACK_IMPORTED_MODULE_3__["default"], strict);
 };
 /**
  * @constant {LightqueryFactory} µ - Global lightquery factory function
@@ -12140,23 +12529,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
 /* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! core-js/modules/es.regexp.exec */ "./node_modules/core-js/modules/es.regexp.exec.js");
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! core-js/modules/es.regexp.to-string */ "./node_modules/core-js/modules/es.regexp.to-string.js");
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
-/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! core-js/modules/es.string.split */ "./node_modules/core-js/modules/es.string.split.js");
-/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_17__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_18__);
-/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
-/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_19__);
-/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./typedefs */ "./src/utils/typedefs.js");
-/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_typedefs__WEBPACK_IMPORTED_MODULE_20__);
-/* harmony import */ var _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../errors/InvalidArgumentError */ "./src/errors/InvalidArgumentError.js");
+/* harmony import */ var core_js_modules_es_parse_float__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! core-js/modules/es.parse-float */ "./node_modules/core-js/modules/es.parse-float.js");
+/* harmony import */ var core_js_modules_es_parse_float__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_float__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! core-js/modules/es.regexp.exec */ "./node_modules/core-js/modules/es.regexp.exec.js");
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! core-js/modules/es.regexp.to-string */ "./node_modules/core-js/modules/es.regexp.to-string.js");
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! core-js/modules/es.string.split */ "./node_modules/core-js/modules/es.string.split.js");
+/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./typedefs */ "./src/utils/typedefs.js");
+/* harmony import */ var _typedefs__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(_typedefs__WEBPACK_IMPORTED_MODULE_21__);
+/* harmony import */ var _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../errors/InvalidArgumentError */ "./src/errors/InvalidArgumentError.js");
+
 
 
 
@@ -12203,6 +12595,17 @@ var helpers = {
       var first = str.charAt(0).toUpperCase();
       var rest = str.substring(1);
       return "".concat(first).concat(rest);
+    },
+
+    /**
+     * Parse a pixel string
+     * @param {string} str - The string to parse
+     * @returns {number|null}
+     */
+    parsePx: function parsePx(str) {
+      var nbStr = str.replace(/px$/i, "");
+      var maybeFloat = parseFloat(nbStr);
+      return isNaN(maybeFloat) ? null : maybeFloat;
     }
   },
   spacedListString: {
@@ -12340,13 +12743,13 @@ var helpers = {
         if (elements.forEach) {
           elements.forEach(function (e) {
             if (!_this.isElement(e)) {
-              throw new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_21__["default"]("Expected elements to contain (only) elements in LightqueryCollection".concat(nameForStrict));
+              throw new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_22__["default"]("Expected elements to contain (only) elements in LightqueryCollection".concat(nameForStrict));
             } else {
               onElement(_this.getElement(e));
             }
           });
         } else {
-          throw new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_21__["default"]("Expected elements to be iterable or an element in LightqueryCollection".concat(nameForStrict));
+          throw new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_22__["default"]("Expected elements to be iterable or an element in LightqueryCollection".concat(nameForStrict));
         }
       }
     },
@@ -12376,12 +12779,54 @@ var helpers = {
       } else if (typeof element === "string") {
         onString(element);
       } else {
-        throw new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_21__["default"]("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection".concat(nameForStrict));
+        throw new _errors_InvalidArgumentError__WEBPACK_IMPORTED_MODULE_22__["default"]("Expected element to be an Element, a LightqueryCollection or a CSS selector in LightqueryCollection".concat(nameForStrict));
       }
     }
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (helpers);
+
+/***/ }),
+
+/***/ "./src/utils/polyfills.js":
+/*!********************************!*\
+  !*** ./src/utils/polyfills.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Polyfill a method
+ * @template T
+ * @param {Class<T>} constructor - The constructor to add the polyfill to
+ * @param {string} methodName - The name of the method to polyfill
+ * @param {Function} method - The function that serves as polyfill
+ */
+var polyfillMethod = function polyfillMethod(constructor, methodName, method) {
+  if (methodName in constructor.prototype) return;
+  constructor.prototype[methodName] = method;
+};
+
+polyfillMethod(Array, "some", function (predicate) {
+  /**
+   * @this Array
+   */
+  for (var i in this) {
+    if (predicate(this[i], i, this)) return true;
+  }
+
+  return false;
+});
+polyfillMethod(Array, "every", function (predicate) {
+  /**
+   * @this Array
+   */
+  for (var i in this) {
+    if (!predicate(this[i], i, this)) return false;
+  }
+
+  return true;
+});
 
 /***/ }),
 
@@ -12435,7 +12880,7 @@ var helpers = {
  */
 
 /**
- * @typedef {GenericCallback<ElementCallback>} ElementCallback
+ * @typedef {GenericCallback<Element>} ElementCallback
  */
 
 /**

@@ -205,7 +205,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line68">line 68</a>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -250,144 +250,6 @@
 
     
 
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="__"><span class="type-signature">(protected, readonly) </span>__<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Private methods and properties
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line76">line 76</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="strictMode"><span class="type-signature"></span>strictMode<span class="type-signature"> :boolean</span></h4>
-
-
-
-
-<div class="description">
-    Whether or not to use strict mode with this factory
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">boolean</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line81">line 81</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
     
 
     
@@ -445,16 +307,7 @@
             <td class="type">
             
                 
-<span class="param-type">DomElementType</span>
-|
-
-<span class="param-type">NodeList</span>
-|
-
-<span class="param-type">Iterable.&lt;DomElementType></span>
-|
-
-<span class="param-type">Callback</span>
+<span class="param-type">Selector</span>
 
 
             
@@ -504,6 +357,9 @@
             
                 
 <span class="param-type">Iterable.&lt;DomElementType></span>
+|
+
+<span class="param-type">undefined</span>
 
 
             
@@ -554,7 +410,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line91">line 91</a>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -608,7 +464,461 @@
     
 
     
-    <h4 class="name" id="extend"><span class="type-signature"></span>extend<span class="signature">(target)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="cloneLightquery"><span class="type-signature"></span>cloneLightquery<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="LightqueryFactory.html">LightqueryFactory</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Clone the lightquery factory (e.g. to have two separate sets of plugins)
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line230">line 230</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LightqueryFactory.html">LightqueryFactory</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="create"><span class="type-signature"></span>create<span class="signature">(htmlString)</span><span class="type-signature"> &rarr; {<a href="LightqueryCollection.html">LightqueryCollection</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Create DOM from an HTML string
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>htmlString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The string that contains the HTML structure to create</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line327">line 327</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LightqueryCollection.html">LightqueryCollection</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="cssVar"><span class="type-signature"></span>cssVar<span class="signature">(variable, value)</span><span class="type-signature"> &rarr; {<a href="LightqueryCollection.html">LightqueryCollection</a>|string|number|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Getter/setter for CSS variables at the root
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>variable</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The CSS variable name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+|
+
+<span class="param-type">undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The new value</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line317">line 317</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LightqueryCollection.html">LightqueryCollection</a></span>
+|
+
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="extend"><span class="type-signature"></span>extend<span class="signature">(target, &hellip;objects)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
 
     
@@ -685,7 +995,7 @@
 
         <tr>
             
-                <td class="name"><code>...objects</code></td>
+                <td class="name"><code>objects</code></td>
             
 
             <td class="type">
@@ -752,7 +1062,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line134">line 134</a>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line307">line 307</a>
     </li></ul></dd>
     
 
@@ -907,7 +1217,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line122">line 122</a>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line295">line 295</a>
     </li></ul></dd>
     
 
@@ -944,6 +1254,361 @@
     <dd>
         
 <span class="param-type"><a href="global.html#LightqueryFactorySelectObject">LightqueryFactorySelectObject</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="hasPlugin"><span class="type-signature"></span>hasPlugin<span class="signature">(pluginName, pluginType<span class="signature-attributes">opt</span>, nameForStrict<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Determine whether or not the plugin is registered
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pluginName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The plugin's name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pluginType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">PluginType</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    defaultPluginType
+                
+                </td>
+            
+
+            <td class="description last">The plugin's type</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>nameForStrict</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    ""
+                
+                </td>
+            
+
+            <td class="description last">The name for error strings when strict mode is on</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line141">line 141</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="isStrictModeOn"><span class="type-signature"></span>isStrictModeOn<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Determine whether or not strict mode is on
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line238">line 238</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -1062,7 +1727,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line103">line 103</a>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -1099,6 +1764,900 @@
     <dd>
         
 <span class="param-type"><a href="LightqueryCollection.html">LightqueryCollection</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="registerPlugin"><span class="type-signature"></span>registerPlugin<span class="signature">(pluginName, plugin, pluginType)</span><span class="type-signature"> &rarr; {<a href="LightqueryFactory.html">LightqueryFactory</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Register a plugin
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pluginName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>plugin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+|
+
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pluginType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">PluginType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line168">line 168</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LightqueryFactory.html">LightqueryFactory</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="removePlugin"><span class="type-signature"></span>removePlugin<span class="signature">(pluginName, pluginType)</span><span class="type-signature"> &rarr; {<a href="LightqueryFactory.html">LightqueryFactory</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Remove a registered plugin
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pluginName</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pluginType</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line204">line 204</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LightqueryFactory.html">LightqueryFactory</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="resize"><span class="type-signature"></span>resize<span class="signature">(listener)</span><span class="type-signature"> &rarr; {<a href="LightqueryCollection.html">LightqueryCollection</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Listen to resize events (includes orientation change)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listener</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">EventListener</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line286">line 286</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LightqueryCollection.html">LightqueryCollection</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setStrictMode"><span class="type-signature"></span>setStrictMode<span class="signature">(newValue)</span><span class="type-signature"> &rarr; {<a href="LightqueryFactory.html">LightqueryFactory</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Set strict mode to the given value
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>newValue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Whether it should be ON or OFF</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line247">line 247</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LightqueryFactory.html">LightqueryFactory</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="turnStrictModeOff"><span class="type-signature"></span>turnStrictModeOff<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="LightqueryFactory.html">LightqueryFactory</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Disable strict mode
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line268">line 268</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LightqueryFactory.html">LightqueryFactory</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="turnStrictModeOn"><span class="type-signature"></span>turnStrictModeOn<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="LightqueryFactory.html">LightqueryFactory</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Enable strict mode
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line260">line 260</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="LightqueryFactory.html">LightqueryFactory</a></span>
 
 
     </dd>
@@ -1219,7 +2778,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line7">line 7</a>
+        <a href="LightqueryFactory.js.html">LightqueryFactory.js</a>, <a href="LightqueryFactory.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -1281,13 +2840,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-ConstructorParameters.html">ConstructorParameters</a></li><li><a href="external-Exclude.html">Exclude</a></li><li><a href="external-Extract.html">Extract</a></li><li><a href="external-InstanceType.html">InstanceType</a></li><li><a href="external-NonNullable.html">NonNullable</a></li><li><a href="external-Omit.html">Omit</a></li><li><a href="external-OmitThisParameter.html">OmitThisParameter</a></li><li><a href="external-Parameters.html">Parameters</a></li><li><a href="external-Partial.html">Partial</a></li><li><a href="external-Pick.html">Pick</a></li><li><a href="external-Readonly.html">Readonly</a></li><li><a href="external-Record.html">Record</a></li><li><a href="external-Required.html">Required</a></li><li><a href="external-ReturnType.html">ReturnType</a></li><li><a href="external-ThisParameterType.html">ThisParameterType</a></li><li><a href="external-ThisType.html">ThisType</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractCssEngine.html">AbstractCssEngine</a></li><li><a href="LightqueryCollection.html">LightqueryCollection</a></li><li><a href="LightqueryCollectionImplDetails.html">LightqueryCollectionImplDetails</a></li><li><a href="LightqueryFactory.html">LightqueryFactory</a></li><li><a href="LightqueryFactoryImplDetails.html">LightqueryFactoryImplDetails</a></li><li><a href="SizzleCssEngine.html">SizzleCssEngine</a></li></ul><h3>Global</h3><ul><li><a href="global.html#$">$</a></li><li><a href="global.html#cssEngine">cssEngine</a></li><li><a href="global.html#lightquery">lightquery</a></li><li><a href="global.html#lq">lq</a></li><li><a href="global.html#notEnoughFor">notEnoughFor</a></li><li><a href="global.html#%25C2%25B5">µ</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external-ConstructorParameters.html">ConstructorParameters</a></li><li><a href="external-Exclude.html">Exclude</a></li><li><a href="external-Extract.html">Extract</a></li><li><a href="external-InstanceType.html">InstanceType</a></li><li><a href="external-NonNullable.html">NonNullable</a></li><li><a href="external-Omit.html">Omit</a></li><li><a href="external-OmitThisParameter.html">OmitThisParameter</a></li><li><a href="external-Parameters.html">Parameters</a></li><li><a href="external-Partial.html">Partial</a></li><li><a href="external-Pick.html">Pick</a></li><li><a href="external-Readonly.html">Readonly</a></li><li><a href="external-Record.html">Record</a></li><li><a href="external-Required.html">Required</a></li><li><a href="external-ReturnType.html">ReturnType</a></li><li><a href="external-ThisParameterType.html">ThisParameterType</a></li><li><a href="external-ThisType.html">ThisType</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractCssEngine.html">AbstractCssEngine</a></li><li><a href="LightqueryCollection.html">LightqueryCollection</a></li><li><a href="LightqueryCollectionImplDetails.html">LightqueryCollectionImplDetails</a></li><li><a href="LightqueryFactory.html">LightqueryFactory</a></li><li><a href="LightqueryFactoryImplDetails.html">LightqueryFactoryImplDetails</a></li><li><a href="SizzleCssEngine.html">SizzleCssEngine</a></li></ul><h3>Global</h3><ul><li><a href="global.html#$">$</a></li><li><a href="global.html#checks">checks</a></li><li><a href="global.html#cssEngine">cssEngine</a></li><li><a href="global.html#defaultPluginType">defaultPluginType</a></li><li><a href="global.html#lightquery">lightquery</a></li><li><a href="global.html#lq">lq</a></li><li><a href="global.html#makePureLightquery">makePureLightquery</a></li><li><a href="global.html#notEnoughFor">notEnoughFor</a></li><li><a href="global.html#rethrow">rethrow</a></li><li><a href="global.html#%25C2%25B5">µ</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Fri Sep 04 2020 16:42:50 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Sep 22 2020 18:15:25 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>

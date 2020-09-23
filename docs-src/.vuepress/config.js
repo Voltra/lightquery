@@ -7,6 +7,7 @@ module.exports = {
 	title: "Lightquery",
 	description: "A lightweight alternative to jQuery",
 	themeConfig: {
+		logo: "/logo.png",
 		smoothScroll: true,
 		plugins: [
 			["clean-urls", true],

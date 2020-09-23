@@ -5,6 +5,8 @@ lang: en-US
 ---
 # User guide
 
+<center><img :src="$withBase('/logo.png')" alt="Logo" style="max-width: 200px;"/></center>
+
 ## What is Lightquery
 
 Lightquery is a library that tends to follow the mindset, patterns and philosophy behind jQuery

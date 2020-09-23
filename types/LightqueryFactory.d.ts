@@ -44,13 +44,14 @@ declare class LightqueryFactory extends Callable {
     public setStrictMode(strict: boolean): this;
     public turnStrictModeOn(): this;
     public turnStrictModeOff(): this;
+    public doWithoutStrictMode<R>(callback: Callback<R>): this;
 
     public ready<R>(callback: Callback<R>);
     public resize(listener: EventListener);
 
     public from(context: DomElementType): LightqueryFactorySelectObject;
     public extend(target: Object, ...objects: Object[]): Object;
-    public cssVar(variable: string, value: string|number|undefined): LightqueryCollection|string|number|null;
+    public cssVar(variable: string, value: string|number|undefined): this|string|number|null;
     public create(htmlString: string): LightqueryCollection;
 }
 

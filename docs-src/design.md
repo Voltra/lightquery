@@ -44,6 +44,8 @@ If you develop plugins please do use this API to provide consistency in error ha
 can execute a callback if strict mode is on (useful for throwing exceptions for instance), there's also `µ("any selector").__.ifStrict`
 that serves the same purpose.
 
+The philosophy behind it is that when it's off, it behaves mostly like jQuery: swallowing down errors and using noops.
+
 ## The plugin system
 
 Oh boy did I not want to let this baby go. Recently, using mostly dynamically typed languages, I've had a bit of fun with

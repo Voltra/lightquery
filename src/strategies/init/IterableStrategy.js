@@ -9,6 +9,7 @@ export default class IterableStrategy extends AbstractStrategy{
 //			Iterator,
 			Array,
 			NodeList,
+			HTMLCollection,
 		];
 	}
 

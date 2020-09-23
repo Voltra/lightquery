@@ -444,12 +444,12 @@ class LightqueryCollection{
 			value: new LightqueryCollectionImplDetails(this, selector, context, previousResults)
 		});
 
-		const previousResultSet = [...previousResults];
+		const previousResultSet = lqHelpers.arrayLike.toArray(previousResults);
 		const initStrategy = strategies.find(strategy => strategy.shouldProcess(selector, context, previousResultSet));
 
-		if(initStrategy)
+		if(initStrategy) {
 			this.__.elements = initStrategy.process(selector, context, previousResultSet);
-		else{
+		}else{
 			this.__.ifStrict(() => throw new InvalidArgumentError(`Invalid selector "${selector}"`));
 			this.__.elements = previousResultSet;
 		}
@@ -1344,14 +1344,7 @@ class LightqueryCollection{
      * @returns {LightqueryCollection}
      */
 	add(selector, context = undefined){
-	    const $others = this.__.$(selector, context);
-
-	    const elems = [
-            ...this.toArray(),
-            ...$others.toArray(),
-        ];
-
-	    return this.__.$(elems);
+		return this.__.$(selector, context, this);
     }
 
     /**

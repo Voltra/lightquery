@@ -1426,10 +1426,13 @@ class LightqueryCollection {
 
 
   add(selector, context = undefined) {
-    const $others = this.__.$(selector, context);
-
-    const elems = [...this.toArray(), ...$others.toArray()];
-    return this.__.$(elems);
+    /* const $others = this.__.$(selector, context);
+       const elems = [
+            ...this.toArray(),
+            ...$others.toArray(),
+        ];
+       return this.__.$(elems);*/
+    return this.__.$(selector, context, this);
   }
   /**
    * Getter/setter for CSS properties

@@ -3,7 +3,7 @@
 import LightqueryCollection from "../LightqueryCollection";
 
 export type DomElementType = Element|DocumentFragment|Document|Window;
-export type DomElements = DomElementType|NodeList|Iterable<DomElementType>;
+export type DomElements = DomElementType|NodeList|HTMLCollection|Iterable<DomElementType>;
 
 
 export type ElementOrLightquery = DomElementType|LightqueryCollection;

@@ -3,7 +3,7 @@ title: Misc
 description: Miscellaneous helper methods 
 lang: en-US
 ---
-# Misc
+# {{ $page.title }}
 
 ## Context selection
 :::tip
@@ -91,6 +91,7 @@ And therefore end up with:
         </div>
         <!-- [...] -->
         <div class="alert alert-danger">Hello World!</div>
+        <div class="alert alert-success">Multiple items at once!</div>
     </body>
 </html>
 ```

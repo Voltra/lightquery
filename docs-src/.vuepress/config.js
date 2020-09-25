@@ -1,6 +1,16 @@
 const path = require("path");
 const here = (uri = "") => path.resolve(__dirname, uri);
 
+const autometaOptions = {
+	site: {
+		name: "Lightquery",
+	},
+	author: {
+		name: "Voltra",
+	},
+	canonical_base: "https://voltra.github.io/lightquery",
+};
+
 module.exports = {
 	base: "/", // "/lightquery/",
 	dest: here("../../docs/"),
@@ -12,6 +22,7 @@ module.exports = {
 		plugins: [
 			["clean-urls", true],
 			"@vuepress/back-to-top",
+			["autometa", autometaOptions],
 		],
 		sidebar: [
 			{
@@ -80,6 +91,70 @@ module.exports = {
 								path: "/functionalities/factory/misc",
 								prev: "/functionalities/factory/events",
 								children: [],
+							},
+						],
+					},
+					{
+						title: "Collection",
+						children: [
+							{
+								title: "Utils",
+								children: [
+									{
+										title: "ready",
+										path: "/functionalities/collection/utils/ready",
+										prev: "/functionalities/factory/misc",
+										next: "/functionalities/collection/utils/resize",
+										children: [],
+									},
+									{
+										title: "resize",
+										path: "/functionalities/collection/utils/resize",
+										prev: "/functionalities/collection/utils/ready",
+										next: false,
+										children: [],
+									},
+								],
+							},
+							{
+								title: "Iteration",
+								children: [
+									{
+										title: "forEach",
+										path: "/functionalities/collection/iterations/for-each",
+										prev: "/functionalities/collection/utils/resize",
+										next: "/functionalities/collection/iterations/map",
+										children: [],
+									},
+									{
+										title: "map",
+										path: "/functionalities/collection/iterations/map",
+										prev: "/functionalities/collection/iterations/for-each",
+										next: "/functionalities/collection/iterations/filter",
+										children: [],
+									},
+									{
+										title: "filter",
+										path: "/functionalities/collection/iterations/filter",
+										prev: "/functionalities/collection/iterations/map",
+										next: "/functionalities/collection/iterations/reduce",
+										children: [],
+									},
+									{
+										title: "reduce",
+										path: "/functionalities/collection/iterations/reduce",
+										prev: "/functionalities/collection/iterations/filter",
+										next: "/functionalities/collection/iterations/predicates",
+										children: [],
+									},
+									{
+										title: "Predicate based methods",
+										path: "/functionalities/collection/iterations/predicates",
+										prev: "/functionalities/collection/iterations/reduce",
+										next: "",
+										children: [],
+									},
+								],
 							},
 						],
 					},

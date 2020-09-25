@@ -1,6 +1,6 @@
 import {
     Callback,
-    DomElementType,
+    DomElementType, ElementCallback,
     ElementMapper, ElementOrLightquery, ElementReducer,
     GenericCallback,
     MapperFunction,
@@ -52,7 +52,7 @@ declare class LightqueryCollection implements Iterable<DomElementType>{
     public ready(callback: Callback): this;
     public resize(listener: EventListener): this;
 
-    public forEach(callback: Callback): this;
+    public forEach(callback: ElementCallback): this;
     public map<U = any>(mapper: string|ElementMapper<U>, ...args: any[]): U[]|any[];
     public filter(predicate: string|Predicate<DomElementType>, ...args: any[]): LightqueryCollection;
     public reduce<Acc = any>(reducer: ElementReducer<Acc>, acc?: Acc): Acc|undefined;

@@ -4,7 +4,7 @@ description: Stay close to the original, but don't make it a carbon copy
 lang: en-US
 ---
 
-# About the design
+# {{ $page.title }}
 
 Although one of the main concerns is to have the same mindset and philosophy as jQuery, Lightquery is not a drop-in replacement.
 One of the major changes from in-dev to v1.0.0 is that Lightquery is now purely about DOM manipulation, no longer can you
@@ -54,6 +54,29 @@ because it often becomes hell to add type information about these.
 
 Anyway, the plugin system works just like before, except I removed the aliases we now only have `registerPlugin`,
 `hasPlugin` and `removePlugin` all defined on `LightqueryFactory`.
+
+## Method-string invokables
+
+This is a concept that is not new and is mainly derived from Laravel's [Higher Order Messages](https://laravel.com/docs/8.x/collections#higher-order-messages).
+Any method that has a signature like the one that follows allows method-string invokables:
+```typescript
+declare function fn(string|Function, ...args: any[]);
+```
+
+This allows to invoke method on `LightqueryCollection` instances as a very handy shortcut, for instance let's expand the following example:
+```typescript
+const lazyLoadObserver = new IntersectionObserver(/* [...] */);
+
+µ("*")
+.filter("hasData", "src")
+.each(e => lazyLoadObserver.observe(e));
+
+// is equivalent to
+
+µ("*")
+.filter(e => µ(e).hasData("src"))
+.each(e => lazyLoadObserver.observe(e));
+```
 
 ## Compatibilities with jQuery
 

@@ -3,7 +3,7 @@ title: Exports
 description: What the library exposes
 lang: en-US
 ---
-# Exports
+# {{ $page.title }}
 
 This library exports the following items:
 

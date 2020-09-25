@@ -3,7 +3,7 @@ title: Calling the factory
 description: Get LightqueryCollection instances
 lang: en-US
 ---
-# Calling the factory
+# {{ $page.title }}
 
 :::tip
 ```typescript

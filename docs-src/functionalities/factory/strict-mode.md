@@ -3,7 +3,7 @@ title: Strict mode
 description: Be safe, or mimick jQuery
 lang: en-US
 ---
-# Strict mode
+# {{ $page.title }}
 
 By default, strict mode is enabled to have a safer, predictable and reproducible experience.
 

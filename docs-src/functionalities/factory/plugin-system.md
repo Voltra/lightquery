@@ -3,7 +3,7 @@ title: The plugin system
 description: How to extend Lightquery
 lang: en-US
 ---
-# The plugin system
+# {{ $page.title }}
 
 :::tip
 ```typescript

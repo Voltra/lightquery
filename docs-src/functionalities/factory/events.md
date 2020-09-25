@@ -3,7 +3,7 @@ title: Events
 description: Global events handling
 lang: en-US
 ---
-# Events
+# {{ $page.title }}
 
 ## After the DOM is loaded
 :::tip

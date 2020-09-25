@@ -3,7 +3,7 @@ title: A bit of history
 description: From the first draft to the latest release
 lang: en-US
 ---
-# A bit of history
+# {{ $page.title }}
 
 This project is one of my first projects, if not my very first actual project.
 As such, it reflects my growth in terms of web development and library design.

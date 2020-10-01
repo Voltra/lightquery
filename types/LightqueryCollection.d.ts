@@ -65,21 +65,24 @@ declare class LightqueryCollection implements Iterable<DomElementType>{
     public eq(index: number): LightqueryCollection|null;
     public first(): LightqueryCollection|null;
     public last(): LightqueryCollection|null;
-    public text(value?: LightquerySetValueFactory|string|number|null): this|string|number|null;
-    public val(value?: LightquerySetValueFactory|string|number|null): this|string|number|null;
-    public html(value?: LightquerySetValueFactory|string|number|null): this|string|number|null;
-    public attr(value?: LightquerySetValueFactory|string|number|null): this|string|number|null;
-    public prop(value?: LightquerySetValueFactory|string|number|null): this|string|number|null;
-    public data(value?: LightquerySetValueFactory|string|number|null): this|string|number|null;
+    public text(value?: LightquerySetValueFactory|string|number|null): this|string|null;
+    public val(value?: LightquerySetValueFactory|string|number|null): this|string|null;
+    public html(value?: LightquerySetValueFactory|string|number|null): this|string|null;
+    public attr(name: string, value?: LightqueryCollection_setValueFactory<string, NamedNodeMap, string>|string|number|null): this|string|null;
+    public prop(name: string, value?: LightqueryCollection_setValueFactory<string, DOMStringMap, string>|string|number|null): this|string|number|null;
+    public data(name: string, value?: LightquerySetValueFactory|string|number|null): this|string|null;
     public hasAttr(attr: string): boolean;
-    public hasProp(attr: string): boolean;
-    public hasData(attr: string): boolean;
-    public hasClass(attr: string): boolean;
+    public hasProp(prop: string): boolean;
+    public hasData(data: string): boolean;
+    public hasClass(className: string): boolean;
     public matches(selector: string): boolean
 
     public addClass(classNames: string): this;
     public removeClass(classNames: string): this;
     public toggleClass(classNames: string): this;
+    public removeAttr(attr: string): this;
+    public removeProp(prop: string): this;
+    public removeData(data: string): this;
     public on(eventNames: string, listener: EventListener): this;
     public off(eventNames: string, listener: EventListener): this;
     public trigger(eventNames: string, options?: Object): this;

@@ -16,7 +16,7 @@ declare function µ(selector: Selector, context?: DomElementType, previousResult
 :::
 
 Calling the factory is very similar to jQuery, I even kept the context part intact despite not liking it.
-Under the hood it uses [Sizzle](https://github.com/jquery/sizzle/wiki) for CSS selectors which has a lot of usefule additional pseudo selectors (the ones in jQuery).
+Under the hood it uses [Sizzle](https://github.com/jquery/sizzle/wiki) for CSS selectors which has a lot of useful additional pseudo selectors (the ones in jQuery).
 
 ## Using a CSS selector
 

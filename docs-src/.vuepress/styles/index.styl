@@ -1,13 +1,34 @@
+$opa = 0.3;
+$textColor = black;
+
 .custom-block{
   &.tip{
-    border-color: $badgeTipColor;
+    $color = $badgeTipColor;
+    border-color: $color;
+    background-color: alpha($color, $opa);
+
+    .custom-block-title, p{
+      //color: $textColor;
+    }
   }
 
   &.warning{
-    border-color: $badgeWarningColor;
+    $color = $badgeWarningColor;
+    border-color: $color;
+    background-color: alpha($color, $opa);
+
+    .custom-block-title, p{
+      color: $primary;
+    }
   }
 
-  &.error{
-    border-color: $badgeErrorColor;
+  &.details{
+    $color = $badgeErrorColor;
+    border-color: $color;
+    background-color: alpha($color, $opa);
+
+    .custom-block-title, p{
+      //color: $textColor;
+    }
   }
 }

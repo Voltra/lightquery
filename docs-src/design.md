@@ -55,6 +55,11 @@ because it often becomes hell to add type information about these.
 Anyway, the plugin system works just like before, except I removed the aliases we now only have `registerPlugin`,
 `hasPlugin` and `removePlugin` all defined on `LightqueryFactory`.
 
+## Spaced-separated strings
+This is a concept directly borrowed from jQuery: strings that group multiple elements using space(s) as separator.
+For instance, after parsing, `my     class   name`  becomes `["my", "class", "name"]`. It's just syntactic sugar for users
+to be able to pass multiple string arguments without using an array.
+
 ## Method-string invokables
 
 This is a concept that is not new and is mainly derived from Laravel's [Higher Order Messages](https://laravel.com/docs/8.x/collections#higher-order-messages).

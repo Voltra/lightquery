@@ -488,9 +488,12 @@ class LightqueryCollection {
       writable: false,
       value: new LightqueryCollectionImplDetails(this, selector, context, previousResults)
     });
-    const previousResultSet = [...previousResults];
+    const previousResultSet = lqHelpers.arrayLike.toArray(previousResults);
     const initStrategy = strategies.find(strategy => strategy.shouldProcess(selector, context, previousResultSet));
-    if (initStrategy) this.__.elements = initStrategy.process(selector, context, previousResultSet);else {
+
+    if (initStrategy) {
+      this.__.elements = initStrategy.process(selector, context, previousResultSet);
+    } else {
       this.__.ifStrict(() => function (e) {
         throw e;
       }(new InvalidArgumentError(`Invalid selector "${selector}"`)));
@@ -689,7 +692,7 @@ class LightqueryCollection {
       loose: this.__.lightquery.__.emptySelection()
     });
 
-    if (index >= 0 && index < this.length) return this[index] ? this.__.lightquery(this[index]) : defaultValue;else return defaultValue;
+    if (index >= 0 && index < this.length) return this[index] ? this.__.$(this[index]) : defaultValue;else return defaultValue;
   }
   /**
    * Get the first item
@@ -712,7 +715,7 @@ class LightqueryCollection {
   /**
    * Get/set the text content
    * @param   {LightqueryCollection~setValueFactory<string, DomElementType, string>|string|number|null|undefined} [value = undefined] - The new value (or its factory)
-   * @returns {LightqueryCollection|string|number|null}
+   * @returns {LightqueryCollection|string|null}
    */
 
 
@@ -725,7 +728,7 @@ class LightqueryCollection {
   /**
    * Get/set the value of an input field
    * @param   {LightqueryCollection~setValueFactory<string, DomElementType, string>|string|number|null|undefined} [value = undefined] - The new value (or its factory)
-   * @returns {LightqueryCollection|string|number|null}
+   * @returns {LightqueryCollection|string|null}
    */
 
 
@@ -751,7 +754,7 @@ class LightqueryCollection {
   /**
    * Get/set an attribute's value
    * @param {string} name The name of the attribute
-   * @param   {LightqueryCollection~setValueFactory<string, DomElementType, string>|string|undefined} [value = undefined] - The new value
+   * @param   {LightqueryCollection~setValueFactory<string, NamedNodeMap, string>|string|undefined} [value = undefined] - The new value
    * @returns {LightqueryCollection|string|null}
    */
 
@@ -766,8 +769,8 @@ class LightqueryCollection {
   /**
    * Get/set a property's value
    * @param {string} name The name of the property
-   * @param   {LightqueryCollection~setValueFactory<string, DomElementType, string>|string|undefined} [value = undefined] - The new value
-   * @returns {LightqueryCollection|string|null}
+   * @param   {LightqueryCollection~setValueFactory<string, DOMStringMap, string>|string|undefined} [value = undefined] - The new value
+   * @returns {LightqueryCollection|string|number|null|undefined}
    */
 
 
@@ -796,11 +799,20 @@ class LightqueryCollection {
    * Determine whether or not the first element has the given attribute
    * @param   {string}  attr - The attribute's name
    * @returns {boolean}
+   * @throws {InvalidArgumentError} If strict mode is on and attr is not a string
    * @throws {NotEnoughElementsError} If strict mode is on and there are no elements
    */
 
 
   hasAttr(attr) {
+    if (typeof attr !== "string") {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected attr to be a string in LightqueryCollection#hasAttr(attr)")));
+
+      return false;
+    }
+
     return this.__.doOnFirst({
       nameForStrict: "#hasAttribute(attr)",
       onFirst: first => first.hasAttribute(attr),
@@ -811,11 +823,20 @@ class LightqueryCollection {
    * Determine whether or not the first element has the given property
    * @param   {string}  prop - The property's name
    * @returns {boolean}
+   * @throws {InvalidArgumentError} If strict mode is on and prop is not a string
    * @throws {NotEnoughElementsError} If strict mode is on and there are no elements
    */
 
 
   hasProp(prop) {
+    if (typeof prop !== "string") {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected prop to be a string in LightqueryCollection#hasProp(prop)")));
+
+      return false;
+    }
+
     return this.__.doOnFirst({
       nameForStrict: "#hasProp(prop)",
       onFirst: first => first.hasOwnProperty(prop),
@@ -826,11 +847,20 @@ class LightqueryCollection {
    * Determine whether or not the first element has the given data attribute
    * @param   {string}  data - The data attribute's name
    * @returns {boolean}
+   * @throws {InvalidArgumentError} If strict mode is on and data is not a string
    * @throws {NotEnoughElementsError} If strict mode is on and there are no elements
    */
 
 
   hasData(data) {
+    if (typeof data !== "string") {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected data to be a string in LightqueryCollection#hasData(data)")));
+
+      return false;
+    }
+
     return this.__.doOnFirst({
       nameForStrict: "#hasData(data)",
       onFirst: first => data in first.dataset,
@@ -839,16 +869,31 @@ class LightqueryCollection {
   }
   /**
    * Determine whether or not the first element has the given class applied
-   * @param   {string}  className - The name of the class to have
+   * @param   {string}  classNames - The class names to have
    * @returns {boolean}
+   * @throws {InvalidArgumentError} If strict mode is on and classNames is not a string
    * @throws {NotEnoughElementsError} If strict mode is on and there are no elements
    */
 
 
-  hasClass(className) {
+  hasClass(classNames) {
+    if (typeof classNames !== "string") {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected classNames to be a string in LightqueryCollection#hasClass(classNames)")));
+
+      return false;
+    }
+
     return this.__.doOnFirst({
       nameForStrict: "#hasClass(className)",
-      onFirst: first => first.classList.contains(className),
+      onFirst: first => {
+        // first.classList.contains(classNames)
+        const {
+          classList
+        } = first;
+        return lqHelpers.spacedListString.toArray(classNames).every(className => classList.contains(className));
+      },
       defaultValue: false
     });
   }
@@ -860,6 +905,14 @@ class LightqueryCollection {
 
 
   matches(selector) {
+    if (typeof selector !== "string") {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected selector to be a string in LightqueryCollection#matches(selector)")));
+
+      return false;
+    }
+
     return this.__.doOnFirst({
       nameForStrict: "#matches(selector)",
       onFirst: first => cssEngine.matchesSelector(selector, first),
@@ -926,6 +979,63 @@ class LightqueryCollection {
       }
 
     });
+  }
+  /**
+   * Remove the attribute for each element
+   * @param {string} attr - The attribute name
+   * @returns {LightqueryCollection}
+   * @throws {InvalidArgumentError} If attr is not a string
+   */
+
+
+  removeAttr(attr) {
+    if (typeof attr !== "string") {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected attr to be a string in LightqueryCollection#removeAttribute(attr)")));
+
+      return this;
+    }
+
+    return this.forEach(el => el.removeAttribute(attr));
+  }
+  /**
+   * Remove the property for each element
+   * @param {string} prop - The property name
+   * @returns {LightqueryCollection}
+   * @throws {InvalidArgumentError} If prop is not a string
+   */
+
+
+  removeProp(prop) {
+    if (typeof prop !== "string") {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected prop to be a string in LightqueryCollection#removeProp(prop)")));
+
+      return this;
+    }
+
+    return this.forEach(el => delete el[prop]);
+  }
+  /**
+   * Remove the data attribute for each element
+   * @param {string} data - The data attribute name
+   * @returns {LightqueryCollection}
+   * @throws {InvalidArgumentError} If data is not a string
+   */
+
+
+  removeData(data) {
+    if (typeof data !== "string") {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected data to be a string in LightqueryCollection#removeData(data)")));
+
+      return this;
+    }
+
+    return this.forEach(el => delete el.dataset[data]);
   }
   /**
    * Trigger a callback on event
@@ -1426,12 +1536,6 @@ class LightqueryCollection {
 
 
   add(selector, context = undefined) {
-    /* const $others = this.__.$(selector, context);
-       const elems = [
-            ...this.toArray(),
-            ...$others.toArray(),
-        ];
-       return this.__.$(elems);*/
     return this.__.$(selector, context, this);
   }
   /**
@@ -1526,6 +1630,19 @@ class LightqueryCollection {
       });
     } else // set
       return this.forEach(el => el.style.setProperty(varname, value));
+  }
+  /**
+   * Animate all the elements
+   * @param {Keyframe[]|PropertyIndexedKeyframes|null} [keyframes = null] - The animation keyframes
+   * @param {KeyframeAnimationOptions|number|null} [options = null] - The animation options (or duration in ms)
+   * @returns {LightqueryCollection}
+   */
+
+
+  animate(keyframes = null, options = null) {
+    return this.forEach(e => {
+      e.animate(keyframes, options);
+    });
   }
   /****************************************************************************************\
    * Events shorthand
@@ -1704,6 +1821,21 @@ class LightqueryCollection {
     return this.__.eventShorthand({
       nameForStrict: "#submit(listener)",
       eventName: "submit",
+      listener
+    });
+  }
+  /**
+   * Trigger (or listen to) contextmenu events (i.e. right click menu)
+   * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+   * @returns {LightqueryCollection}
+   * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+   */
+
+
+  contextMenu(listener = undefined) {
+    return this.__.eventShorthand({
+      nameForStrict: "#contextMenu(listener)",
+      eventName: "contextmenu",
       listener
     });
   }

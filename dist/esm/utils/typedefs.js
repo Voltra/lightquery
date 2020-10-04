@@ -7,7 +7,7 @@
  */
 
 /**
- * @typedef {DomElementType|NodeList|Iterable<DomElementType>} DomElements
+ * @typedef {DomElementType|NodeList|HTMLCollection|Iterable<DomElementType>} DomElements
  */
 
 /**

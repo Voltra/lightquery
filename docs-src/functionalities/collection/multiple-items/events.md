@@ -46,3 +46,7 @@ which the event is triggered.
 ```javascript
 µ(/**/).trigger("click"); //-> this LightqueryCollection
 ```
+
+:::tip
+This method uses the [Custom events API](https://developer.mozilla.org/docs/Web/API/CustomEvent).
+:::

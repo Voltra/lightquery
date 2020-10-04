@@ -124,7 +124,7 @@ class LightqueryFactory extends Callable {
 
   __call(selector, context = undefined, previousResults = []) {
     try {
-      if (typeof selector === "function") return this.ready(selector);else return this.__.factory(selector);
+      if (typeof selector === "function") return this.ready(selector);else return this.__.factory(selector, context, previousResults);
     } catch (e) {
       this.__.ifStrict(rethrow(e));
 
@@ -291,7 +291,7 @@ class LightqueryFactory extends Callable {
       }(new InvalidArgumentError(`Expected newValue to be a boolean in LightqueryFactory#setStrictMode(newValue)`)));
     }
 
-    this.__.strictMode = !!newValue;
+    this.__.strictMode = newValue;
     return this;
   }
   /**
@@ -311,6 +311,28 @@ class LightqueryFactory extends Callable {
 
   turnStrictModeOff() {
     return this.setStrictMode(false);
+  }
+  /**
+   * Execute a function without strict mode
+   * @param {Callback} callback - The function to execute
+   * @returns {LightqueryFactory}
+   */
+
+
+  doWithoutStrictMode(callback) {
+    if (typeof callback !== "function") {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected callback to be a function in LightqueryFactory#doWithoutStrictMode(callback)")));
+
+      return this;
+    }
+
+    const wasStrict = this.isStrictModeOn();
+    this.setStrictMode(false);
+    callback();
+    this.setStrictMode(wasStrict);
+    return this;
   }
   /**
    * Execute a callback once the DOM is fully loaded
@@ -359,7 +381,7 @@ class LightqueryFactory extends Callable {
    * Getter/setter for CSS variables at the root
    * @param {string} variable - The CSS variable name
    * @param {string|number|undefined} value - The new value
-   * @returns {LightqueryCollection|string|number|null}
+   * @returns {LightqueryFactory|string|number|null}
    */
 
 

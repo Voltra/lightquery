@@ -3,8 +3,6 @@ title: User guide
 description: A lightweight alternative to jQuery
 lang: en-US
 ---
-# {{ $page.title }}
-
 <center><img :src="$withBase('/logo.png')" alt="Logo" style="max-width: 200px;"/></center>
 
 ## What is Lightquery

@@ -9,6 +9,7 @@ const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
 
 module.exports = {
 	stats: "minimal", // For compatibility with friendly-errors-webpack-plugin
+	devtool: false,
 	entry: {
 		index: here("src/index.js"),
 	},
@@ -27,6 +28,10 @@ module.exports = {
 	},
 	optimization: {
 		usedExports: true,
+		minimize: true,
+		removeEmptyChunks: true,
+		mergeDuplicateChunks: true,
+		concatenateModules: true,
 	},
 	module: {
 		rules: [

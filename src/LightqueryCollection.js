@@ -1509,6 +1509,19 @@ class LightqueryCollection{
             return this.forEach(el => el.style.setProperty(varname, value));
     }
 
+	/**
+	 * Animate all the elements
+	 * @param {Keyframe[]|PropertyIndexedKeyframes|null} [keyframes = null] - The animation keyframes
+	 * @param {KeyframeAnimationOptions|number|null} [options = null] - The animation options (or duration in ms)
+	 * @returns {LightqueryCollection}
+	 */
+    animate(keyframes = null, options = null){
+
+    	return this.forEach(e => {
+			e.animate(keyframes, options);
+		});
+	}
+
 
 
 	/****************************************************************************************\
@@ -1674,6 +1687,20 @@ class LightqueryCollection{
 		return this.__.eventShorthand({
 			nameForStrict: "#submit(listener)",
 			eventName: "submit",
+			listener,
+		});
+	}
+
+	/**
+	 * Trigger (or listen to) contextmenu events (i.e. right click menu)
+	 * @param {EventListener|undefined} [listener = undefined] - The event listener to attach
+	 * @returns {LightqueryCollection}
+	 * @throws {InvalidArgumentError} If the listener is neither undefined nor a callback
+	 */
+	contextMenu(listener = undefined){
+		return this.__.eventShorthand({
+			nameForStrict: "#contextMenu(listener)",
+			eventName: "contextmenu",
 			listener,
 		});
 	}

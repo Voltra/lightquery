@@ -15,7 +15,7 @@ export default class IterableStrategy extends AbstractStrategy {
   static get allowedClasses() {
     //TODO: Add sequency sequences to the list
     return [//			Iterator,
-    Array, NodeList];
+    Array, NodeList, HTMLCollection];
   }
 
   shouldProcess(selector, context = undefined, previousResults = []) {

@@ -1,7 +1,7 @@
 import {
     Callback,
     DomElementType, ElementCallback,
-    ElementMapper, ElementOrLightquery, ElementReducer,
+    ElementMapper, ElementOrLightquery, ElementReducer, ElementsOrLightquery,
     GenericCallback,
     MapperFunction,
     Predicate,
@@ -98,20 +98,21 @@ declare class LightqueryCollection implements Iterable<DomElementType>{
     public prev(): LightqueryCollection;
     public next(): LightqueryCollection;
 
-    public append(elements: ElementOrLightquery): this;
-    public appendTo(elements: ElementOrLightquery|string): this;
-    public prepend(elements: ElementOrLightquery): this;
-    public prependTo(elements: ElementOrLightquery|string): this;
-    public before(elements: ElementOrLightquery): this;
-    public insertBefore(elements: ElementOrLightquery|string): this;
-    public after(elements: ElementOrLightquery): this;
-    public insertAfter(elements: ElementOrLightquery|string): this;
+    public append(elements: ElementsOrLightquery): this;
+    public appendTo(element: ElementOrLightquery|string): this;
+    public prepend(elements: ElementsOrLightquery): this;
+    public prependTo(element: ElementOrLightquery|string): this;
+    public before(elements: ElementsOrLightquery): this;
+    public insertBefore(element: ElementOrLightquery|string): this;
+    public after(elements: ElementsOrLightquery): this;
+    public insertAfter(element: ElementOrLightquery|string): this;
     public remove(): LightqueryCollection;
     public empty(): this;
 
     public add(selector: Selector, context?: DomElementType): LightqueryCollection;
     public css(properties: string|string[]|Record<string, string|number>, value?: string|number): this|string|number|null;
     public cssVar(variable: string, value?: string|number): this|string|number|null;
+    public animate(keyframes?: Keyframe[]|PropertyIndexedKeyframes, options?: KeyframeAnimationOptions|number): this;
 
     public click(listener?: EventListener): this;
     public doubleClick(listener?: EventListener): this;
@@ -125,6 +126,7 @@ declare class LightqueryCollection implements Iterable<DomElementType>{
     public change(listener?: EventListener): this;
     public input(listener?: EventListener): this;
     public submit(listener?: EventListener): this;
+    public contextMenu(listener?: EventListener): this;
 
     public width(value?: string|number): this|number|null;
     public height(value?: string|number): this|number|null;

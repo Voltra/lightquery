@@ -1,0 +1,10 @@
+jsdoc/
+node_modules/
+.vscode/
+.idea/
+.brackets.json
+.env
+package-lock.json
+yarn.lock
+*.log*
+tmp/

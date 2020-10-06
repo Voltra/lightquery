@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "declarationDir": "./",
+    "module": "esnext",
+    "target": "es5",
+    "sourceRoot": "../src/",
+    "sourceMap": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "jsx": "react"
+  },
+  "compileOnSave": false
+}

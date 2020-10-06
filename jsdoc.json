@@ -1,0 +1,19 @@
+{
+	"source": {
+		"include": [
+			"src"
+		]
+	},
+	"sourceType": "module",
+	"tags": {
+		"allowUnknownTags": true,
+		"dictionaries": [
+			"jsdoc",
+			"closure"
+		]
+	},
+	"plugins": [
+		"jsdoc-ts-utils",
+		"jsdoc-plugin-intersection"
+	]
+}

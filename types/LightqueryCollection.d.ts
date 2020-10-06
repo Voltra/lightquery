@@ -112,7 +112,7 @@ declare class LightqueryCollection implements Iterable<DomElementType>{
     public add(selector: Selector, context?: DomElementType): LightqueryCollection;
     public css(properties: string|string[]|Record<string, string|number>, value?: string|number): this|string|number|null;
     public cssVar(variable: string, value?: string|number): this|string|number|null;
-    public animate(keyframes?: Keyframe[]|PropertyIndexedKeyframes, options?: KeyframeAnimationOptions|number): this;
+    public animate(keyframes?: Keyframe[]|PropertyIndexedKeyframes, options?: KeyframeAnimationOptions|number, fillDirection?: "forwards"|"backwards"|"none"): this;
 
     public click(listener?: EventListener): this;
     public doubleClick(listener?: EventListener): this;

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>A bit of history | Lightquery</title>
+    <meta name="generator" content="VuePress 1.5.4">
+    
+    <meta name="description" content="From the first draft to the latest release">
+    <link rel="preload" href="/assets/css/0.styles.f2f4e077.css" as="style"><link rel="preload" href="/assets/js/app.adf71c3e.js" as="script"><link rel="preload" href="/assets/js/2.6332c2ac.js" as="script"><link rel="preload" href="/assets/js/32.36e3117f.js" as="script"><link rel="prefetch" href="/assets/js/10.5a9b45d4.js"><link rel="prefetch" href="/assets/js/11.860319c3.js"><link rel="prefetch" href="/assets/js/12.299b052c.js"><link rel="prefetch" href="/assets/js/13.a4584fc6.js"><link rel="prefetch" href="/assets/js/14.e2e2261d.js"><link rel="prefetch" href="/assets/js/15.2fb6d194.js"><link rel="prefetch" href="/assets/js/16.e48a0321.js"><link rel="prefetch" href="/assets/js/17.bd7c85ed.js"><link rel="prefetch" href="/assets/js/18.d4a81b76.js"><link rel="prefetch" href="/assets/js/19.081afa41.js"><link rel="prefetch" href="/assets/js/20.b2414448.js"><link rel="prefetch" href="/assets/js/21.ba908dfa.js"><link rel="prefetch" href="/assets/js/22.81ad8d7f.js"><link rel="prefetch" href="/assets/js/23.934dc458.js"><link rel="prefetch" href="/assets/js/24.07c88136.js"><link rel="prefetch" href="/assets/js/25.4e88cf68.js"><link rel="prefetch" href="/assets/js/26.2bd19557.js"><link rel="prefetch" href="/assets/js/27.b84ff4dd.js"><link rel="prefetch" href="/assets/js/28.8108a5e4.js"><link rel="prefetch" href="/assets/js/29.bbaf904e.js"><link rel="prefetch" href="/assets/js/3.08d6baf0.js"><link rel="prefetch" href="/assets/js/30.89be631f.js"><link rel="prefetch" href="/assets/js/31.5b48c6e0.js"><link rel="prefetch" href="/assets/js/4.d02de2bf.js"><link rel="prefetch" href="/assets/js/5.30a60c21.js"><link rel="prefetch" href="/assets/js/6.53bb6787.js"><link rel="prefetch" href="/assets/js/7.d4359c6c.js"><link rel="prefetch" href="/assets/js/8.fe138f1d.js"><link rel="prefetch" href="/assets/js/9.c47dded2.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.f2f4e077.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/logo.png" alt="Lightquery" class="logo"> <span class="site-name can-hide">Lightquery</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/" aria-current="page" class="sidebar-link">User guide</a></li><li><a href="/history.html" aria-current="page" class="active sidebar-link">A bit of history</a></li><li><a href="/design.html" class="sidebar-link">About design</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Functionalities</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="page-title"><a href="#page-title" class="header-anchor">#</a> A bit of history</h1> <p>This project is one of my first projects, if not my very first actual project.
+As such, it reflects my growth in terms of web development and library design.</p> <p>It first started as a sort of experimental clone of jQuery using my, at the time, quite limited understanding of the whole
+JavaScript ecosystem and the possibilities it provides. As such, it was designed as a <s>almost</s> pure ES5 single file library.
+Everything was stuck together, poorly documented, using a few ES6 features without care for browser compatibility.</p> <p>One of the big improvements over time is how the dichotomy between the &quot;factory&quot; (i.e. <code>µ</code> or <code>$</code>) and the actual result object.
+In the very first version the factory was basically a class that inherits from the native <code>Function</code> with a few added properties ;
+the result objects were a class that inherits from the native <code>Array</code> (to make it iterable). As a result a lot of things were
+a bit weird with a lot of undesired functionalities.</p> <p>As of v1.0.0 the design is a lot cleaner using a somewhat clever trick to be able to create callable objects and actually
+making use of <code>Symbol.iterator</code> for the result objects.</p> <p>A very significant example of how things have changed is how cloning works:</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">//// NEW</span>
+<span class="token keyword">class</span> <span class="token class-name">LightqueryFactory</span> <span class="token keyword">extends</span> <span class="token class-name">Callable</span><span class="token punctuation">{</span> <span class="token comment">// µ is an instance of that class</span>
+   <span class="token comment">// [...]</span>
+
+   <span class="token function">cloneLightquery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+       <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">LightqueryFactory</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>__<span class="token punctuation">.</span>collectionClass<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>__<span class="token punctuation">.</span>strictMode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+   <span class="token comment">// [...]</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">//// OLD</span>
+<span class="token class-name">Function</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">clone4lightquery</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token comment">// Function.prototype.clone4lightquery is a hack to clone a function properly</span>
+   <span class="token keyword">var</span> newfun <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Function</span><span class="token punctuation">(</span><span class="token string">'return '</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+   <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> key <span class="token keyword">in</span> <span class="token keyword">this</span><span class="token punctuation">)</span>
+       newfun<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+   Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span>newfun<span class="token punctuation">.</span>prototype<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token keyword">return</span> newfun<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+lightquery<span class="token punctuation">.</span><span class="token function-variable function">createOtherLightquery</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">newName</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token comment">// here µ was lightquery</span>
+   <span class="token comment">// [...]</span>
+   <span class="token keyword">var</span> newConstructorName <span class="token operator">=</span> <span class="token comment">/**/</span><span class="token punctuation">;</span>
+
+   window<span class="token punctuation">.</span>lightqueryCreators<span class="token punctuation">[</span>newConstructorName<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>createLightqueryObject<span class="token punctuation">.</span><span class="token function">clone4lightquery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token keyword">let</span> func <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>createLightqueryObject<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>lightqueryID<span class="token punctuation">.</span><span class="token function">clone4lightquery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>lightqueryCreators<span class="token punctuation">[</span>newConstructorName<span class="token punctuation">]</span><span class="token punctuation">.</span>prototype<span class="token punctuation">,</span> <span class="token string">&quot;lightqueryID&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+       value<span class="token operator">:</span> func<span class="token punctuation">,</span>
+       enumerable<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+       configurable<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+       writable<span class="token operator">:</span> <span class="token boolean">false</span>
+   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+   Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>func<span class="token punctuation">,</span> <span class="token string">&quot;createLightqueryObject&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+       value<span class="token operator">:</span> window<span class="token punctuation">.</span>lightqueryCreators<span class="token punctuation">[</span>newConstructorName<span class="token punctuation">]</span><span class="token punctuation">,</span>
+       enumerable<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+       configurable<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+       writable<span class="token operator">:</span> <span class="token boolean">false</span>
+   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+   <span class="token comment">//setup constructor's constructor signature</span>
+   window<span class="token punctuation">.</span>lightqueryCreators<span class="token punctuation">[</span>newConstructorName<span class="token punctuation">]</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>constructor <span class="token operator">=</span> window<span class="token punctuation">.</span>lightqueryCreators<span class="token punctuation">[</span>newConstructorName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+   <span class="token comment">//setup function's name</span>
+   func<span class="token punctuation">.</span>fname <span class="token operator">=</span> <span class="token punctuation">(</span> <span class="token punctuation">(</span>newLightqueryName<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">&quot;&quot;</span><span class="token operator">+</span>newLightqueryName <span class="token operator">:</span> newConstructorName <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+   <span class="token comment">//finally return the function</span>
+   <span class="token keyword">return</span> func<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>In addition to code quality, the overall development experience is way better.
+I use my usual toolchain to build down to ES5 and have a semi-separate toolchain to build clean ESM.</p></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/" class="prev router-link-active">
+        User guide
+      </a></span> <span class="next"><a href="/design.html">
+        About design
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.adf71c3e.js" defer></script><script src="/assets/js/2.6332c2ac.js" defer></script><script src="/assets/js/32.36e3117f.js" defer></script>
+  </body>
+</html>

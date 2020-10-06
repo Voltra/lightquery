@@ -1640,6 +1640,22 @@ class LightqueryCollection {
 
 
   animate(keyframes = null, options = null) {
+    if (typeof keyframes !== "object" && !(keyframes instanceof Array)) {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected keyframes to be an object, an array or null in LightqueryCollection#animate(keyframes, options)")));
+
+      return this;
+    }
+
+    if (!["object", "number"].includes(typeof options) && options !== null) {
+      this.__.ifStrict(() => function (e) {
+        throw e;
+      }(new InvalidArgumentError("Expected options to be an object, a number or null in LightqueryCollection#animate(keyframes, options)")));
+
+      return this;
+    }
+
     return this.forEach(e => {
       e.animate(keyframes, options);
     });

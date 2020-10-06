@@ -9,7 +9,7 @@ lang: en-US
 declare function add(selector: Selector, context?: DomElementType): LightqueryCollection;
 declare function css(properties: string|string[]|Record<string, string|number>, value?: string|number): this|string|number|null;
 declare function cssVar(variable: string, value?: string|number): this|string|number|null;
-declare function animate(keyframes?: Keyframe[]|PropertyIndexedKeyframes, options?: KeyframeAnimationOptions|number
+declare function animate(keyframes?: Keyframe[]|PropertyIndexedKeyframes, options?: KeyframeAnimationOptions|number, fillDirection?: "forwards"|"backwards"|"none"): this;
 ```
 :::
 
@@ -136,3 +136,27 @@ $delta.animate({
     opacity: [0, 1], // [from, to]
 }, 350);
 ```
+
+:::warning
+Due to how this API work, if you want to retain the animation CSS, you need to specify
+[`fill`](https://developer.mozilla.org/docs/Web/API/Element/animate):
+```javascript
+$delta.animate({
+   opacity: [0, 1], // [from, to]
+}, {
+    duration: 350,
+    fill: "forwards",
+});
+```
+
+As a shorthand, you can use the third argument to specify the fill direction:
+```javascript
+$delta.animate({
+    opacity: [0, 1],
+}, 350, "backwards");
+```
+:::
+
+:::tip
+By default, the fill direction is `"forwards"`.
+:::

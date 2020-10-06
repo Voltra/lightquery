@@ -6,6 +6,8 @@ const here = (uri = "") => path.resolve(__dirname, uri);
 
 const WebpackProgressBar = require("webpack-progress-bar");
 const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+// const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = {
 	stats: "minimal", // For compatibility with friendly-errors-webpack-plugin
@@ -21,6 +23,11 @@ module.exports = {
 	plugins: [
 		new WebpackProgressBar(),
 		new FriendlyErrorsPlugin({}),
+		new CompressionWebpackPlugin({
+			test: /\.js$/i,
+			exclude: /node_modules/i,
+		}),
+		// new BundleAnalyzerPlugin({}),
 	],
 	output: {
 		filename: "[name].js",

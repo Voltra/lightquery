@@ -1513,9 +1513,32 @@ class LightqueryCollection{
 	 * Animate all the elements
 	 * @param {Keyframe[]|PropertyIndexedKeyframes|null} [keyframes = null] - The animation keyframes
 	 * @param {KeyframeAnimationOptions|number|null} [options = null] - The animation options (or duration in ms)
+	 * @param {"forwards"|"backwards"|"none"} [fillDirection = "forwards"] - The CSS filling direction
 	 * @returns {LightqueryCollection}
 	 */
-    animate(keyframes = null, options = null){
+    animate(keyframes = null, options = null, fillDirection = "forwards"){
+		if(typeof keyframes !== "object" && !(keyframes instanceof Array)){
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected keyframes to be an object, an array or null in LightqueryCollection#animate(keyframes, options, fillDirection)"));
+			return this;
+		}
+
+		if(!["object", "number"].includes(typeof options) && options !== null){
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected options to be an object, a number or null in LightqueryCollection#animate(keyframes, options, fillDirection)"));
+			return this;
+		}else if(typeof options === "number"){
+			options = {
+				duration: options,
+				fill: fillDirection,
+			};
+		}else if(typeof options === "object" && options !== null){
+			if(!("fill" in options))
+				options.fill = fillDirection;
+		}
+
+		if(!["forwards", "backwards", "none"].includes(fillDirection)){
+			this.__.ifStrict(() => throw new InvalidArgumentError("Expected fillDirection to be either forwards, backwards or none in LightqueryCollection#animate(keyframes, options, fillDirection)"));
+			return this;
+		}
 
     	return this.forEach(e => {
 			e.animate(keyframes, options);

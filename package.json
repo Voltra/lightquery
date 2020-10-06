@@ -1,28 +1,68 @@
 {
-  "name": "light_query",
-  "version": "1.0.0-indev.0.5",
-  "description": "a lightweight alternative to jQuery",
-  "main": "lightquery.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Voltra/lightquery.git"
-  },
-  "keywords": [
-	"javascript",
-    "library",
-	"alternative",
-	"jquery"
-  ],
-  "author": "Voltra",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Voltra/lightquery/issues"
-  },
-  "homepage": "https://github.com/Voltra/lightquery#readme"
+	"name": "light_query",
+	"version": "1.0.0",
+	"description": "a lightweight alternative to jQuery",
+	"main": "dist/index.js",
+	"browser": "dist/index.js",
+	"module": "dist/esm/index.js",
+	"types": "types/index.d.ts",
+	"sideEffects": [
+		"./src/utils/typedefs.js",
+		"./src/utils/polyfills.js"
+	],
+	"scripts": {
+		"setup": "npm i && npm up",
+		"start": "npm run watch",
+		"watch": "webpack --mode development --devtool source-map --colors --watch",
+		"build": "npm run build:bundle && npm run build:esm",
+		"jsdoc": "jsdoc -c ./jsdoc.json -d ./jsdoc/",
+		"docs": "vuepress build ./docs-src/",
+		"watch:docs": "vuepress dev ./docs-src/",
+		"build:bundle": "webpack -p --colors",
+		"build:esm": "babel src --out-dir dist/esm/ --source-maps"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Voltra/lightquery.git"
+	},
+	"dependencies": {
+		"sizzle": "^2.3.5"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.10.4",
+		"@babel/core": "^7.10.4",
+		"@babel/plugin-proposal-class-properties": "^7.10.4",
+		"@babel/plugin-proposal-do-expressions": "^7.10.4",
+		"@babel/plugin-proposal-function-bind": "^7.10.4",
+		"@babel/plugin-proposal-object-rest-spread": "^7.10.4",
+		"@babel/plugin-proposal-throw-expressions": "^7.10.4",
+		"@babel/preset-env": "^7.10.4",
+		"@vuepress/plugin-back-to-top": "^1.6.0",
+		"babel-loader": "^8.1.0",
+		"compression-webpack-plugin": "^6.0.2",
+		"core-js": "^3.6.5",
+		"friendly-errors-webpack-plugin": "^1.7.0",
+		"jsdoc": "^3.6.5",
+		"jsdoc-plugin-intersection": "^1.0.3",
+		"jsdoc-ts-utils": "^1.1.1",
+		"typescript": "^4.0.3",
+		"vuepress": "^1.5.4",
+		"vuepress-plugin-clean-urls": "^1.1.2",
+		"webpack": "^4.43.0",
+		"webpack-bundle-analyzer": "^3.9.0",
+		"webpack-cli": "^3.3.12",
+		"webpack-progress-bar": "^1.2.1"
+	},
+	"keywords": [
+		"javascript",
+		"library",
+		"alternative",
+		"jquery"
+	],
+	"author": "Voltra",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Voltra/lightquery/issues"
+	},
+	"homepage": "https://github.com/Voltra/lightquery#readme"
 }

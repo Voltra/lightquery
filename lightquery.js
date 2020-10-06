@@ -1,10 +1,10 @@
 /////////////////////////HELPERS//////////////////////////
 Function.prototype.clone4lightquery = function() {
     var newfun = new Function('return ' + this.toString())();
-    
+
     for(var key in this)
         newfun[key] = this[key];
-    
+
     Object.assign(newfun.prototype, this.prototype);
     return newfun;
 };
@@ -45,10 +45,10 @@ lqHelpers.spacedListString.toArray = (str)=>{
 lqHelpers.functions.newName = (str)=>{
     if(lqHelpers.functions.valid_name_regex.test(str))
         return str;
-    
+
     if(! (lqHelpers.functions.valid_firstChar_regex.test("" + str.charAt(0))))
         return lqHelpers.functions.newName("$"+str);
-    
+
     return str.replace(lqHelpers.functions.invalid_otherChar_regex, "_");
 };
 
@@ -63,7 +63,7 @@ lqHelpers.array.empty = (arr)=>(arr.length==0 ||  arr==[] || arr==new Array());
 ///////////////////////////////////////////////////////////
 
 
-//// CONSTRUCTOR 
+//// CONSTRUCTOR
 /**@class lightqueryObject
 *Instantiate a lightqueryObject
 *@param {string | object | function} selector - the selector
@@ -82,12 +82,12 @@ const lightqueryObject = function obj(selector){
                 : (this.selector ? 1 : 0);
 
 
-            
+
             for(let i = 0 ; i < this.length ; i+=1)
                 if(this.asNode)
                 this[i] = (this.asNode[i] || this.selector);
-            
-            
+
+
         }else
             return this.lightqueryID(document).ready(selector);
     }else{
@@ -96,11 +96,11 @@ const lightqueryObject = function obj(selector){
     }
 };
 
-//// ARRAYLIKE HANDLING 
+//// ARRAYLIKE HANDLING
 lightqueryObject.prototype = Object.create( Array.prototype );
 lightqueryObject.prototype.constructor = lightqueryObject;
 
-//// METHODS 
+//// METHODS
 /**@memberof lightqueryObject @method eq
 *Restrict the selection set to the item at the given index
 *@param {int} index - the given index
@@ -130,8 +130,8 @@ lightqueryObject.prototype.val = function(value){
             return this[0].value;
         else
             return null;
-    
-    
+
+
     return this.lightqueryID(this.selector);
 };
 
@@ -173,14 +173,14 @@ lightqueryObject.prototype.hasClass = function(className){//unique class
 lightqueryObject.prototype.addClass = function(classNames){//multiple classes
     const classes = lqHelpers.spacedListString.toArray(classNames);
     const that = this;
-    
+
     classes.forEach((classe)=>{
             that.forEach((elem)=>{
                 if(! lightquery(elem).hasClass(classe))
                     elem.classList.add(classe);
             });
     });
-    
+
     return this.lightqueryID(that.selector);
 };
 
@@ -194,14 +194,14 @@ lightqueryObject.prototype.addClass = function(classNames){//multiple classes
 lightqueryObject.prototype.removeClass = function(classNames){//multiple classes
     const classes = lqHelpers.spacedListString.toArray(classNames);
     const that = this;
-    
+
     classes.forEach((classe)=>{
         that.forEach((elem)=>{
             if(lightquery(elem).hasClass(classe))
                 elem.classList.remove(classe);
         });
     });
-    
+
     return this.lightqueryID(that.selector);
 };
 
@@ -215,7 +215,7 @@ lightqueryObject.prototype.removeClass = function(classNames){//multiple classes
 lightqueryObject.prototype.toggleClass = function(classNames){//multiple classes
     const classes = lqHelpers.spacedListString.toArray(classNames);
     const that = this;
-    
+
     classes.forEach((classe)=>{
         that.forEach((e)=>{
             const µe = that.lightqueryID(e);
@@ -225,7 +225,7 @@ lightqueryObject.prototype.toggleClass = function(classNames){//multiple classes
                 µe.addClass(classe);
         });
     });
-    
+
     return that.lightqueryID(that.selector);
 };
 
@@ -312,7 +312,7 @@ lightqueryObject.prototype.off = function(eventName, func){
                     e.detachEvent(`on${event}`, func.bind(e));
             }
         });
-    
+
     return this.lightqueryID(this.selector);
 };
 
@@ -327,24 +327,24 @@ lightqueryObject.prototype.off = function(eventName, func){
 */
 lightqueryObject.prototype.trigger = function(eventName, options){
     const that = this;
-    if(typeof eventName == typeof "abc42"){        
+    if(typeof eventName == typeof "abc42"){
         this.forEach((e)=>{
             for( let event of lqHelpers.spacedListString.toArray(eventName) ){
                 let eventObject;
                 const eventOptions = that.lightqueryID.extend({target: e}, options);
-                
+
                 if(window.CustomEvent)
                     eventObject = new window.CustomEvent(event, eventOptions);
                 else{
                     eventObject = document.createEvent("CustomEvent");
                     eventObject.initCustomEvent(event, true, true, eventOptions);
                 }
-                
+
                 e.dispatchEvent(eventObject);
             }
         });
     }
-    
+
     return this.lightqueryID(this.selector);
 };
 
@@ -393,7 +393,7 @@ lightqueryObject.prototype.hover = function(funcEnter, funcLeave){
 */
 lightqueryObject.prototype.css = function(propertyNames, value){
     const that = this;
-    
+
     if(typeof propertyNames == typeof {}){
         that.forEach((e)=>{
             for(let key in propertyNames){
@@ -414,8 +414,8 @@ lightqueryObject.prototype.css = function(propertyNames, value){
             else
                 return null;
     }
-    
-    
+
+
     return that.lightqueryID(that.selector);
 };
 
@@ -438,7 +438,7 @@ lightqueryObject.prototype.cssVar = function(variable, val){
         }else{
             return window.getComputedStyle(this[0]).getPropertyValue(varname);
         }
-    
+
     return this.lightqueryID(this.selector);
 };
 
@@ -455,19 +455,19 @@ lightqueryObject.prototype.cssVar = function(variable, val){
 lightqueryObject.prototype.attr = function(attrNames, value){
     const names = lqHelpers.spacedListString.toArray(attrNames);
     const that = this;
-    
+
     if(value)
         names.forEach((name)=>{
            that.forEach((e)=>{
                 e.attributes[name].value = value;
-            }); 
+            });
         });
     else
         if(this[0])
             return this[0].attributes[names[0]].value;
         else
             return null;
-    
+
     return that.lightqueryID(that.selector);
 };
 
@@ -484,7 +484,7 @@ lightqueryObject.prototype.attr = function(attrNames, value){
 lightqueryObject.prototype.prop = function(propNames, value){
     const names = lqHelpers.spacedListString.toArray(propNames);
     const that = this;
-    
+
     if(value)
         names.forEach((name)=>{
             that.forEach((e)=>{
@@ -496,7 +496,7 @@ lightqueryObject.prototype.prop = function(propNames, value){
             return this[0][names[0]];
         else
             return null;
-    
+
     return that.lightqueryID(that.selector);
 };
 
@@ -513,7 +513,7 @@ lightqueryObject.prototype.prop = function(propNames, value){
 lightqueryObject.prototype.data = function(dataNames, value){
     const names = lqHelpers.spacedListString.toArray(dataNames);
     const that = this;
-    
+
     if(value)
         names.forEach((name)=>{
             that.forEach((e)=>{
@@ -525,7 +525,7 @@ lightqueryObject.prototype.data = function(dataNames, value){
             return this[0].dataset[name];
         else
             return null;
-    
+
     return that.lightqueryID(that.selector);
 };
 
@@ -580,14 +580,14 @@ lightqueryObject.prototype.hasData = function(name){
 lightqueryObject.prototype.removeProp = function(propNames){
     const props = lqHelpers.spacedListString.toArray(propNames);
     const that = this;
-    
+
     props.forEach((prop)=>{
         that.forEach((e)=>{
             if(that.lightqueryID(e).hasProp(prop))
                 delete e[prop];
         });
     });
-    
+
     return that.lightqueryID(that.selector);
 };
 
@@ -603,14 +603,14 @@ lightqueryObject.prototype.removeProp = function(propNames){
 lightqueryObject.prototype.removeAttr = function(attrNames){
     const attrs = lqHelpers.spacedListString.toArray(attrNames);
     const that = this;
-    
+
     attrs.forEach((attr)=>{
         that.forEach((e)=>{
             if(that.lightqueryID(e).hasAttr(attr))
                 e.attributes.removeNamedItem(attr);
         });
     });
-    
+
     return that.lightqueryID(that.selector);
 };
 
@@ -626,14 +626,14 @@ lightqueryObject.prototype.removeAttr = function(attrNames){
 lightqueryObject.prototype.removeData = function(dataNames){
     const names = lqHelpers.spacedListString.toArray(dataNames);
     const that = this;
-    
+
     names.forEach((name)=>{
         that.forEach((e)=>{
             if(that.lightqueryID(e).hasData(name))
                 delete e.dataset[name];
         });
     });
-    
+
     return that.lightqueryID(that.selector);
 };
 
@@ -650,7 +650,7 @@ lightqueryObject.prototype.closest = function(selector){
         const closestArr = this.map(e=>e.closest(selector));
         return this.lightqueryID(closestArr);
     }
-    
+
     return this.lightqueryID(this.selector);
 };
 
@@ -668,20 +668,20 @@ lightqueryObject.prototype.children = function(selector){
         if(elem.children)
             acc.push.apply(acc, lqHelpers.arrayLike.toArray(elem.children));
         return acc;
-    }, []).reduce((elem, index, arr)=>{
+    }, []).reduce((elem, index, arr)=>{ //NOTE: should have been filter
         //only get distinct elements
         return arr.indexOf(elem) == index;
     });
-    
+
     if(lqHelpers.array.empty(res))
         return null;
-    
+
     if(selector)
         res = res.filter(e=>e.matches(selector));
-    
+
     if(lqHelpers.array.empty(res))
         return null;
-    
+
     return this.lightqueryID(res);
 };
 
@@ -696,20 +696,20 @@ lightqueryObject.prototype.parent = function(){
     //get all parents(if none get null) and remove null values
     let parentArr = this.map(elem=>(elem.parentNode)?elem.parentNode:null)
                         .filter(elem=>elem!=null);
-    
+
     //return early if there were absolutely no parents
     if(lqHelpers.array.empty(parentArr))
         return null;
-    
+
     //keep distinct elements
     parentArr = parentArr.filter((elem, index, arr)=>{
         return arr.indexOf(elem) == index;
     });
-    
+
     //return early if there were absolutely no parents
     if(lqHelpers.array.empty(parentArr))
         return this.lightqueryID([]);
-    
+
     return this.lightqueryID(parentArr);
 };
 
@@ -726,12 +726,12 @@ lightqueryObject.prototype.parents = function(selector){
         //grab all predecessors
         let curr = e;
         let res = [];
-        
+
         while(curr.parentElement){
             res.push(curr.parentElement);
             curr = curr.parentElement;
         }
-        
+
         return res;
     }).reduce((acc, elem)=>{
         //array of arrays of elements -> array of elements
@@ -741,19 +741,19 @@ lightqueryObject.prototype.parents = function(selector){
         //keep'em distinct
         return arr.indexOf(elem) == index;
     });
-    
+
     //null handling
     if(lqHelpers.array.empty(parentsArr))
         return null;
-    
+
     //filter handling
     if(selector)
         parentsArr = parentsArr.filter(e=>e.matches(selector));
-    
+
     //null handling
     if(lqHelpers.array.empty(parentsArr))
         return this.lightqueryID([]);
-    
+
     return this.lightqueryID(parentsArr);
 };
 
@@ -813,13 +813,13 @@ lightqueryObject.prototype.last = function(){
 lightqueryObject.prototype.has = function(selector){
     if(typeof selector != typeof "abc42")
         return null;
-    
+
     const l = this.lightqueryID;
-    const arr = this.filter(e=>l(e).children(selector));
-    
+    const arr = this.filter(e=>l(e).children(selector)); //NOTE: Should have been find
+
     if(lqHelpers.array.empty(arr))
         return null;
-    
+
     return this.lightqueryID(arr);
 };
 
@@ -844,7 +844,7 @@ lightqueryObject.prototype.ready = function(func){
         else
             throw new Error("Why the heck is this computer still working anyway ? (no support for DOM loaded events ...)");
     }
-    
+
     return this.lightqueryID(this.selector);
 };
 
@@ -860,7 +860,7 @@ lightqueryObject.prototype.ready = function(func){
 lightqueryObject.prototype.Filter = function(func){
     if(typeof func != typeof (x=>x))
         throw new TypeError(`${this.lightqueryID.fname}().Filter expected a function as its parameter`);
-    
+
     return this.lightqueryID( this.filter(func) );
 };
 
@@ -875,7 +875,7 @@ lightqueryObject.prototype.Filter = function(func){
 lightqueryObject.prototype.Map = function(func){
     if(typeof func != typeof(x=>x))
         throw new TypeError(`${this.lightqueryID.fname}().Map expected a function as its parameter`);
-    
+
     return this.lightqueryID( this.map(func) );
 };
 
@@ -890,13 +890,13 @@ lightqueryObject.prototype.Map = function(func){
 lightqueryObject.prototype.Reduce = function(reducer, accumulator){
     if(typeof reducer != typeof(x=>x))
         throw new TypeError(`${this.lightqueryID.fname}().Reduce expected a function as its first parameter`);
-    
+
     return this.lightqueryID( this.reduce(reducer, accumulator) );
 };
 
 
 
-//// THE OG LightQuery 
+//// THE OG LightQuery
 /**@function lightquery
 *Get a lightquery object from a selector / add an event listener that will be triggered when the DOM is fully loaded
 *@param {string | function | object} selector - the selector/function
@@ -910,7 +910,7 @@ lightquery.fname = "lightquery";
 
 
 
-//// CLASS METHOD 
+//// CLASS METHOD
 /**@memberof lightquery @method appendNode
 *Append an HTML node to a set of DOM nodes from a selector
 *@param {string | object} targetSelector - the selector of the parent(s) to append the content to
@@ -927,10 +927,10 @@ lightquery.appendNode = function(targetSelector, AppendedElementType, content){
             node.innerHTML = content;
             elem.appendChild(node);
         }
-        
+
         return this(targetSelector);
     }
-    
+
     return undefined;
 };
 
@@ -968,7 +968,7 @@ lightquery.cssVar = function(variable, val){
         }else{
             return window.getComputedStyle(document.body).getPropertyValue(varname);
         }
-    
+
     return this;
 };
 
@@ -1013,14 +1013,14 @@ lightquery.hasPlugin = function(pluginName, pluginType="instance"){
             const globalPlugins = Object.keys(this).filter(key=>!(key in Object.keys(immutableLightQuery)));
             return globalPlugins.includes(pluginName);
         }
-        
+
         if(pluginType === "instance"){
             const instancePlugins = Object.keys(this.createLightqueryObject.prototype)
                                         .filter(key=>!(key in Object.keys(immutableLightQuery.createLightqueryObject.prototype)));
             return instancePlugins.includes(pluginName);
         }
     }
-    
+
     return this;
 }
 
@@ -1042,36 +1042,36 @@ lightquery.usePlugin = function(pluginName="", pluginFunction=(x=>x), pluginType
         && (lqHelpers.plugin.isValidPluginType(pluginType))
       ){
         const finalPluginName = lqHelpers.functions.newName(pluginName); //TODO
-        
+
         if(pluginType === "instance"){
             if(finalPluginName in this.createLightqueryObject.prototype)
                 throw new Error(`${this.fname}: The name passed for the ${pluginType} plugin (${pluginName}) is already in use, please choose another one`);
 
             this.createLightqueryObject.prototype[finalPluginName] = pluginFunction;
         }
-        
+
         if(pluginType === "global"){
             if(finalPluginName in this)
                 throw new Error(`${this.fname}: The name passed for the ${pluginType} plugin (${pluginName}) is already in use, please choose another one`);
             this[finalPluginName] = pluginFunction;
         }
-        
+
         console.log(`${this.fname}: A new ${pluginType} plugin has been registered as '${finalPluginName}'`);
         return this;
     }else{
         if(typeof pluginName != typeof "abc42")
             throw new TypeError("The plugin's name MUST be a STRING");
-        
+
         if(typeof pluginFunction != typeof(x=>x))
             throw new TypeError("The plugin's method MUST be a FUNCTION");
-        
+
         if(typeof pluginType != typeof "abc42")
             throw new TypeError("The plugin's type MUST be a STRING");
-        
+
         if(!lqHelpers.plugin.isValidPluginType(pluginType))
             throw new Error("The plugin's type MUST be EITHER 'instance' OR 'global'");
     }
-       
+
 };
 /**@memberof lightquery @method registerPlugin
 *Add a plugin to the lightquery instance
@@ -1104,15 +1104,15 @@ lightquery.addPlugin = lightquery.usePlugin;
 lightquery.createOtherLightquery = function(newLightqueryName){
     const baseConstructorName = lqHelpers.constructorLQ.baseName;
     const constructorNameRegex = lqHelpers.constructorLQ.nameRegex;
-    
+
     //get all registered construtors
     const alreadyExistingLightquery = Object.keys(window.lightqueryCreators)
                                             .filter(key=>constructorNameRegex.test(`${key}`))
                                             .sort((a,b)=>(a>b));
-    
+
     //get the last one
     const lastOne = alreadyExistingLightquery.slice(-1)[0];
-    
+
     //create a new name
     let newConstructorName = "";
     if(lastOne === baseConstructorName)
@@ -1121,14 +1121,14 @@ lightquery.createOtherLightquery = function(newLightqueryName){
         let last_number = parseInt(  lastOne.replace(constructorNameRegex, "$1")  );
         newConstructorName = `${baseConstructorName}${last_number+1}`;
     }
-    
+
     //define the constructor
     window.lightqueryCreators[newConstructorName] = this.createLightqueryObject.clone4lightquery();
-    
+
     //define the new lightquery functions
     let func = this.createLightqueryObject.prototype.lightqueryID.clone4lightquery();
-    
-    
+
+
     //do the ID INJECTIONS
     Object.defineProperty(window.lightqueryCreators[newConstructorName].prototype, "lightqueryID", {
         value: func,
@@ -1136,22 +1136,22 @@ lightquery.createOtherLightquery = function(newLightqueryName){
         configurable: false,
         writable: false
     });
-    
+
     Object.defineProperty(func, "createLightqueryObject", {
         value: window.lightqueryCreators[newConstructorName],
         enumerable: false,
         configurable: false,
         writable: false
     });
-    
+
     //setup constructor's constructor signature
     window.lightqueryCreators[newConstructorName].prototype.constructor = window.lightqueryCreators[newConstructorName];
-    
+
     //setup function's name
     func.fname = ( (newLightqueryName) ? ""+newLightqueryName : newConstructorName );
-    
+
     //finally return the function
-    return func;    
+    return func;
 };
 
 /**@memberof lightquery @method removePlugin
@@ -1167,7 +1167,7 @@ lightquery.removePlugin = function(pluginName="", pluginType="instance"){
     if(typeof pluginName == typeof "abc42" && lqHelpers.plugin.isValidPluginType(pluginType)){
         const truePluginName = "" + lqHelpers.functions.newName(pluginName);
         //const constructorRegex = lqHelpers.constructorLQ.nameRegex;
-        
+
         if(pluginType === "instance"){
             if(truePluginName in this.createLightqueryObject.prototype){
                 if(truePluginName in immutableLightQuery.createLightqueryObject.prototype)
@@ -1178,7 +1178,7 @@ lightquery.removePlugin = function(pluginName="", pluginType="instance"){
             }else
                 throw new Error(`${this.fname} has no ${pluginType} plugin designated by "${pluginName}"`);
         }
-        
+
         if(pluginType === "global"){
             if(truePluginName in this){
                 if(truePluginName in immutableLightQuery.createLightqueryObject.prototype.lightqueryID)
@@ -1188,7 +1188,7 @@ lightquery.removePlugin = function(pluginName="", pluginType="instance"){
             }else
                 throw new Error(`${this.fname} has no ${pluginType} plugin designated by "${pluginName}"`);
         }
-        
+
         console.log(`The ${pluginType} plugin "${truePluginName}" has been successfully removed from ${this.fname}`);
         return this;
     }else{
@@ -1199,7 +1199,7 @@ lightquery.removePlugin = function(pluginName="", pluginType="instance"){
     }
 };
 
-//// ID INJECTION 
+//// ID INJECTION
 Object.defineProperty(lightqueryObject.prototype, "lightqueryID", {
     value: lightquery,
     enumerable: false,
@@ -1225,7 +1225,7 @@ immutableLightQuery.createLightqueryObject = Object.freeze( immutableLightQuery.
 immutableLightQuery.createLightqueryObject.prototype = Object.freeze( immutableLightQuery.createLightqueryObject.prototype );
 
 
-//// ALIASES 
+//// ALIASES
 const lq = lightquery,
       lQuery = lightquery,
       lightQuery = lightquery,

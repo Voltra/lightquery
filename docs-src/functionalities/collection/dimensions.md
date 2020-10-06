@@ -15,7 +15,7 @@ declare function marginBoxHeight(): number|null;
 ```
 :::
 
-//TODO: Schéma (largeur de base + padding + border + margin)
+<center><img src="/dom-sizes.png" alt="Which is which"/></center>
 
 ## LightqueryCollection#width
 

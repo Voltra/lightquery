@@ -1,6 +1,6 @@
 {
 	"name": "light_query",
-	"version": "1.0.0-indev.0.5",
+	"version": "1.0.0",
 	"description": "a lightweight alternative to jQuery",
 	"main": "dist/index.js",
 	"browser": "dist/index.js",

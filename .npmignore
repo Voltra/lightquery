@@ -5,3 +5,15 @@ docs-src/
 jsdoc/
 babel.config.js
 webpack.config.js
+
+
+
+node_modules/
+.vscode/
+.idea/
+.brackets.json
+.env
+package-lock.json
+yarn.lock
+*.log*
+tmp/

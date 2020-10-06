@@ -15,7 +15,7 @@ declare function marginBoxHeight(): number|null;
 ```
 :::
 
-<center><img src="/dom-sizes.png" alt="Which is which"/></center>
+<center><img src="{{ $withBase('/dom-sizes.png') }}" alt="Which is which"/></center>
 
 ## LightqueryCollection#width
 

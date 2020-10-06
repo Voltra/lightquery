@@ -12,7 +12,7 @@ const autometaOptions = {
 };
 
 module.exports = {
-	base: /*"/",*/ "/lightquery/",
+	base: "/lightquery/",
 	dest: here("../../docs/"),
 	title: "Lightquery",
 	description: "A lightweight alternative to jQuery",

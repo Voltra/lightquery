@@ -22,7 +22,7 @@ declare function contextMenu(listener?: EventListener): this;
 ```
 :::
 
-All these methods (just like the [`LightqueryCollection#trigger`](/functionalities/collection/multiple-items/events#lightquerycollection-trigger)) use the [Custom event API](https://developer.mozilla.org/docs/Web/API/CustomEvent).
+All these methods (just like the [`LightqueryCollection#trigger`](/functionalities/collection/multiple-items/events/#lightquerycollection-trigger) use the [Custom event API](https://developer.mozilla.org/docs/Web/API/CustomEvent).
 Triggering and listening is on each element. Just like regular `addEventListener`, the callback's `this` is bound to
 the current element ; thus avoid arrow functions.
 
@@ -68,7 +68,7 @@ Trigger or listen for mouse up events:
 ```
 
 :::tip
-Useful in tandem with [`mouseDown`](/functionalities/collection/events-shorthand#lightquerycollection-mousedown) to get a "longpress" event simulation.
+Useful in tandem with [`mouseDown`](#lightquerycollection-mousedown") to get a "longpress" event simulation.
 :::
 
 ## LightqueryCollection#mouseDown
@@ -83,7 +83,7 @@ Trigger or listen for mouse down events:
 ``` 
 
 :::tip
-Useful in tandem with [`mouseUp`](/functionalities/collection/events-shorthand#lightquerycollection-mouseup) to get a "longpress" event simulation.
+Useful in tandem with [`mouseUp`](#lightquerycollection-mouseup) to get a "longpress" event simulation.
 :::
 
 ## LightqueryCollection#mouseEnter

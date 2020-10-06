@@ -1,6 +1,6 @@
 # Lightquery
 
-<center><img src="./logo/logo.png" alt="Lightquery logo" style="max-width: 250px;"/></center>
+<center><img src="./logo/logo.png" alt="Lightquery logo" width="250"/></center>
 
 Lightquery is a lighter, safer and more modern alternative to jQuery. It offers similar API but taking
 some liberties to make it feel natural and modern.
